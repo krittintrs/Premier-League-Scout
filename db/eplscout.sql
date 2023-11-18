@@ -9,11 +9,11 @@ CREATE TABLE team(
 
 CREATE TABLE player(
 	id INT					NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
-    firstName VARCHAR(100)	NOT NULL,
-    middleName VARCHAR(100)	NOT NULL,
+    firstName VARCHAR(100),
+    middleName VARCHAR(100),
     lastName VARCHAR(100)	NOT NULL,
     shirtNo DECIMAL(2, 0),
-	birthDate DATE			NOT NULL,
+	birthDate DATE,
 	position ENUM('Goalkeeper', 'Defender', 'Midfielder', 'Forward') NOT NULL,
 	isBanned BOOL,
     isInjured BOOL,
