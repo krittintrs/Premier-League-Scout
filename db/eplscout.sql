@@ -23,12 +23,14 @@ CREATE TABLE player(
 
 CREATE TABLE matchInfo(
 	id INT										NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
-	matchday DATE								NOT NULL,
     gameweek DECIMAL(2, 0)						NOT NULL,
+    matchDatetime DATETIME						NOT NULL,
     homeTeamID INT								NOT NULL,
-    homeTeamResult ENUM('WIN', 'DRAW', 'LOSE')	NOT NULL,
+    homeTeamResult ENUM('WIN', 'DRAW', 'LOSE'),
+    homeTeamScore INT,
     awayTeamID INT								NOT NULL,
-    awayTeamResult ENUM('WIN', 'DRAW', 'LOSE')	NOT NULL,
+    awayTeamResult ENUM('WIN', 'DRAW', 'LOSE'),
+    awayTeamScore INT,
     CONSTRAINT fk_MatchHomeTeamID FOREIGN KEY (homeTeamID) REFERENCES team(id),
     CONSTRAINT fk_MatchAwayTeamID FOREIGN KEY (awayTeamID) REFERENCES team(id)
 );
@@ -37,6 +39,7 @@ CREATE TABLE lineUp(
 	matchID INT					NOT NULL,
     playerID INT				NOT NULL,
     side ENUM('HOME', 'AWAY')	NOT NULL,
+    shirtNo DECIMAL(2, 0)		NOT NULL,
     position VARCHAR(30)		NOT NULL,
     CONSTRAINT pk_lineUp PRIMARY KEY (matchID, playerID),
     CONSTRAINT fk_LUmatchID FOREIGN KEY (matchID) REFERENCES matchInfo(id),
