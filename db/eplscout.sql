@@ -9,11 +9,11 @@ CREATE TABLE team(
 
 CREATE TABLE player(
 	id INT					NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
-    firstName VARCHAR(100)	NOT NULL,
-    middleName VARCHAR(100)	NOT NULL,
+    firstName VARCHAR(100),
+    middleName VARCHAR(100),
     lastName VARCHAR(100)	NOT NULL,
-    shirtNo DECIMAL(2, 0)	NOT NULL,
-	birthDate DATE			NOT NULL,
+    shirtNo DECIMAL(2, 0),
+	birthDate DATE,
 	position ENUM('Goalkeeper', 'Defender', 'Midfielder', 'Forward') NOT NULL,
 	isBanned BOOL,
     isInjured BOOL,
@@ -24,7 +24,7 @@ CREATE TABLE player(
 CREATE TABLE matchInfo(
 	id INT										NOT NULL UNIQUE AUTO_INCREMENT PRIMARY KEY,
     gameweek DECIMAL(2, 0)						NOT NULL,
-    matchDatetime DATETIME						NOT NULL,
+    matchDatetime DATETIME,
     homeTeamID INT								NOT NULL,
     homeTeamResult ENUM('WIN', 'DRAW', 'LOSE'),
     homeTeamScore INT,
