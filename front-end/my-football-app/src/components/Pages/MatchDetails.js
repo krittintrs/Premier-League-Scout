@@ -1,22 +1,6 @@
 import React from "react";
-import ColorButtons from '../FixturePage/ColorButtons'; // Import the Button component
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
-import MatchCard from '../FixturePage/MatchCard';
-import { useNavigate } from 'react-router-dom';
 
-
-const containerStyle = {
-    // Define your styles for the container here
-    // For example:
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#fff',
-};
-
-const FixturePage = () => {
+const MatchDetails = () => {
   const headerStyle = {
     display: "flex",
     justifyContent: "space-between",
@@ -67,30 +51,8 @@ const FixturePage = () => {
         <div style={headingStyle}>Match Week 1</div>
         <div style={DateStyle}>4 November 2023</div>
       </div>
-      <Box sx={{ width: "100%" }}>
-        <Paper>
-          <Stack
-            direction="row"
-            justifyContent="left"
-            alignItems="left"
-            padding={1}
-          >
-            <img src="https://assets.codepen.io/285131/pl-logo.svg"></img>,
-            <h2> English Premier League</h2>
-          </Stack>
-        </Paper>
-        <Stack spacing={1}>
-          <MatchCard />
-          <MatchCard />
-          <MatchCard />
-        </Stack>
-      </Box>
-      <div style={containerStyle}>
-        
-        <ColorButtons />
-      </div>
     </div>
   );
 };
 
-export default FixturePage;
+export default MatchDetails;
