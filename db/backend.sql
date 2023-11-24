@@ -4,7 +4,7 @@ USE eplScout;
 CREATE VIEW leagueTable AS
 SELECT
     t.teamName,
-    COUNT(*) AS matchPlayed,
+    SUM(CASE WHEN result IS NOT NULL THEN 1 ELSE 0 END) AS matchPlayed, 
     COUNT(CASE WHEN result = 'WIN' THEN 1 END) AS wins,
     COUNT(CASE WHEN result = 'DRAW' THEN 1 END) AS draws,
     COUNT(CASE WHEN result = 'LOSE' THEN 1 END) AS losses,
@@ -31,7 +31,8 @@ FROM (
 ) AS combined_results
 JOIN team t ON combined_results.teamID = t.id
 GROUP BY t.teamName
-ORDER BY points DESC, wins, draws;
+-- Order by matchPlayed (0 appearing last), points, wins, and draws
+ORDER BY CASE WHEN SUM(CASE WHEN result IS NOT NULL THEN 1 ELSE 0 END) = 0 THEN 1 ELSE 0 END, matchPlayed DESC, points DESC, wins, draws, t.teamName;
 
 -- Get last 5 matches
 SELECT 
