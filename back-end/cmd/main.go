@@ -30,7 +30,7 @@ func main() {
 }
 
 func InitDB() {
-	db, err = sql.Open("mysql", "root:root@tcp(localhost:8889)/eplScout") // fix this
+	db, err = sql.Open("mysql", "root:root@tcp(localhost:3306)/eplScout") // fix this
 	if err != nil {
 		panic(err.Error())
 	}

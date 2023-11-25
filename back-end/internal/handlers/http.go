@@ -39,7 +39,7 @@ func (httphdl *HTTPHandler) GetTeam(w http.ResponseWriter, r *http.Request) {
 func (httphdl *HTTPHandler) SetupRoutes() {
 	httphdl.router.HandleFunc("/", httphdl.Welcome).Methods("GET")
 	httphdl.router.HandleFunc("/fixtures/{gw}", httphdl.GetFixtures).Methods("GET")
-	httphdl.router.HandleFunc("/team/{id}", httphdl.GetTeam).Methods("GET")
+	httphdl.router.HandleFunc("/team", httphdl.GetTeam).Methods("GET")
 	// Add other route handling...
 }
 
