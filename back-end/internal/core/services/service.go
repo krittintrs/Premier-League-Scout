@@ -1,7 +1,8 @@
-package service
+package services
 
 import (
 	"back-end/internal/core/model"
+	"back-end/internal/core/ports"
 )
 
 type service struct{

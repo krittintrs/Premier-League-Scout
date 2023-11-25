@@ -5,11 +5,3 @@ type Team struct {
 	teamName		string	`json:"teamName"`,
 	teamStadium		string	`json:"teamStadium"`
 }
-
-type TeamRepository interface {
-	GetTeamByID(id string) (Team, error)
-}
-
-type TeamService interface {
-	GetTeam(id string) (Team, error)
-}
