@@ -5,7 +5,7 @@ import (
 )
 
 type service struct{
-	
+
 }
 
 func New() *service {
@@ -13,9 +13,9 @@ func New() *service {
 }
 
 func (srv *service) GetTeam(id string) (model.Team, error) {
-	game, err := srv.gamesRepository.Get(id)
+	team, err := srv.teamRepository.Get(id)
 	if err != nil {
-		return domain.Game{}, errors.New("get game from repository has failed")
+		return model.Team{}, errors.New("cannot retrieve team from given id")
 	}
 
 	return game, nil

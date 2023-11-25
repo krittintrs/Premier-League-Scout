@@ -7,7 +7,7 @@ type Team struct {
 }
 
 type TeamRepository interface {
-	Get(id string) (Team, error)
+	GetTeamByID(id string) (Team, error)
 }
 
 type TeamService interface {
