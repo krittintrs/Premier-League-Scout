@@ -1,7 +1,7 @@
 package model
 
 type Team struct {
-	id				string	`json:"id"`
-	teamName		string	`json:"teamName"`
-	teamStadium		string	`json:"teamStadium"`
+	ID				string	`json:"id"`
+	TeamName		string	`json:"teamName"`
+	TeamStadium		string	`json:"teamStadium"`
 }

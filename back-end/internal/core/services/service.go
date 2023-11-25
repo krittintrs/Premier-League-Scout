@@ -6,18 +6,20 @@ import (
 )
 
 type service struct{
-
+	teamRepo ports.TeamRepository
 }
 
-func New() *service {
-	return &service{}
+func NewService(teamRepo ports.TeamRepository) *service {
+	return &service{
+		teamRepo: teamRepo,
+	}
 }
 
-func (srv *service) GetTeam(id string) (model.Team, error) {
-	team, err := srv.teamRepository.Get(id)
+func (srv *service) GetTeamByID(id string) (model.Team, error) {
+	team, err := srv.teamRepo.GetTeamByID(id)
 	if err != nil {
-		return model.Team{}, errors.New("cannot retrieve team from given id")
+		return model.Team{}, err
 	}
 
-	return game, nil
+	return team, nil
 }
