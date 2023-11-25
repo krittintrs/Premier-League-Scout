@@ -6,7 +6,7 @@ import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
     "github.com/gorilla/mux"
-    "back-end/internal/handler"
+    handler "backend/internal/handlers"
 )
 
 var db *sql.DB
@@ -18,7 +18,9 @@ func main() {
 
 func Routers(){
 
-    plscoutHandler = handler.NewHTTPHandler()
+    plscoutHandler := handler.NewHTTPHandler()
+    fmt.Println(plscoutHandler)
+    fmt.Println("test")
 
     // InitDB()
     // get all fixtures for a given gameweek
