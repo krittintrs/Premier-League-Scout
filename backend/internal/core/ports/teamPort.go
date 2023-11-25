@@ -1,7 +1,7 @@
 package ports
 
 import (
-	"back-end/internal/core/model"
+	model "backend/internal/core/model"
 )
 
 type TeamRepository interface {

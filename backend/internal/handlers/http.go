@@ -8,13 +8,27 @@ import (
 )
 
 type HTTPHandler struct {
-	
+    router *mux.Router
 }
 
 func NewHTTPHandler() *HTTPHandler {
 	return &HTTPHandler{
-		
-	}
+        router: mux.NewRouter(),
+    }
+}
+
+func (httphdl *HTTPHandler) SetupRoutes() {
+	httphdl.router.HandleFunc("/", httphdl.Welcome).Methods("GET")
+	httphdl.router.HandleFunc("/fixtures/{gw}", httphdl.GetFixtures).Methods("GET")
+	// Add other route handling...
+}
+
+func (httphdl *HTTPHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	httphdl.router.ServeHTTP(w, r)
+}
+
+func (httphdl *HTTPHandler) Welcome(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Welcome to this page.")
 }
 
 func (httphdl *HTTPHandler) GetFixtures(w http.ResponseWriter, r *http.Request) {
