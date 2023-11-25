@@ -7,8 +7,6 @@ import (
     "encoding/json"
 	_ "github.com/go-sql-driver/mysql"
     "github.com/gorilla/mux"
-
-    "back-end/internal/model"
 )
 
 var db *sql.DB
@@ -54,6 +52,13 @@ func InitDB() {
     defer db.Close()
 }
 
+type Gameweek struct {
+    ID        string `json:"id"`
+    FirstName string `json:"firstName"`
+    LastName  string `json:"lastName"`
+    Email     string `json:"email"`
+}
+
 func GetGameweek(w http.ResponseWriter, r *http.Request) {
     // get recent gameweek
     if err != nil {
@@ -61,7 +66,7 @@ func GetGameweek(w http.ResponseWriter, r *http.Request) {
     }
     defer db.Close()
     w.Header().Set("Content-Type", "application/json")
-    var gameweek []User
+    var gameweek []Gameweek
     result, err := db.Query("SELECT id, first_name," +
         "last_name,email from users")
     if err != nil {
