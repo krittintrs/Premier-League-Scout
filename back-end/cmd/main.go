@@ -18,26 +18,26 @@ func main() {
 
 func Routers(){
 
-    HTTPHandler = handler.NewHTTPHandler()
+    plscoutHandler = handler.NewHTTPHandler()
 
     // InitDB()
     // get all fixtures for a given gameweek
     r := mux.NewRouter()
-    r.HandleFunc("/fixtures/{gw}", GetFixtures).Methods("GET")
+    r.HandleFunc("/fixtures/{gw}", plscoutHandler.GetFixtures).Methods("GET")
     // get, post, and update match info
-    r.HandleFunc("/matchinfo/{id}", PostMatchInfo).Methods("POST")
-    r.HandleFunc("/matchinfo/{id}", GetMatchInfo).Methods("GET")
-    r.HandleFunc("/matchinfo/{id}", UpdateMatchInfo).Methods("PUT")
+    r.HandleFunc("/matchinfo/{id}", plscoutHandler.PostMatchInfo).Methods("POST")
+    r.HandleFunc("/matchinfo/{id}", plscoutHandler.GetMatchInfo).Methods("GET")
+    r.HandleFunc("/matchinfo/{id}", plscoutHandler.UpdateMatchInfo).Methods("PUT")
     // get player available for a given gameweek
-    r.HandleFunc("/players/{teamId}", GetPlayers).Methods("GET")
+    r.HandleFunc("/players/{teamId}", plscoutHandler.GetPlayers).Methods("GET")
     // get and post player for each game lineup
-    r.HandleFunc("/lineup/{gw}/{teamId}", PostLineup).Methods("POST")
-    r.HandleFunc("/lineup/{gw}/{teamId}", GetLineup).Methods("GET")
+    r.HandleFunc("/lineup/{gw}/{teamId}", plscoutHandler.PostLineup).Methods("POST")
+    r.HandleFunc("/lineup/{gw}/{teamId}", plscoutHandler.GetLineup).Methods("GET")
     // get, post, update and delete match events
-    r.HandleFunc("/matchevents/{matchinfoId}", GetMatchEvents).Methods("GET")
-    r.HandleFunc("/matchevents/{matchinfoId}", PostMatchEvents).Methods("POST")
-    r.HandleFunc("/matchevents/{matchinfoId}/{matcheventId}", UpdateMatchEvents).Methods("PUT")
-    r.HandleFunc("/matchevents/{matchinfoId}/{matcheventId}", DeleteMatchEvents).Methods("DELETE")
+    r.HandleFunc("/matchevents/{matchinfoId}", plscoutHandler.GetMatchEvents).Methods("GET")
+    r.HandleFunc("/matchevents/{matchinfoId}", plscoutHandler.PostMatchEvents).Methods("POST")
+    r.HandleFunc("/matchevents/{matchinfoId}/{matcheventId}", plscoutHandler.UpdateMatchEvents).Methods("PUT")
+    r.HandleFunc("/matchevents/{matchinfoId}/{matcheventId}", plscoutHandler.DeleteMatchEvents).Methods("DELETE")
 
     http.ListenAndServe(":80", r)
 }
