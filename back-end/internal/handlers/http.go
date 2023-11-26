@@ -39,7 +39,7 @@ func (httphdl *HTTPHandler) GetTeam(w http.ResponseWriter, r *http.Request) {
 func (httphdl *HTTPHandler) SetupRoutes() {
 	httphdl.router.HandleFunc("/", httphdl.Welcome).Methods("GET")
 	httphdl.router.HandleFunc("/fixtures/{gw}", httphdl.GetFixtures).Methods("GET")
-	httphdl.router.HandleFunc("/team", httphdl.GetTeam).Methods("GET")
+	httphdl.router.HandleFunc("/team/{id}", httphdl.GetTeam).Methods("GET")
 	// Add other route handling...
 }
 
@@ -62,27 +62,6 @@ func (httphdl *HTTPHandler) GetFixtures(w http.ResponseWriter, r *http.Request) 
 	defer db.Close()
 
 	fmt.Fprintf(w, "You've requested the gameweek: %s\n", gw)
-}
-
-func (httphdl *HTTPHandler) PostMatchInfo(w http.ResponseWriter, r *http.Request) {
-	// post match info
-	vars := mux.Vars(r)
-	id := vars["id"]
-	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
-}
-
-func (httphdl *HTTPHandler) GetMatchInfo(w http.ResponseWriter, r *http.Request) {
-	// get match info
-	vars := mux.Vars(r)
-	id := vars["id"]
-	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
-}
-
-func (httphdl *HTTPHandler) UpdateMatchInfo(w http.ResponseWriter, r *http.Request) {
-	// update match info
-	vars := mux.Vars(r)
-	id := vars["id"]
-	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
 }
 
 func (httphdl *HTTPHandler) GetPlayers(w http.ResponseWriter, r *http.Request) {

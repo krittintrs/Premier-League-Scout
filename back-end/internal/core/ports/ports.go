@@ -4,6 +4,14 @@ import (
 	"back-end/internal/core/model"
 )
 
+type MatchInfoRepository interface {
+	GetMatchInfo() (model.MatchInfo, error)
+}
+
+type MatchInfoService interface {
+	GetMatchInfo() (model.MatchInfo, error)
+}
+
 type TeamRepository interface {
 	GetTeamByID(id string) (model.Team, error)
 }
