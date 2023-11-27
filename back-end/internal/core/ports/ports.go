@@ -7,11 +7,13 @@ import (
 type MatchInfoRepository interface {
 	GetMatchInfo() ([]model.MatchInfo, error)
 	GetMatchInfoByID(id string) (model.MatchInfo, error)
+	GetMatchInfoByGameweek(gameweek string) ([]model.MatchInfo, error)
 }
 
 type MatchInfoService interface {
 	GetMatchInfo() ([]model.MatchInfo, error)
 	GetMatchInfoByID(id string) (model.MatchInfo, error)
+	GetMatchInfoByGameweek(gameweek string) ([]model.MatchInfo, error)
 }
 
 type TeamRepository interface {

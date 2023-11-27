@@ -23,6 +23,7 @@ func (matchInfohdl *matchInfoHandler) SetupMatchInfoRoutes(router *mux.Router) {
 	// Use a consistent trailing slash for paths
 	router.HandleFunc("/matchInfo", matchInfohdl.GetMatchInfo).Methods("GET")
 	router.HandleFunc("/matchInfo/{id}", matchInfohdl.GetMatchInfoByID).Methods("GET")
+	router.HandleFunc("/matchInfo/gw/{gw}", matchInfohdl.GetMatchInfoByGameweek).Methods("GET")
 	router.HandleFunc("/matchInfo/{id}", matchInfohdl.UpdateMatchInfo).Methods("PUT")
 	router.HandleFunc("/matchInfo", matchInfohdl.PostMatchInfo).Methods("POST")
 }
@@ -38,7 +39,6 @@ func (matchInfohdl *matchInfoHandler) GetMatchInfo(w http.ResponseWriter, r *htt
 	}
 
 	json.NewEncoder(w).Encode(matchInfo)
-	fmt.Fprintf(w, "You've requested all match info")
 }
 
 func (matchInfohdl *matchInfoHandler) GetMatchInfoByID(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +54,21 @@ func (matchInfohdl *matchInfoHandler) GetMatchInfoByID(w http.ResponseWriter, r 
 	}
 
 	json.NewEncoder(w).Encode(matchInfo)
-	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
+}
+
+func (matchInfohdl *matchInfoHandler) GetMatchInfoByGameweek(w http.ResponseWriter, r *http.Request) {
+	// get match info
+	w.Header().Set("Content-Type", "application/json")
+	vars := mux.Vars(r)
+	gw := vars["gw"]
+
+	matchInfo, err := matchInfohdl.matchInfosrv.GetMatchInfoByGameweek(gw)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(matchInfo)
 }
 
 func (matchInfohdl *matchInfoHandler) UpdateMatchInfo(w http.ResponseWriter, r *http.Request) {
