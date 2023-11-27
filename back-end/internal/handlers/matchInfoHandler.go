@@ -2,8 +2,7 @@ package handlers
 
 import (
 	"back-end/internal/core/ports"
-	// "database/sql"
-	// "encoding/json"
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -11,41 +10,62 @@ import (
 )
 
 type matchInfoHandler struct {
-	router       *mux.Router
-	matchInfoSrv ports.MatchInfoService
+	matchInfosrv ports.MatchInfoService
 }
 
-func NewMatchInfoHandler(matchInfoSrv ports.MatchInfoService) *matchInfoHandler {
+func NewMatchInfoHandler(matchInfosrv ports.MatchInfoService) *matchInfoHandler {
 	return &matchInfoHandler{
-		router:       mux.NewRouter(),
-		matchInfoSrv: matchInfoSrv,
+		matchInfosrv: matchInfosrv,
 	}
 }
 
-func (matchInfohdl *matchInfoHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	matchInfohdl.router.ServeHTTP(w, r)
-}
-
-func (matchInfohdl *matchInfoHandler) SetupMatchInfoRoutes() {
-	matchInfohdl.router.HandleFunc("/matchInfo/{id}", matchInfohdl.GetMatchInfo).Methods("GET")
-}
-
-func (matchInfohdl *matchInfoHandler) PostMatchInfo(w http.ResponseWriter, r *http.Request) {
-	// post match info
-	vars := mux.Vars(r)
-	id := vars["id"]
-	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
+func (matchInfohdl *matchInfoHandler) SetupMatchInfoRoutes(router *mux.Router) {
+	// Use a consistent trailing slash for paths
+	router.HandleFunc("/matchInfo", matchInfohdl.GetMatchInfo).Methods("GET")
+	router.HandleFunc("/matchInfo/{id}", matchInfohdl.GetMatchInfoByID).Methods("GET")
+	router.HandleFunc("/matchInfo/{id}", matchInfohdl.UpdateMatchInfo).Methods("PUT")
+	router.HandleFunc("/matchInfo", matchInfohdl.PostMatchInfo).Methods("POST")
 }
 
 func (matchInfohdl *matchInfoHandler) GetMatchInfo(w http.ResponseWriter, r *http.Request) {
 	// get match info
+	w.Header().Set("Content-Type", "application/json")
+
+	matchInfo, err := matchInfohdl.matchInfosrv.GetMatchInfo()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(matchInfo)
+	fmt.Fprintf(w, "You've requested all match info")
+}
+
+func (matchInfohdl *matchInfoHandler) GetMatchInfoByID(w http.ResponseWriter, r *http.Request) {
+	// get match info
+	w.Header().Set("Content-Type", "application/json")
 	vars := mux.Vars(r)
 	id := vars["id"]
+
+	matchInfo, err := matchInfohdl.matchInfosrv.GetMatchInfoByID(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(matchInfo)
 	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
 }
 
 func (matchInfohdl *matchInfoHandler) UpdateMatchInfo(w http.ResponseWriter, r *http.Request) {
 	// update match info
+	vars := mux.Vars(r)
+	id := vars["id"]
+	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
+}
+
+func (matchInfohdl *matchInfoHandler) PostMatchInfo(w http.ResponseWriter, r *http.Request) {
+	// post match info
 	vars := mux.Vars(r)
 	id := vars["id"]
 	fmt.Fprintf(w, "You've requested the match info: %s\n", id)

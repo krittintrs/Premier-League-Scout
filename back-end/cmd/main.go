@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 
 	// "github.com/gorilla/mux"
 	"back-end/internal/core/repository"
@@ -17,7 +18,6 @@ var db *sql.DB
 var err error
 
 func main() {
-
 	InitDB()
 
 	teamRepo := repository.NewTeamRepo(db)
@@ -26,14 +26,20 @@ func main() {
 	teamsrv := services.NewTeamService(teamRepo)
 	matchInfosrv := services.NewMatchInfoService(matchInfoRepo)
 
+	// Create a new main router
+	mainRouter := mux.NewRouter()
+
+	// Create instances of the handlers
 	teamhdl := handlers.NewTeamHandler(teamsrv)
 	matchInfohdl := handlers.NewMatchInfoHandler(matchInfosrv)
 
-	teamhdl.SetupTeamRoutes()
-	matchInfohdl.SetupMatchInfoRoutes()
+	// Set up routes for both team and matchinfo handlers
+	teamhdl.SetupTeamRoutes(mainRouter)
+	matchInfohdl.SetupMatchInfoRoutes(mainRouter)
 
-	http.ListenAndServe(":80", teamhdl)
-	http.ListenAndServe(":80", matchInfohdl)
+	// Start the server with the main router
+	http.ListenAndServe(":80", mainRouter)
+
 	fmt.Println("Server is running on :80")
 }
 

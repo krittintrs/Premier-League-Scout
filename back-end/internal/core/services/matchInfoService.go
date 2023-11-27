@@ -15,8 +15,17 @@ func NewMatchInfoService(matchInfoRepo ports.MatchInfoRepository) *MatchInfoServ
 	}
 }
 
-func (matchInfoSrv *MatchInfoService) GetMatchInfo() (model.MatchInfo, error) {
-	matchInfo, err := matchInfoSrv.matchInfoRepo.GetMatchInfo()
+func (matchInfoSrv *MatchInfoService) GetMatchInfo() ([]model.MatchInfo, error) {
+	matchInfos, err := matchInfoSrv.matchInfoRepo.GetMatchInfo()
+	if err != nil {
+		return []model.MatchInfo{}, err
+	}
+
+	return matchInfos, nil
+}
+
+func (matchInfoSrv *MatchInfoService) GetMatchInfoByID(id string) (model.MatchInfo, error) {
+	matchInfo, err := matchInfoSrv.matchInfoRepo.GetMatchInfoByID(id)
 	if err != nil {
 		return model.MatchInfo{}, err
 	}

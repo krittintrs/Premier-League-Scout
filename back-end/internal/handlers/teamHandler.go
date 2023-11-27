@@ -11,28 +11,23 @@ import (
 )
 
 type teamHandler struct {
-	router  *mux.Router
 	teamsrv ports.TeamService
 }
 
 func NewTeamHandler(teamsrv ports.TeamService) *teamHandler {
 	return &teamHandler{
-		router:  mux.NewRouter(),
 		teamsrv: teamsrv,
 	}
 }
 
-// Test
-
-func (httphdl *teamHandler) SetupTeamRoutes() {
-	httphdl.router.HandleFunc("/", httphdl.Welcome).Methods("GET")
-	httphdl.router.HandleFunc("/fixtures/{gw}", httphdl.GetFixtures).Methods("GET")
-	httphdl.router.HandleFunc("/team/{id}", httphdl.GetTeamByID).Methods("GET")
+func (httphdl *teamHandler) SetupTeamRoutes(router *mux.Router) {
+	// Use a consistent trailing slash for paths
+	router.HandleFunc("/", httphdl.Welcome).Methods("GET")
+	router.HandleFunc("/fixtures/{gw}", httphdl.GetFixtures).Methods("GET")
+	router.HandleFunc("/team/{id}", httphdl.GetTeamByID).Methods("GET")
 	// Add other route handling...
-}
 
-func (httphdl *teamHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	httphdl.router.ServeHTTP(w, r)
+	// If there are more routes related to teams, you can register them here.
 }
 
 func (httphdl *teamHandler) Welcome(w http.ResponseWriter, r *http.Request) {
