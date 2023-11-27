@@ -22,13 +22,12 @@ func NewMatchInfoHandler(matchInfoSrv ports.MatchInfoService) *matchInfoHandler 
 	}
 }
 
-// Test
+func (matchInfohdl *matchInfoHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	matchInfohdl.router.ServeHTTP(w, r)
+}
 
 func (matchInfohdl *matchInfoHandler) SetupMatchInfoRoutes() {
-	// matchInfohdl.router.HandleFunc("/", matchInfohdl.Welcome).Methods("GET")
-	// matchInfohdl.router.HandleFunc("/fixtures/{gw}", matchInfohdl.GetFixtures).Methods("GET")
-	// matchInfohdl.router.HandleFunc("/team/{id}", matchInfohdl.GetTeam).Methods("GET")
-	// Add other route handling...
+	matchInfohdl.router.HandleFunc("/matchInfo/{id}", matchInfohdl.GetMatchInfo).Methods("GET")
 }
 
 func (matchInfohdl *matchInfoHandler) PostMatchInfo(w http.ResponseWriter, r *http.Request) {

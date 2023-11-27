@@ -23,16 +23,17 @@ func main() {
 	teamRepo := repository.NewTeamRepo(db)
 	matchInfoRepo := repository.NewMatchInfoRepo(db)
 
-	srv := services.NewService(teamRepo)
-	matchInfoSrv := services.NewMatchInfoService(matchInfoRepo)
+	teamsrv := services.NewTeamService(teamRepo)
+	matchInfosrv := services.NewMatchInfoService(matchInfoRepo)
 
-	httphdl := handlers.NewHTTPHandler(srv)
-	matchInfohdl := handlers.NewMatchInfoHandler(matchInfoSrv)
+	teamhdl := handlers.NewTeamHandler(teamsrv)
+	matchInfohdl := handlers.NewMatchInfoHandler(matchInfosrv)
 
-	httphdl.SetupRoutes()
+	teamhdl.SetupTeamRoutes()
 	matchInfohdl.SetupMatchInfoRoutes()
 
-	http.ListenAndServe(":80", httphdl)
+	http.ListenAndServe(":80", teamhdl)
+	http.ListenAndServe(":80", matchInfohdl)
 	fmt.Println("Server is running on :80")
 }
 
