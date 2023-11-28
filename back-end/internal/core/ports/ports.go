@@ -33,3 +33,13 @@ type PlayerService interface {
 	GetPlayerByID(id string) (model.Player, error)
 	GetPlayerByTeamID(teamID string) ([]model.Player, error)
 }
+
+type LineupRepository interface {
+	GetLineupByMatchID(matchID string) ([]model.Lineup, error)
+	PostLineup(lineup model.Lineup) error
+}
+
+type LineupService interface {
+	GetLineupByMatchID(matchID string) ([]model.Lineup, error)
+	PostLineup(lineup model.Lineup) error
+}

@@ -23,10 +23,12 @@ func main() {
 	teamRepo := repository.NewTeamRepo(db)
 	matchInfoRepo := repository.NewMatchInfoRepo(db)
 	playerRepo := repository.NewPlayerRepo(db)
+	lineupRepo := repository.NewLineupRepo(db)
 
 	teamsrv := services.NewTeamService(teamRepo)
 	matchInfosrv := services.NewMatchInfoService(matchInfoRepo)
 	playersrv := services.NewPlayerService(playerRepo)
+	lineupsrv := services.NewLineupService(lineupRepo)
 
 	// Create a new main router
 	mainRouter := mux.NewRouter()
@@ -35,11 +37,13 @@ func main() {
 	teamhdl := handlers.NewTeamHandler(teamsrv)
 	matchInfohdl := handlers.NewMatchInfoHandler(matchInfosrv)
 	playerhdl := handlers.NewPlayerHandler(playersrv)
+	lineuphdl := handlers.NewlineupHandler(lineupsrv)
 
 	// Set up routes for both team and matchinfo handlers
 	teamhdl.SetupTeamRoutes(mainRouter)
 	matchInfohdl.SetupMatchInfoRoutes(mainRouter)
 	playerhdl.SetupPlayerRoutes(mainRouter)
+	lineuphdl.SetupLineupRoutes(mainRouter)
 
 	// Start the server with the main router
 	http.ListenAndServe("localhost:80", mainRouter)
