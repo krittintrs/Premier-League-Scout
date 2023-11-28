@@ -23,3 +23,13 @@ type TeamRepository interface {
 type TeamService interface {
 	GetTeamByID(id string) (model.Team, error)
 }
+
+type PlayerRepository interface {
+	GetPlayerByID(id string) (model.Player, error)
+	GetPlayerByTeamID(teamID string) ([]model.Player, error)
+}
+
+type PlayerService interface {
+	GetPlayerByID(id string) (model.Player, error)
+	GetPlayerByTeamID(teamID string) ([]model.Player, error)
+}
