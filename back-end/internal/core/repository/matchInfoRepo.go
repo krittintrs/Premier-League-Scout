@@ -18,7 +18,16 @@ func NewMatchInfoRepo(db *sql.DB) *MatchInfoRepository {
 }
 
 func (mRepo *MatchInfoRepository) GetMatchInfo() ([]model.MatchInfo, error) {
-	result, err := mRepo.db.Query("SELECT * from matchinfo")
+	query := `
+	SELECT 
+		m.id, m.gameweek, m.matchDatetime,
+		m.homeTeamID, ht.TeamName AS homeTeamName, m.homeTeamResult, m.homeTeamScore,
+		m.awayTeamID, at.TeamName AS awayTeamName, m.awayTeamResult, m.awayTeamScore
+	FROM matchinfo m
+	JOIN team ht ON m.homeTeamID = ht.id
+	JOIN team at ON m.awayTeamID = at.id
+	`
+	result, err := mRepo.db.Query(query)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -35,15 +44,9 @@ func (mRepo *MatchInfoRepository) GetMatchInfo() ([]model.MatchInfo, error) {
 		var awayTeamScore sql.NullInt64
 
 		err := result.Scan(
-			&matchInfo.ID,
-			&matchInfo.Gameweek,
-			&matchDatetime,
-			&matchInfo.HomeTeamID,
-			&homeTeamResult,
-			&homeTeamScore,
-			&matchInfo.AwayTeamID,
-			&awayTeamResult,
-			&awayTeamScore,
+			&matchInfo.ID, &matchInfo.Gameweek, &matchDatetime,
+			&matchInfo.HomeTeamID, &matchInfo.HomeTeamName, &homeTeamResult, &homeTeamScore,
+			&matchInfo.AwayTeamID, &matchInfo.AwayTeamName, &awayTeamResult, &awayTeamScore,
 		)
 		if err != nil {
 			panic(err.Error())
@@ -89,7 +92,17 @@ func (mRepo *MatchInfoRepository) GetMatchInfo() ([]model.MatchInfo, error) {
 }
 
 func (mRepo *MatchInfoRepository) GetMatchInfoByID(id string) (model.MatchInfo, error) {
-	result, err := mRepo.db.Query("SELECT * from matchinfo WHERE id = ?", id)
+	query := `
+		SELECT 
+			m.id, m.gameweek, m.matchDatetime,
+			m.homeTeamID, ht.TeamName AS homeTeamName, m.homeTeamResult, m.homeTeamScore,
+			m.awayTeamID, at.TeamName AS awayTeamName, m.awayTeamResult, m.awayTeamScore
+		FROM matchinfo m
+		JOIN team ht ON m.homeTeamID = ht.id
+		JOIN team at ON m.awayTeamID = at.id
+		WHERE m.id = ?`
+
+	result, err := mRepo.db.Query(query, id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -97,7 +110,6 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByID(id string) (model.MatchInfo, 
 
 	var matchInfo model.MatchInfo
 	for result.Next() {
-
 		var matchDatetime mysql.NullTime
 		var homeTeamResult sql.NullString
 		var awayTeamResult sql.NullString
@@ -105,15 +117,9 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByID(id string) (model.MatchInfo, 
 		var awayTeamScore sql.NullInt64
 
 		err := result.Scan(
-			&matchInfo.ID,
-			&matchInfo.Gameweek,
-			&matchDatetime,
-			&matchInfo.HomeTeamID,
-			&homeTeamResult,
-			&homeTeamScore,
-			&matchInfo.AwayTeamID,
-			&awayTeamResult,
-			&awayTeamScore,
+			&matchInfo.ID, &matchInfo.Gameweek, &matchDatetime,
+			&matchInfo.HomeTeamID, &matchInfo.HomeTeamName, &homeTeamResult, &homeTeamScore,
+			&matchInfo.AwayTeamID, &matchInfo.AwayTeamName, &awayTeamResult, &awayTeamScore,
 		)
 		if err != nil {
 			panic(err.Error())
@@ -157,14 +163,21 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByID(id string) (model.MatchInfo, 
 }
 
 func (mRepo *MatchInfoRepository) GetMatchInfoByGameweek(gameweek string) ([]model.MatchInfo, error) {
-	result, err := mRepo.db.Query("SELECT * from matchinfo WHERE gameweek = ?", gameweek)
+	query := `
+	SELECT m.id, m.gameweek, m.matchDatetime, m.homeTeamID, ht.TeamName AS homeTeamName, 
+	m.homeTeamResult, m.homeTeamScore, m.awayTeamID, at.TeamName AS awayTeamName, m.awayTeamResult, m.awayTeamScore 
+	FROM matchinfo m JOIN team ht ON m.homeTeamID = ht.id 
+	JOIN team at ON m.awayTeamID = at.id 
+	WHERE m.gameweek = ? 
+	order by matchDatetime`
+
+	result, err := mRepo.db.Query(query, gameweek)
 	if err != nil {
 		panic(err.Error())
 	}
 	defer result.Close()
 
 	var matchInfos []model.MatchInfo
-
 	for result.Next() {
 		var matchInfo model.MatchInfo
 		var matchDatetime mysql.NullTime
@@ -174,15 +187,9 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByGameweek(gameweek string) ([]mod
 		var awayTeamScore sql.NullInt64
 
 		err := result.Scan(
-			&matchInfo.ID,
-			&matchInfo.Gameweek,
-			&matchDatetime,
-			&matchInfo.HomeTeamID,
-			&homeTeamResult,
-			&homeTeamScore,
-			&matchInfo.AwayTeamID,
-			&awayTeamResult,
-			&awayTeamScore,
+			&matchInfo.ID, &matchInfo.Gameweek, &matchDatetime,
+			&matchInfo.HomeTeamID, &matchInfo.HomeTeamName, &homeTeamResult, &homeTeamScore,
+			&matchInfo.AwayTeamID, &matchInfo.AwayTeamName, &awayTeamResult, &awayTeamScore,
 		)
 		if err != nil {
 			panic(err.Error())
@@ -220,7 +227,6 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByGameweek(gameweek string) ([]mod
 		if matchDatetime.Valid {
 			matchInfo.MatchDatetime = matchDatetime.Time
 		}
-
 		matchInfos = append(matchInfos, matchInfo)
 	}
 

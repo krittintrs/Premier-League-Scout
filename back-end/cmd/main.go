@@ -38,7 +38,7 @@ func main() {
 	matchInfohdl.SetupMatchInfoRoutes(mainRouter)
 
 	// Start the server with the main router
-	http.ListenAndServe(":80", mainRouter)
+	http.ListenAndServe("localhost:80", mainRouter)
 
 	fmt.Println("Server is running on :80")
 }
