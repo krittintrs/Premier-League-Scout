@@ -54,7 +54,7 @@ func (meHandler *MatchEventHandler) PostMatchEvent(w http.ResponseWriter, r *htt
 		return
 	}
 
-	fmt.Println("Decoded Match Events:", matchEvents[0].BookedCardType)
+	fmt.Println("Decoded Match Events:", matchEvents[0])
 
 	for _, matchEvent := range matchEvents {
 		err = meHandler.meService.PostMatchEvent(matchEvent)
@@ -67,7 +67,6 @@ func (meHandler *MatchEventHandler) PostMatchEvent(w http.ResponseWriter, r *htt
 
 	w.WriteHeader(http.StatusCreated)
 }
-
 func (meHandler *MatchEventHandler) UpdateMatchEvent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 

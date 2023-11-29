@@ -25,7 +25,7 @@ func (meRepo *MatchEventRepository) GetMatchEventByMatchID(matchID string) ([]mo
 	var matchEvents []model.MatchEvent
 	for result.Next() {
 		var matchEvent model.MatchEvent
-		err := result.Scan(&matchEvent.MatchID, &matchEvent.MinuteOccur, &matchEvent.EventType,
+		err := result.Scan(&matchEvent.ID, &matchEvent.MatchID, &matchEvent.MinuteOccur, &matchEvent.EventType,
 			&matchEvent.ScorerPlayerID, &matchEvent.AssistPlayerID, &matchEvent.SubInPlayerID,
 			&matchEvent.SubOutPlayerID, &matchEvent.InjuredPlayerID, &matchEvent.BookedPlayerID,
 			&matchEvent.BookedCardType)
