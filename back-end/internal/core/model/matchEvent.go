@@ -22,4 +22,5 @@ const (
 	Yellow       CardType = "YELLOW"
 	Red          CardType = "RED"
 	SecondYellow CardType = "SECONDYELLOW"
+	Null         CardType = ""
 )

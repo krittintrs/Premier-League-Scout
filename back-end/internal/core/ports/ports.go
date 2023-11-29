@@ -43,3 +43,17 @@ type LineupService interface {
 	GetLineupByMatchID(matchID string) ([]model.Lineup, error)
 	PostLineup(lineup model.Lineup) error
 }
+
+type MatchEventRepository interface {
+	GetMatchEventByMatchID(matchID string) ([]model.MatchEvent, error)
+	PostMatchEvent(matchEvent model.MatchEvent) error
+	UpdateMatchEvent(matchEvent model.MatchEvent) error
+	DeleteMatchEvent(matchEvent model.MatchEvent) error
+}
+
+type MatchEventService interface {
+	GetMatchEventByMatchID(matchID string) ([]model.MatchEvent, error)
+	PostMatchEvent(matchEvent model.MatchEvent) error
+	UpdateMatchEvent(matchEvent model.MatchEvent) error
+	DeleteMatchEvent(matchEvent model.MatchEvent) error
+}
