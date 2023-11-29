@@ -41,3 +41,12 @@ func (matchInfoSrv *MatchInfoService) GetMatchInfoByGameweek(gameweek string) ([
 
 	return matchInfos, nil
 }
+
+func (matchInfoSrv *MatchInfoService) UpdateMatchInfo(matchInfo model.MatchInfo) error {
+	err := matchInfoSrv.matchInfoRepo.UpdateMatchInfo(matchInfo)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

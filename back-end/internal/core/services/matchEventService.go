@@ -33,6 +33,15 @@ func (meService *MatchEventService) PostMatchEvent(matchEvent model.MatchEvent) 
 	return nil
 }
 
+func (meService *MatchEventService) GetMatchEventByID(id string) (model.MatchEvent, error) {
+	matchEvent, err := meService.meRepo.GetMatchEventByID(id)
+	if err != nil {
+		return model.MatchEvent{}, err
+	}
+
+	return matchEvent, nil
+}
+
 func (meService *MatchEventService) UpdateMatchEvent(matchEvent model.MatchEvent) error {
 	err := meService.meRepo.UpdateMatchEvent(matchEvent)
 	if err != nil {
@@ -42,8 +51,8 @@ func (meService *MatchEventService) UpdateMatchEvent(matchEvent model.MatchEvent
 	return nil
 }
 
-func (meService *MatchEventService) DeleteMatchEvent(matchEvent model.MatchEvent) error {
-	err := meService.meRepo.DeleteMatchEvent(matchEvent)
+func (meService *MatchEventService) DeleteMatchEvent(id string) error {
+	err := meService.meRepo.DeleteMatchEvent(id)
 	if err != nil {
 		return err
 	}

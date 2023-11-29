@@ -37,6 +37,26 @@ func (meRepo *MatchEventRepository) GetMatchEventByMatchID(matchID string) ([]mo
 	return matchEvents, nil
 }
 
+func (meRepo *MatchEventRepository) GetMatchEventByID(matchEventID string) (model.MatchEvent, error) {
+	result, err := meRepo.db.Query("SELECT * from matchevent where id = ?", matchEventID)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer result.Close()
+
+	var matchEvent model.MatchEvent
+	for result.Next() {
+		err := result.Scan(&matchEvent.ID, &matchEvent.MatchID, &matchEvent.MinuteOccur, &matchEvent.EventType,
+			&matchEvent.ScorerPlayerID, &matchEvent.AssistPlayerID, &matchEvent.SubInPlayerID,
+			&matchEvent.SubOutPlayerID, &matchEvent.InjuredPlayerID, &matchEvent.BookedPlayerID,
+			&matchEvent.BookedCardType)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+	return matchEvent, nil
+}
+
 func (meRepo *MatchEventRepository) PostMatchEvent(matchEvent model.MatchEvent) error {
 	query := `
 		INSERT INTO matchevent (MatchID, MinuteOccur, EventType, ScorerPlayerID, AssistPlayerID, 
@@ -59,7 +79,7 @@ func (meRepo *MatchEventRepository) UpdateMatchEvent(matchEvent model.MatchEvent
 	query := `
 		UPDATE matchevent SET MinuteOccur = ?, EventType = ?, ScorerPlayerID = ?, AssistPlayerID = ?, 
 			SubInPlayerID = ?, SubOutPlayerID = ?, InjuredPlayerID = ?, BookedPlayerID = ?, BookedCardType = NULLIF(?, '')
-		WHERE MatchID = ?
+		WHERE ID = ?
 	`
 
 	_, err := meRepo.db.Exec(query, matchEvent.MinuteOccur, matchEvent.EventType,
@@ -73,12 +93,12 @@ func (meRepo *MatchEventRepository) UpdateMatchEvent(matchEvent model.MatchEvent
 	return nil
 }
 
-func (meRepo *MatchEventRepository) DeleteMatchEvent(matchEvent model.MatchEvent) error {
+func (meRepo *MatchEventRepository) DeleteMatchEvent(id string) error {
 	query := `
-		DELETE FROM matchevent WHERE MatchID = ?
+		DELETE FROM matchevent WHERE ID = ?
 	`
 
-	_, err := meRepo.db.Exec(query, matchEvent.MatchID)
+	_, err := meRepo.db.Exec(query, id)
 	if err != nil {
 		return err
 	}

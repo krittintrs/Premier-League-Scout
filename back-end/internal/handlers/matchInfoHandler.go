@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"back-end/internal/core/model"
 	"back-end/internal/core/ports"
 	"encoding/json"
 	"fmt"
@@ -25,7 +26,6 @@ func (matchInfohdl *matchInfoHandler) SetupMatchInfoRoutes(router *mux.Router) {
 	router.HandleFunc("/matchInfo/{id}", matchInfohdl.GetMatchInfoByID).Methods("GET")
 	router.HandleFunc("/matchInfo/gw/{gw}", matchInfohdl.GetMatchInfoByGameweek).Methods("GET")
 	router.HandleFunc("/matchInfo/{id}", matchInfohdl.UpdateMatchInfo).Methods("PUT")
-	router.HandleFunc("/matchInfo", matchInfohdl.PostMatchInfo).Methods("POST")
 }
 
 func (matchInfohdl *matchInfoHandler) GetMatchInfo(w http.ResponseWriter, r *http.Request) {
@@ -73,14 +73,23 @@ func (matchInfohdl *matchInfoHandler) GetMatchInfoByGameweek(w http.ResponseWrit
 
 func (matchInfohdl *matchInfoHandler) UpdateMatchInfo(w http.ResponseWriter, r *http.Request) {
 	// update match info
-	vars := mux.Vars(r)
-	id := vars["id"]
-	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
-}
+	w.Header().Set("Content-Type", "application/json")
 
-func (matchInfohdl *matchInfoHandler) PostMatchInfo(w http.ResponseWriter, r *http.Request) {
-	// post match info
-	vars := mux.Vars(r)
-	id := vars["id"]
-	fmt.Fprintf(w, "You've requested the match info: %s\n", id)
+	var matchInfo model.MatchInfo
+	err := json.NewDecoder(r.Body).Decode(&matchInfo)
+	if err != nil {
+		fmt.Println("Error decoding JSON:", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	err = matchInfohdl.matchInfosrv.UpdateMatchInfo(matchInfo)
+	if err != nil {
+		fmt.Println("Error updating Match Info:", err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Respond with the created matchInfo (optional).
+	json.NewEncoder(w).Encode(matchInfo)
 }

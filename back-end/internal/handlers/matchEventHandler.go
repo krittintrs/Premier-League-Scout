@@ -23,9 +23,10 @@ func NewMatchEventHandler(meService ports.MatchEventService) *MatchEventHandler 
 func (meHandler *MatchEventHandler) SetupMatchEventRoutes(router *mux.Router) {
 	// Use a consistent trailing slash for paths
 	router.HandleFunc("/match-events/match/{matchID}", meHandler.GetMatchEventByMatchID).Methods("GET")
+	router.HandleFunc("/match-events/{id}", meHandler.GetMatchEventByID).Methods("GET")
 	router.HandleFunc("/match-events", meHandler.PostMatchEvent).Methods("POST")
 	router.HandleFunc("/match-events", meHandler.UpdateMatchEvent).Methods("PUT")
-	router.HandleFunc("/match-events", meHandler.DeleteMatchEvent).Methods("DELETE")
+	router.HandleFunc("/match-events/{id}", meHandler.DeleteMatchEvent).Methods("DELETE")
 }
 
 func (meHandler *MatchEventHandler) GetMatchEventByMatchID(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +44,21 @@ func (meHandler *MatchEventHandler) GetMatchEventByMatchID(w http.ResponseWriter
 	json.NewEncoder(w).Encode(matchEvents)
 }
 
+func (meHandler *MatchEventHandler) GetMatchEventByID(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	matchEvent, err := meHandler.meService.GetMatchEventByID(id)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(matchEvent)
+}
+
 func (meHandler *MatchEventHandler) PostMatchEvent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -53,8 +69,6 @@ func (meHandler *MatchEventHandler) PostMatchEvent(w http.ResponseWriter, r *htt
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-
-	fmt.Println("Decoded Match Events:", matchEvents[0])
 
 	for _, matchEvent := range matchEvents {
 		err = meHandler.meService.PostMatchEvent(matchEvent)
@@ -91,22 +105,14 @@ func (meHandler *MatchEventHandler) UpdateMatchEvent(w http.ResponseWriter, r *h
 
 func (meHandler *MatchEventHandler) DeleteMatchEvent(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	vars := mux.Vars(r)
+	id := vars["id"]
 
-	var matchEvent model.MatchEvent
-
-	err := json.NewDecoder(r.Body).Decode(&matchEvent)
+	err := meHandler.meService.DeleteMatchEvent(id)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	err = meHandler.meService.DeleteMatchEvent(matchEvent)
-	if err != nil {
-		fmt.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
 }

@@ -232,3 +232,19 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByGameweek(gameweek string) ([]mod
 
 	return matchInfos, nil
 }
+
+func (mRepo *MatchInfoRepository) UpdateMatchInfo(matchInfo model.MatchInfo) error {
+	query := `
+		UPDATE matchinfo
+		SET  homeTeamResult = ?, homeTeamScore = ?, 
+			 awayTeamResult = ?, awayTeamScore = ?
+		WHERE id = ?`
+
+	_, err := mRepo.db.Exec(query, matchInfo.HomeTeamResult, matchInfo.HomeTeamScore,
+		matchInfo.AwayTeamResult, matchInfo.AwayTeamScore, matchInfo.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

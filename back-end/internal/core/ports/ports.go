@@ -8,12 +8,14 @@ type MatchInfoRepository interface {
 	GetMatchInfo() ([]model.MatchInfo, error)
 	GetMatchInfoByID(id string) (model.MatchInfo, error)
 	GetMatchInfoByGameweek(gameweek string) ([]model.MatchInfo, error)
+	UpdateMatchInfo(matchInfo model.MatchInfo) error
 }
 
 type MatchInfoService interface {
 	GetMatchInfo() ([]model.MatchInfo, error)
 	GetMatchInfoByID(id string) (model.MatchInfo, error)
 	GetMatchInfoByGameweek(gameweek string) ([]model.MatchInfo, error)
+	UpdateMatchInfo(matchInfo model.MatchInfo) error
 }
 
 type TeamRepository interface {
@@ -46,14 +48,16 @@ type LineupService interface {
 
 type MatchEventRepository interface {
 	GetMatchEventByMatchID(matchID string) ([]model.MatchEvent, error)
+	GetMatchEventByID(id string) (model.MatchEvent, error)
 	PostMatchEvent(matchEvent model.MatchEvent) error
 	UpdateMatchEvent(matchEvent model.MatchEvent) error
-	DeleteMatchEvent(matchEvent model.MatchEvent) error
+	DeleteMatchEvent(id string) error
 }
 
 type MatchEventService interface {
 	GetMatchEventByMatchID(matchID string) ([]model.MatchEvent, error)
+	GetMatchEventByID(id string) (model.MatchEvent, error)
 	PostMatchEvent(matchEvent model.MatchEvent) error
 	UpdateMatchEvent(matchEvent model.MatchEvent) error
-	DeleteMatchEvent(matchEvent model.MatchEvent) error
+	DeleteMatchEvent(id string) error
 }
