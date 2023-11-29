@@ -3,7 +3,12 @@ import Stack from '@mui/material/Stack';
 import { Link } from "react-router-dom";
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
+import Grid from '@mui/material/Grid';
+import { Button } from "reactstrap";
 
 function MatchDetails() {
   const containerStyle = {
@@ -120,23 +125,55 @@ function MatchDetails() {
     </Paper>
   );
 
-const ColumnsGrid = () => {
-  return (
+  const ColumnsGrid = () => (
     <div>
-      <Stack   direction={'row'}
-        justifyContent="center"
-        spacing={20}
-        sx={{ width: '100%', Height: '100%' }}>
-          <Item>Team Statistic</Item>
-         <Link to="/LineUp"> {/* Corrected the Link component */}
-         <Item>Team Line Up</Item>
-         </Link>
-         
+      <Stack direction={'row'} justifyContent="center" spacing={20} sx={{ width: '100%', Height: '100%' }}>
+        <Item>Team Statistic</Item>
+    
+          <Item>
+          <item>Team Line Up </item>
+            
+              <ListDividers />
+           
+          </Item>
       </Stack>
     </div>
   );
-};
 
+const style = {
+  width: '100%',
+  maxWidth: 360,
+  
+};
+ 
+const ListDividers = () => (
+  <Stack direction="row" spacing={2}>
+    {/* First Column */}
+    <List sx={style} component="nav" aria-label="mailbox folders">
+      <ListItem button>
+        <ListItemText primary="Inbox" />
+      </ListItem>
+      <Divider />
+      <ListItem button divider>
+        <ListItemText primary="Drafts" />
+      </ListItem>
+    </List>
+
+    {/* Second Column */}
+    <List sx={style} component="nav" aria-label="mailbox folders">
+      <ListItem button>
+        <ListItemText primary="Trash" />
+      </ListItem>
+      <Divider />
+      <ListItem button>
+        <ListItemText primary="Spam" />
+      </ListItem>
+    </List>
+  </Stack>
+);
+
+
+ 
 
 return (
     <div className="w-full md:w-[350px] lg:w-[800px] m-auto">

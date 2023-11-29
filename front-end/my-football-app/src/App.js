@@ -12,7 +12,7 @@ function App() {
       <Route path="/" element={<FixturePage />} />
       <Route path="/MatchDetails" element={<MatchDetails />} />
       <Route path="/AddMatchEvent" element={<AddMatchEvent/>} />
-      <Route path="/blogs" element={<LineUp />} />
+      
       <Route path="/sign-up" element={<FixturePage />} />
     </Routes>
   );
