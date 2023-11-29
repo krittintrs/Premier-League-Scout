@@ -1,25 +1,23 @@
-import "./styles.css";
+import React from "react";
 import SoccerLineUp from "react-soccer-lineup";
 
-const getHomeTeam = () => {
-  return {
-    squad: {
-      gk: {
-        nubmer: 1
-      },
-      df: [{ number: 49 }, { number: 5 }, { number: 19 }, { number: 23 }],
-      cdm: [{ number: 39 }, { number: 17 }],
-      cam: [
-        {
-          number: 18
-        }
-      ],
-      fw: [{ number: "ank" }, { number: 7 }, { number: 25 }]
-    }
-  };
-};
+const LineUp = () => ({
+  squad: {
+    gk: {
+      number: 1
+    },
+    df: [{ number: 49 }, { number: 5 }, { number: 19 }, { number: 23 }],
+    cdm: [{ number: 39 }, { number: 17 }],
+    cam: [
+      {
+        number: 18
+      }
+    ],
+    fw: [{ number: "ank" }, { number: 7 }, { number: 25 }]
+  }
+});
 
-export default function App() {
+const LineUP = () => {
   return (
     <div className="App">
       <h1>Hello CodeSandbox</h1>
@@ -28,9 +26,11 @@ export default function App() {
         size={"small"}
         color={"lightseagreen"}
         pattern={"lines"}
-        homeTeam={getHomeTeam()}
-        awayTeam={getHomeTeam()}
+        homeTeam={LineUp()} // Corrected function call
+        awayTeam={LineUp()} // Corrected function call
       />
     </div>
   );
 }
+
+export default LineUP;

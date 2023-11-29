@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { Link } from "react-router-dom";
 
 function AddMatchEvent() {
   const IOSSwitch = styled((props) => (
@@ -148,9 +149,11 @@ function AddMatchEvent() {
           {/* Add your content inside the InnerPaper component */}
         </InnerPaper>
         <DoneButton>
-        <Stack direction="row" spacing={2}>
-                  <Button variant="outlined" >DONE</Button>
-                </Stack>
+        <Link to="/MatchDetails"> {/* Corrected the Link component */}
+            <Stack direction="row" spacing={2}>
+              <Button variant="outlined">DONE</Button>
+            </Stack>
+          </Link>
         </DoneButton>
       </DemoPaper>
 

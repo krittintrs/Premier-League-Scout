@@ -1,6 +1,9 @@
 import React from "react";
 import Stack from '@mui/material/Stack';
 import { Link } from "react-router-dom";
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+
 
 function MatchDetails() {
   const containerStyle = {
@@ -47,9 +50,6 @@ function MatchDetails() {
     wordWrap: "break-word",
   };
 
-
- 
-  
   const TabDetails = () => {
     return (
       <div className="container">
@@ -83,10 +83,10 @@ function MatchDetails() {
                 <div className="match-referee">
                   Referee: <strong>Mike dean</strong>
                 </div>
-                <div className="match-options" >
+                <div className="match-options" style={{position: 'relative'}}>
                 <Stack spacing={2} direction="row">
                 <Link to="/AddMatchEvent" className="match-option">
-                <Stack spacing={2} direction="row">
+                <Stack direction="row" spacing={5}>
                   <button className="match-option">ADD</button>
                   <button className="match-option">UPDATE</button>
                   <button className="match-option">DELETE</button>
@@ -112,7 +112,31 @@ function MatchDetails() {
       </div>
     );
   };
+
   
+  const Item = ({ children }) => (
+    <Paper sx={{ p: 2, textAlign: 'center', color: 'text.secondary', width: '500px', height: '500px' }}>
+      {children}
+    </Paper>
+  );
+
+const ColumnsGrid = () => {
+  return (
+    <div>
+      <Stack   direction={'row'}
+        justifyContent="center"
+        spacing={20}
+        sx={{ width: '100%', Height: '100%' }}>
+          <Item>Team Statistic</Item>
+         <Link to="/LineUp"> {/* Corrected the Link component */}
+         <Item>Team Line Up</Item>
+         </Link>
+         
+      </Stack>
+    </div>
+  );
+};
+
 
 return (
     <div className="w-full md:w-[350px] lg:w-[800px] m-auto">
@@ -127,6 +151,7 @@ return (
         <div style={headingStyle}>Match Week 1</div>
         <div style={DateStyle}>4 November 2023</div>
         <TabDetails/>
+        <ColumnsGrid />
       </div>
     </div>
   );
