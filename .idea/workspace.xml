@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4d7cbaf-ec8e-4c19-bcfb-e510d6b5eecb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/front-end/my-football-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/my-football-app/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/my-football-app/src/components/Pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/my-football-app/src/components/Pages/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/my-football-app/src/components/Pages/SignUpPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/my-football-app/src/components/Pages/SignUpPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

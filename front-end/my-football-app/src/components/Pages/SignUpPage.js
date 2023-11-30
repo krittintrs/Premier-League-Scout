@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../SignUp/SignUp.css'; // Create a new CSS file for SignUp styles
-// import * as signUpService from '../../services/signUpService';
+import * as signUpService from '../../services/signUpService';
 import { useNavigate } from 'react-router-dom';
+import { signup } from '../../api/signUpApi';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -29,10 +30,10 @@ const SignUp = () => {
     setError('');
 
     try {
-      // You can call the signup service here, similar to loginService.login
-      // const userData = await signupService.signup(username, password);
-      // console.log('User signed up:', userData);
-      // Handle successful signup, e.g., redirect to another page
+      const userData = await signUpService.signup(username, password);
+      console.log('User signed up:', userData);
+      // Handle successful login, e.g., redirect to another page
+      
     } catch (error) {
       setError(error.response.data);
     }

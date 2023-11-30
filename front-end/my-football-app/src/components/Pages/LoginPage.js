@@ -26,6 +26,7 @@ const Login = () => {
       const userData = await loginService.login(username, password);
       console.log('User logged in:', userData);
       // Handle successful login, e.g., redirect to another page
+      
     } catch (error) {
       setError(error.response.data);
     }
