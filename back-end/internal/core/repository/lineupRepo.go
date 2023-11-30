@@ -16,7 +16,14 @@ func NewLineupRepo(db *sql.DB) *LineupRepository {
 }
 
 func (lRepo *LineupRepository) GetLineupByMatchID(matchID string) ([]model.Lineup, error) {
-	result, err := lRepo.db.Query("SELECT * from lineup where MatchID = ?", matchID)
+	query := `
+		SELECT lineup.MatchID, lineup.PlayerID, player.lastName, lineup.Side, lineup.ShirtNo, lineup.Position
+		FROM lineup
+		JOIN player ON lineup.PlayerID = player.id
+		WHERE lineup.MatchID = ?
+	`
+
+	result, err := lRepo.db.Query(query, matchID)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -25,7 +32,7 @@ func (lRepo *LineupRepository) GetLineupByMatchID(matchID string) ([]model.Lineu
 	var lineups []model.Lineup
 	for result.Next() {
 		var lineup model.Lineup
-		err := result.Scan(&lineup.MatchID, &lineup.PlayerID, &lineup.Side, &lineup.ShirtNo, &lineup.Position)
+		err := result.Scan(&lineup.MatchID, &lineup.PlayerID, &lineup.PlayerName, &lineup.Side, &lineup.ShirtNo, &lineup.Position)
 		if err != nil {
 			panic(err.Error())
 		}
