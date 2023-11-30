@@ -13,43 +13,39 @@ const NavBar = () => {
     <Box component="nav" aria-label="My site" sx={{ flexGrow: 1 }}>
       <List role="menubar" sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ListItem role="none">
-        <Home/>
+          <Home />
           <ListItemButton
             role="menuitem"
-            component="a"
-            href="#FixTurePage"
+            component={Link}
+            to="/FixTurePage"
             aria-label="Home"
-            
-          > Premier-League-Scout
-            
+          >
+            Premier-League-Scout
           </ListItemButton>
         </ListItem>
         <Divider orientation="vertical" flexItem />
         <ListItem role="none">
-          <ListItemButton role="menuitem" component="a" href="#LineUP">
-          LineUP
+          <ListItemButton component={Link} to="/LineUP">
+            LineUP
           </ListItemButton>
         </ListItem>
         <Divider orientation="vertical" flexItem />
-      
         <ListItem role="none">
-          <ListItemButton role="menuitem" component="a" href="#blog">
+          <ListItemButton component={Link} to="/ScoreBoard">
             ScoreBoard
           </ListItemButton>
         </ListItem>
-        
         <Divider orientation="vertical" flexItem />
         <Link to="/LoginPage">
-        <ListItem role="none">
-          <ListItemButton
-            role="menuitem"
-            component="a"
-            href="#profile"
-            aria-label="Profile"
-          >
-            <Person />
-          </ListItemButton>
-        </ListItem>
+          <ListItem role="none">
+            <ListItemButton
+              role="menuitem"
+              component="a"
+              aria-label="Profile"
+            >
+              <Person />
+            </ListItemButton>
+          </ListItem>
         </Link>
       </List>
     </Box>
@@ -57,3 +53,12 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+
+
+
+
+
+
+
+

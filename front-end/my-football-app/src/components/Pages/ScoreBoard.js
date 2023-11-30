@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connect } from 'react-redux';
-import { ClubAction } from "../Services/Actions/ClubAction";
+import { CLUB_LIST } from "../Services/Actions/ClubAction";
 import Table from "../Table";
-import { CLUB_LIST } from "../Constants";
+import { clubListAction } from "../Services/Actions/clubListAction";
 
 
 const ScoreBoard = () => {
   const clubData = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(CLUB_LIST());
+  }, [dispatch]);
 
   var matches = clubData?.ClubData?.matches ?? [];
 
@@ -28,9 +31,6 @@ const ScoreBoard = () => {
       won: score1 > score2 ? 1 : 0,
       lost: score1 < score2 ? 1 : 0,
       draw: score1 == score2 ? 1 : 0,
-      gf: score1,
-      ga: score2,
-      gd: score1 - score2,
       points: score1 > score2 ? 3 : score1 == score2 ? 1 : 0,
       date: matches[i].date,
     });
@@ -41,9 +41,6 @@ const ScoreBoard = () => {
       won: score2 > score1 ? 1 : 0,
       lost: score2 < score1 ? 1 : 0,
       draw: score1 == score2 ? 1 : 0,
-      gf: score2,
-      ga: score1,
-      gd: score2 - score1,
       points: score2 > score1 ? 3 : score1 == score2 ? 1 : 0,
       date: matches[i].date,
     });
@@ -113,7 +110,6 @@ const ScoreBoard = () => {
         </div>
 
         <table className="table">
-        
             clubData={sortedClub}
           
           

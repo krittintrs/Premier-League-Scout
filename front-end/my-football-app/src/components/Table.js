@@ -1,22 +1,18 @@
 import React from "react";
+ 
 
-import premier from './images/premier.png'
 
-const Table = ({ clubData, handleOpenModal, setModalData }) => {
+const Table = ({ clubData }) => {
   const ClubList = () => (
     <tbody>
       {clubData.map((el, idx) => (
         <tr key={idx}>
           <td>{idx + 1}</td>
           <td
-            className="teams"
-            onClick={() => {
-              handleOpenModal(idx);
-              setModalData(el);
-            }}
+          
           >
             <span>
-              <img src={premier} alt={el.name} />
+              <img src={"images/premier.png"} alt={el.name} />
             </span>
             <span>{el.name}</span>
           </td>

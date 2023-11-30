@@ -9,6 +9,7 @@ import ScoreBoard from './components/Pages/ScoreBoard';
 import NavBar from './components/NavBar';
 import LoginPage from './components/Pages/LoginPage';
 
+
 function App() {
   return (
     <div>
