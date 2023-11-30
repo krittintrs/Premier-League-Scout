@@ -1,5 +1,5 @@
 // services/adminService.js
-import * as adminApi from '../api/adminApi';
+import * as adminApi from '../api/AdminApi';
 
 export const getAdminData = async (adminId) => {
   try {

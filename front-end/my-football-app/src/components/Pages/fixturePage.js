@@ -66,7 +66,8 @@ const FixturePage = () => {
       handleApiError(error);
     }
   };
-  const [gameweek, setGameweek] = useState(getCurrentGameweek());
+  // const [gameweek, setGameweek] = useState(getCurrentGameweek());
+  const [gameweek, setGameweek] = useState(1);
   
   const loadMatchInfo = async () => {
     try {

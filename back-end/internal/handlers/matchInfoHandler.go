@@ -75,7 +75,7 @@ func (matchInfohdl *matchInfoHandler) GetMatchInfoByGameweek(w http.ResponseWrit
 func (matchInfohdl *matchInfoHandler) GetCurrentGameweek(w http.ResponseWriter, r *http.Request) {
 	// get current gameweek
 	w.Header().Set("Content-Type", "application/json")
-
+	
 	gameweek, err := matchInfohdl.matchInfosrv.GetCurrentGameweek()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
