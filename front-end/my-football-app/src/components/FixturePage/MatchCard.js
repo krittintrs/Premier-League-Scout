@@ -31,6 +31,7 @@ function MatchCard({ matchData }) {
           <div className="match-content">
             <div className="match-datetime">
               {new Date(matchData.matchDatetime).toLocaleString("en-US", {
+                timeZone: "Asia/Bangkok",
                 hour: "numeric",
                 minute: "numeric",
               })}

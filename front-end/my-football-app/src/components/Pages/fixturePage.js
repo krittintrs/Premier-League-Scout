@@ -21,13 +21,9 @@ const FixturePage = () => {
   const headerStyle = {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-start", // Adjust this property
     width: "100%",
     height: "100%",
-    padding: "10px", // Add padding for spacing
-    background:
-      "linear-gradient(0deg, rgba(127.50, 127.50, 127.50, 0.60) 0%, rgba(127.50, 127.50, 127.50, 0.60) 100%)",
-    borderRadius: 5,
   };
 
   const logoStyle = {
@@ -109,15 +105,23 @@ const FixturePage = () => {
             alignItems="left"
             padding={1}
           >
-            <img src="https://assets.codepen.io/285131/pl-logo.svg" alt="EPL Logo" />
+            <img
+              src="https://assets.codepen.io/285131/pl-logo.svg"
+              alt="EPL Logo"
+            />
             <h2> English Premier League</h2>
           </Stack>
         </Paper>
         {matchInfo.map((match, index) => (
           <React.Fragment key={index}>
-            {index === 0 || new Date(match.matchDatetime).toLocaleDateString() !== new Date(matchInfo[index - 1].matchDatetime).toLocaleDateString() ? (
+            {index === 0 ||
+            new Date(match.matchDatetime).toLocaleDateString() !==
+              new Date(
+                matchInfo[index - 1].matchDatetime
+              ).toLocaleDateString() ? (
               <React.Fragment>
                 <div style={DateStyle}>
+                  {/* Display the date in the desired format */}
                   {new Date(match.matchDatetime)
                     .toLocaleDateString("en-US", {
                       weekday: "long",
