@@ -1,7 +1,7 @@
 package main
 
 import (
-	"database/sql"
+	"back-end/database/mysql"
 	"fmt"
 	"net/http"
 
@@ -15,23 +15,22 @@ import (
 	"back-end/internal/handlers"
 )
 
-var db *sql.DB
-var err error
-
 func main() {
-	InitDB()
+	db := mysql.InitDB("root", "root", "localhost:8889", "eplScout")
 
 	teamRepo := repository.NewTeamRepo(db)
 	matchInfoRepo := repository.NewMatchInfoRepo(db)
 	playerRepo := repository.NewPlayerRepo(db)
 	lineupRepo := repository.NewLineupRepo(db)
 	matchEventRepo := repository.NewMatchEventRepo(db)
+	userRepo := repository.NewUserRepository(db)
 
 	teamsrv := services.NewTeamService(teamRepo)
 	matchInfosrv := services.NewMatchInfoService(matchInfoRepo)
 	playersrv := services.NewPlayerService(playerRepo)
 	lineupsrv := services.NewLineupService(lineupRepo)
 	matchEventsrv := services.NewMatchEventService(matchEventRepo)
+	usersrv := services.NewUserService(userRepo)
 
 	// Create a new main router
 	mainRouter := mux.NewRouter()
@@ -42,6 +41,7 @@ func main() {
 	playerhdl := handlers.NewPlayerHandler(playersrv)
 	lineuphdl := handlers.NewlineupHandler(lineupsrv)
 	matchEventhdl := handlers.NewMatchEventHandler(matchEventsrv)
+	userhdl := handlers.NewUserHandler(usersrv, db)
 
 	// Set up routes for both team and matchinfo handlers
 	teamhdl.SetupTeamRoutes(mainRouter)
@@ -49,18 +49,21 @@ func main() {
 	playerhdl.SetupPlayerRoutes(mainRouter)
 	lineuphdl.SetupLineupRoutes(mainRouter)
 	matchEventhdl.SetupMatchEventRoutes(mainRouter)
+	userhdl.SetupUserRoutes(mainRouter)
 
-	// Start the server with the main router
-	http.ListenAndServe("localhost:80", &CORSRouterDecorator{mainRouter})
+	// Create a channel to wait for the server to finish
+	done := make(chan bool)
 
-	fmt.Println("Server is running on :80")
-}
+	// Start the server in a goroutine
+	go func() {
+		if err := http.ListenAndServe("localhost:8080", mainRouter); err != nil {
+			fmt.Printf("Server error: %v\n", err)
+		}
+		done <- true
+	}()
 
-func InitDB() {
-	db, err = sql.Open("mysql", "root:root@tcp(localhost:3306)/eplScout") // fix this
-	if err != nil {
-		panic(err.Error())
-	}
+	// Block until the server finishes or an interrupt signal is received
+	<-done
 }
 
 type CORSRouterDecorator struct {
