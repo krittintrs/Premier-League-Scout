@@ -12,9 +12,10 @@ const LineUpModal = React.memo(
   ({ open, handleClose, side, lineup, matchInfo }) => {
     const [availableHomePlayers, setAvailableHomePlayers] = useState([]);
     const [availableAwayPlayers, setAvailableAwayPlayers] = useState([]);
-    const [homeselectedPlayers, setHomeSelectedPlayers] = useState([]);
-    const [awayselectedPlayers, setAwaySelectedPlayers] = useState([]);
+    const [homeSelectedPlayers, setHomeSelectedPlayers] = useState([]);
+    const [awaySelectedPlayers, setAwaySelectedPlayers] = useState([]);
     const [selectedPlayer, setSelectedPlayer] = useState("");
+    const [post, setPost] = useState(false);
 
     const [homeLineup, setHomeLineup] = useState([]);
     const [awayLineup, setAwayLineup] = useState([]);
@@ -37,31 +38,6 @@ const LineUpModal = React.memo(
       setAwaySelectedPlayers((prevSelected) =>
         prevSelected.filter((selected) => selected !== player)
       );
-    };
-
-    const handleHomeDone = () => {
-      // TODO: Implement logic to post lineup to the database
-
-      console.log("Lineup Posted:", homeLineup);
-      // Reset selected players after posting lineup
-      setHomeSelectedPlayers([]);
-    };
-
-    const handleAwayDone = () => {
-      // TODO: Implement logic to post lineup to the database
-
-      console.log("Lineup Posted:", awayLineup);
-      setAwaySelectedPlayers([]);
-    };
-
-    const handleHomeCancel = () => {
-      // Reset selected players without adding to lineup
-      setHomeSelectedPlayers([]);
-    };
-
-    const handleAwayCancel = () => {
-      // Reset selected players without adding to lineup
-      setAwaySelectedPlayers([]);
     };
 
     const handleAddClick = () => {
@@ -97,33 +73,32 @@ const LineUpModal = React.memo(
     };
 
     const handlePost = () => {
-      if (side === "Home Team") {
-        const lineups = [];
-        homeLineup.map((player) => {
-          const lineup = {
+      if (homeLineup.length > 0 || awayLineup.length > 0) {
+        if (side === "Home Team") {
+          const lineups = homeLineup.map((homeLineup) => ({
             matchID: matchInfo.id,
-            playerID: player.id,
+            playerID: homeLineup.id,
             side: "HOME",
-            shirtNo: player.shirtNo,
-            position: player.position,
-          };
-          lineups.push(lineup);
-        });
-        adminService.PostLineups(lineup);
-      } else if (side === "Away Team") {
-        const lineups = [];
-        awayLineup.map((player) => {
-          const lineup = {
+            shirtNo: homeLineup.shirtNo,
+            position: homeLineup.position,
+          }));
+          console.log("lineups:", lineups);
+          adminService.PostLineups(lineups);
+        } else if (side === "Away Team") {
+          const lineups = awayLineup.map((awayLineup) => ({
             matchID: matchInfo.id,
-            playerID: player.id,
+            playerID: awayLineup.id,
             side: "AWAY",
-            shirtNo: player.shirtNo,
-            position: player.position,
-          };
-          lineups.push(lineup);
-        });
-        adminService.PostLineups(lineup);
+            shirtNo: awayLineup.shirtNo,
+            position: awayLineup.position,
+          }));
+          console.log("lineups:", lineups);
+          adminService.PostLineups(lineups);
+        }
+        handleClose();
+        setPost(true);
       }
+      handleClose();
     };
 
     const ADDButton = styled("div")({
@@ -195,6 +170,7 @@ const LineUpModal = React.memo(
       } catch (error) {
         handleApiError(error);
       }
+      setPost(false);
     };
 
     const handlePlayerChange = (event) => {
@@ -220,7 +196,7 @@ const LineUpModal = React.memo(
         loadPlayers("HOME");
         loadPlayers("AWAY");
       }
-    }, []);
+    }, [post]);
 
     return (
       <Modal

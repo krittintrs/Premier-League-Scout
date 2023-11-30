@@ -154,7 +154,7 @@ function MatchDetails() {
         loadLineup();
       }
     }
-  }, [matchInfo]);
+  }, [matchInfo, homeModalOpen, awayModalOpen]);
 
   const TabDetails = () => {
     return (
