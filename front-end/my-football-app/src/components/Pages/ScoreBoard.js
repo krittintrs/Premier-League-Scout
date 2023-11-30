@@ -21,6 +21,7 @@ const Scoreboard = () => {
       {/* Header */}
       <div style={{ display: 'flex', padding: '8px', justifyContent: 'space-between', borderBottom: '1px solid #ccc' }}>
       <div style={{ width: '50%' }}>Rank</div>
+      <div style={{ width: '50%' }}></div>
         <div style={{ width: '50%' }}>Club</div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '50%' }}>
           <div style={{ width: 60, textAlign: 'center' }}>W</div>
@@ -35,7 +36,10 @@ const Scoreboard = () => {
       <ul style={{ padding: 0 }}>
         {sampleData.map((team, index) => (
           <li key={index} style={{ listStyle: 'none', borderBottom: '1px solid #ccc', display: 'flex', padding: '8px' }}>
-             <div style={{ width: '50%' }}>{team.id}</div>
+             <div style={{ width: '20%' }}>{team.id}</div>
+             <div style={{ width: '20%' }}>
+              <img src={'./images/premier.png'} alt={team.name} style={{ maxWidth: '100%', height: 'auto' }} />
+            </div>
             <div style={{ width: '50%' }}>{team.name}</div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '50%' }}>
               <div style={{ width: 60, textAlign: 'center' }}>{team.wins}</div>
