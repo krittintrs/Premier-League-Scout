@@ -309,7 +309,6 @@ function MatchDetails() {
         <MatchDetail matchData={matchInfo ?? []} />
         <TabDetails />
         <LineupGrid />
-        <AddLinupGrid/>
       </div>
     </div>
   );
