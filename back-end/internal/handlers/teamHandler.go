@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -38,7 +39,19 @@ func (httphdl *teamHandler) GetTeamByID(w http.ResponseWriter, r *http.Request) 
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
 
-	team, err := httphdl.teamsrv.GetTeamByID(params["id"])
+	idStr, ok := params["id"]
+	if !ok {
+		http.Error(w, "id parameter missing", http.StatusBadRequest)
+		return
+	}
+
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "invalid id parameter", http.StatusBadRequest)
+		return
+	}
+
+	team, err := httphdl.teamsrv.GetTeamByID(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

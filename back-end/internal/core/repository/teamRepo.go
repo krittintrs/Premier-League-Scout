@@ -15,7 +15,7 @@ func NewTeamRepo(db *sql.DB) *teamRepository {
 	}
 }
 
-func (tRepo *teamRepository) GetTeamByID(id string) (model.Team, error) {
+func (tRepo *teamRepository) GetTeamByID(id int) (model.Team, error) {
 	result, err := tRepo.db.Query("SELECT * from team WHERE id = ?", id)
 	if err != nil {
 		panic(err.Error())

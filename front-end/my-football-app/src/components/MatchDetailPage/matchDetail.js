@@ -1,20 +1,16 @@
 // MatchCard.js
 import React from "react";
-import "./MatchCard.css";
+import "./matchDetail.css";
 import { Button } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 
-function MatchCard({ matchData }) {
+function MatchDetail({ matchData }) {
   const navigate = useNavigate();
 
   if (!matchData) {
     // If matchData is undefined or null, you can handle it accordingly
     return null;
   }
-
-  const handleButtonClick = () => {
-    navigate(`/MatchDetails/${matchData.id}`);
-  };
 
   const homeTeamLogoSrc = matchData.homeTeamName
     ? `/images/clubs/${matchData.homeTeamName.replace(/\s+/g, "-")}.png`
@@ -27,7 +23,6 @@ function MatchCard({ matchData }) {
   return (
     <div className="match">
       <div className="match-header">
-        <div className="match-status">Live</div>
         <div className="column">
           <h3 className="team-name team-name-home">{matchData.homeTeamName}</h3>
           <div className="team-logo team-logo-home">
@@ -69,14 +64,9 @@ function MatchCard({ matchData }) {
             </h3>
           </div>
         </div>
-        <div className="match-actions">
-          <Button className="btn-icon" onClick={handleButtonClick}>
-            Add Details
-          </Button>
-        </div>
       </div>
     </div>
   );
 }
 
-export default MatchCard;
+export default MatchDetail;

@@ -10,7 +10,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<FixturePage />} />
-      <Route path="/MatchDetails" element={<MatchDetails />} />
+      <Route path="/MatchDetails/:matchId" element={<MatchDetails />} />
       <Route path="/AddMatchEvent" element={<AddMatchEvent/>} />
       
       <Route path="/sign-up" element={<FixturePage />} />

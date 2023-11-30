@@ -21,11 +21,11 @@ type MatchInfoService interface {
 }
 
 type TeamRepository interface {
-	GetTeamByID(id string) (model.Team, error)
+	GetTeamByID(id int) (model.Team, error)
 }
 
 type TeamService interface {
-	GetTeamByID(id string) (model.Team, error)
+	GetTeamByID(id int) (model.Team, error)
 }
 
 type PlayerRepository interface {

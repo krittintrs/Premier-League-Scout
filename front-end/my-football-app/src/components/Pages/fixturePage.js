@@ -84,19 +84,21 @@ const FixturePage = () => {
   }, [matchInfo]); // Add matchInfo as a dependency to rerun the effect when it changes
 
   return (
-    <div className="w-full md:w-[350px] lg:w-[800px] m-auto">
-      <div style={headerStyle}>
-        <img
-          style={logoStyle}
-          src="https://wallpapercave.com/wp/wp8859298.jpg"
-          alt="Header Image"
-        />
-      </div>
-      <div>
-        <div style={headingStyle}>
-          {matchInfo.length > 0 && `Match Week ${matchInfo[0].gameweek}`}
+    <Box>
+      <Box>
+        <div style={headerStyle}>
+          <img
+            style={logoStyle}
+            src="https://wallpapercave.com/wp/wp8859298.jpg"
+            alt="Header Image"
+          />
         </div>
-      </div>
+        <div>
+          <div style={headingStyle}>
+            {matchInfo.length > 0 && `Match Week ${matchInfo[0].gameweek}`}
+          </div>
+        </div>
+      </Box>
       <Box sx={{ width: "100%" }}>
         <Paper>
           <Stack
@@ -121,13 +123,13 @@ const FixturePage = () => {
               ).toLocaleDateString() ? (
               <React.Fragment>
                 <div style={DateStyle}>
-                  {/* Display the date in the desired format */}
                   {new Date(match.matchDatetime)
                     .toLocaleDateString("en-US", {
                       weekday: "long",
                       year: "numeric",
                       month: "long",
                       day: "numeric",
+                      timeZone: 'UTC',
                     })
                     .replace(",", "")}
                 </div>
@@ -140,8 +142,7 @@ const FixturePage = () => {
       <div style={containerStyle}>
         <ColorButtons />
       </div>
-    </div>
+    </Box>
   );
 };
-
 export default FixturePage;
