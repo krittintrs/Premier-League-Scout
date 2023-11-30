@@ -1,22 +1,22 @@
 package repository
 
 import (
+	mysql2 "back-end/database/mysql"
 	"back-end/internal/core/model"
-	"database/sql"
 )
 
 type UserRepository struct {
-	DB *sql.DB
+	masterDB *mysql2.MasterDB
 }
 
-func NewUserRepository(db *sql.DB) *UserRepository {
-	return &UserRepository{DB: db}
+func NewUserRepository(mdb *mysql2.MasterDB) *UserRepository {
+	return &UserRepository{masterDB: mdb}
 }
 
 func (r *UserRepository) FindByUsername(username string) (model.User, error) {
 	query := "SELECT id, username, password, role FROM user WHERE username = ?"
 	user := model.User{}
-	err := r.DB.QueryRow(query, username).Scan(&user.ID, &user.Username, &user.Password, &user.Role)
+	err := r.masterDB.DB.QueryRow(query, username).Scan(&user.ID, &user.Username, &user.Password, &user.Role)
 	if err != nil {
 		return model.User{}, err
 	}
@@ -25,7 +25,7 @@ func (r *UserRepository) FindByUsername(username string) (model.User, error) {
 
 func (r *UserRepository) AddUser(user model.User) (int64, error) {
 	query := "INSERT INTO user (username, password, role) VALUES (?, ?, ?)"
-	result, err := r.DB.Exec(query, user.Username, user.Password, user.Role)
+	result, err := r.masterDB.DB.Exec(query, user.Username, user.Password, user.Role)
 	if err != nil {
 		return 0, err
 	}

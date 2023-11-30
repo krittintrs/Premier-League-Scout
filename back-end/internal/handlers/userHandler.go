@@ -1,11 +1,9 @@
 package handlers
 
 import (
-	"back-end/config"
 	"back-end/database/mysql"
 	"back-end/internal/core/model"
 	"back-end/internal/core/ports"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -16,14 +14,14 @@ import (
 // UserHandler handles HTTP requests related to users.
 type UserHandler struct {
 	UserService ports.UserService
-	DB          *sql.DB
+	MasterDB    *mysql.MasterDB
 }
 
 // NewUserHandler creates a new instance of UserHandler.
-func NewUserHandler(userService ports.UserService, db *sql.DB) *UserHandler {
+func NewUserHandler(userService ports.UserService, masterDB *mysql.MasterDB) *UserHandler {
 	return &UserHandler{
 		UserService: userService,
-		DB:          db,
+		MasterDB:    masterDB,
 	}
 }
 
@@ -51,7 +49,7 @@ func (h *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 
 	_, err = h.UserService.RegisterUser(&newUser)
 	if err != nil {
-		http.Error(w, "Failed to register user", http.StatusInternalServerError)
+		http.Error(w, "Failed to register user: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -95,8 +93,9 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	switch user.Role {
 	case model.USER_ROLE:
-		h.DB.Close()
-		h.DB = mysql.InitDB(config.UserUser, config.UserPassword, config.LocalDatabaseUrl, "eplScout")
+		h.MasterDB.ChangeToUserDB()
+	case model.ADMIN_ROLE:
+		h.MasterDB.ChangeToAdminDB()
 	default:
 	}
 

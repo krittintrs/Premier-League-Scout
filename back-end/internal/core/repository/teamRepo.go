@@ -1,24 +1,24 @@
 package repository
 
 import (
+	"back-end/database/mysql"
 	"back-end/internal/core/model"
-	"database/sql"
 )
 
 type teamRepository struct {
-	db *sql.DB
+	masterDB *mysql.MasterDB
 }
 
-func NewTeamRepo(db *sql.DB) *teamRepository {
+func NewTeamRepo(mdb *mysql.MasterDB) *teamRepository {
 	return &teamRepository{
-		db: db,
+		masterDB: mdb,
 	}
 }
 
 func (tRepo *teamRepository) GetTeamByID(id int) (model.Team, error) {
-	result, err := tRepo.db.Query("SELECT * from team WHERE id = ?", id)
+	result, err := tRepo.masterDB.DB.Query("SELECT * from team WHERE id = ?", id)
 	if err != nil {
-		panic(err.Error())
+		return model.Team{}, err
 	}
 	defer result.Close()
 
@@ -26,7 +26,7 @@ func (tRepo *teamRepository) GetTeamByID(id int) (model.Team, error) {
 	for result.Next() {
 		err := result.Scan(&team.ID, &team.TeamName, &team.TeamStadium)
 		if err != nil {
-			panic(err.Error())
+			return model.Team{}, err
 		}
 	}
 

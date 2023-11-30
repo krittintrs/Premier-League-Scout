@@ -1,24 +1,24 @@
 package repository
 
 import (
+	mysql2 "back-end/database/mysql"
 	"back-end/internal/core/model"
-	"database/sql"
 )
 
 type MatchEventRepository struct {
-	db *sql.DB
+	masterDB *mysql2.MasterDB
 }
 
-func NewMatchEventRepo(db *sql.DB) *MatchEventRepository {
+func NewMatchEventRepo(mdb *mysql2.MasterDB) *MatchEventRepository {
 	return &MatchEventRepository{
-		db: db,
+		masterDB: mdb,
 	}
 }
 
 func (meRepo *MatchEventRepository) GetMatchEventByMatchID(matchID string) ([]model.MatchEvent, error) {
-	result, err := meRepo.db.Query("SELECT * from matchevent where MatchID = ?", matchID)
+	result, err := meRepo.masterDB.DB.Query("SELECT * from matchevent where MatchID = ?", matchID)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 	defer result.Close()
 
@@ -30,7 +30,7 @@ func (meRepo *MatchEventRepository) GetMatchEventByMatchID(matchID string) ([]mo
 			&matchEvent.SubOutPlayerID, &matchEvent.InjuredPlayerID, &matchEvent.BookedPlayerID,
 			&matchEvent.BookedCardType)
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 		matchEvents = append(matchEvents, matchEvent)
 	}
@@ -38,9 +38,9 @@ func (meRepo *MatchEventRepository) GetMatchEventByMatchID(matchID string) ([]mo
 }
 
 func (meRepo *MatchEventRepository) GetMatchEventByID(matchEventID string) (model.MatchEvent, error) {
-	result, err := meRepo.db.Query("SELECT * from matchevent where id = ?", matchEventID)
+	result, err := meRepo.masterDB.DB.Query("SELECT * from matchevent where id = ?", matchEventID)
 	if err != nil {
-		panic(err.Error())
+		return model.MatchEvent{}, err
 	}
 	defer result.Close()
 
@@ -51,7 +51,7 @@ func (meRepo *MatchEventRepository) GetMatchEventByID(matchEventID string) (mode
 			&matchEvent.SubOutPlayerID, &matchEvent.InjuredPlayerID, &matchEvent.BookedPlayerID,
 			&matchEvent.BookedCardType)
 		if err != nil {
-			panic(err.Error())
+			return model.MatchEvent{}, err
 		}
 	}
 	return matchEvent, nil
@@ -64,7 +64,7 @@ func (meRepo *MatchEventRepository) PostMatchEvent(matchEvent model.MatchEvent) 
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
-	_, err := meRepo.db.Exec(query, matchEvent.MatchID, matchEvent.MinuteOccur, matchEvent.EventType,
+	_, err := meRepo.masterDB.DB.Exec(query, matchEvent.MatchID, matchEvent.MinuteOccur, matchEvent.EventType,
 		matchEvent.ScorerPlayerID, matchEvent.AssistPlayerID, matchEvent.SubInPlayerID,
 		matchEvent.SubOutPlayerID, matchEvent.InjuredPlayerID, matchEvent.BookedPlayerID,
 		matchEvent.BookedCardType)
@@ -82,7 +82,7 @@ func (meRepo *MatchEventRepository) UpdateMatchEvent(matchEvent model.MatchEvent
 		WHERE ID = ?
 	`
 
-	_, err := meRepo.db.Exec(query, matchEvent.MinuteOccur, matchEvent.EventType,
+	_, err := meRepo.masterDB.DB.Exec(query, matchEvent.MinuteOccur, matchEvent.EventType,
 		matchEvent.ScorerPlayerID, matchEvent.AssistPlayerID, matchEvent.SubInPlayerID,
 		matchEvent.SubOutPlayerID, matchEvent.InjuredPlayerID, matchEvent.BookedPlayerID,
 		matchEvent.BookedCardType, matchEvent.MatchID)
@@ -98,7 +98,7 @@ func (meRepo *MatchEventRepository) DeleteMatchEvent(id string) error {
 		DELETE FROM matchevent WHERE ID = ?
 	`
 
-	_, err := meRepo.db.Exec(query, id)
+	_, err := meRepo.masterDB.DB.Exec(query, id)
 	if err != nil {
 		return err
 	}

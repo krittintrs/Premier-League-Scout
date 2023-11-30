@@ -1,6 +1,7 @@
 package repository
 
 import (
+	mysql2 "back-end/database/mysql"
 	"back-end/internal/core/model"
 	"database/sql"
 	"time"
@@ -9,12 +10,12 @@ import (
 )
 
 type PlayerRepository struct {
-	db *sql.DB
+	masterDB *mysql2.MasterDB
 }
 
-func NewPlayerRepo(db *sql.DB) *PlayerRepository {
+func NewPlayerRepo(mdb *mysql2.MasterDB) *PlayerRepository {
 	return &PlayerRepository{
-		db: db,
+		masterDB: mdb,
 	}
 }
 
@@ -25,7 +26,7 @@ func (pRepo *PlayerRepository) GetPlayerByID(id string) (model.Player, error) {
 		WHERE id = ?
 	`
 
-	result := pRepo.db.QueryRow(query, id)
+	result := pRepo.masterDB.DB.QueryRow(query, id)
 
 	var player model.Player
 	var MiddleName sql.NullString
@@ -108,7 +109,7 @@ func (pRepo *PlayerRepository) GetPlayerByTeamID(teamID string) ([]model.Player,
 		FROM player
 		WHERE teamID = ?
 	`
-	result, err := pRepo.db.Query(query, teamID)
+	result, err := pRepo.masterDB.DB.Query(query, teamID)
 	if err != nil {
 		return nil, err
 	}

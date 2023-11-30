@@ -16,14 +16,14 @@ import (
 
 func main() {
 
-	db := mysql.InitDB(config.AdminUser, config.AdminPassword, config.LocalDatabaseUrl, "eplScout")
+	masterDB := mysql.InitDB()
 
-	teamRepo := repository.NewTeamRepo(db)
-	matchInfoRepo := repository.NewMatchInfoRepo(db)
-	playerRepo := repository.NewPlayerRepo(db)
-	lineupRepo := repository.NewLineupRepo(db)
-	matchEventRepo := repository.NewMatchEventRepo(db)
-	userRepo := repository.NewUserRepository(db)
+	teamRepo := repository.NewTeamRepo(masterDB)
+	matchInfoRepo := repository.NewMatchInfoRepo(masterDB)
+	playerRepo := repository.NewPlayerRepo(masterDB)
+	lineupRepo := repository.NewLineupRepo(masterDB)
+	matchEventRepo := repository.NewMatchEventRepo(masterDB)
+	userRepo := repository.NewUserRepository(masterDB)
 
 	teamsrv := services.NewTeamService(teamRepo)
 	matchInfosrv := services.NewMatchInfoService(matchInfoRepo)
@@ -41,7 +41,7 @@ func main() {
 	playerhdl := handlers.NewPlayerHandler(playersrv)
 	lineuphdl := handlers.NewlineupHandler(lineupsrv)
 	matchEventhdl := handlers.NewMatchEventHandler(matchEventsrv)
-	userhdl := handlers.NewUserHandler(usersrv, db)
+	userhdl := handlers.NewUserHandler(usersrv, masterDB)
 
 	// Set up routes for both team and matchinfo handlers
 	teamhdl.SetupTeamRoutes(mainRouter)

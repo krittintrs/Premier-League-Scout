@@ -15,11 +15,13 @@ var (
 	AdminPassword    string
 	UserUser         string
 	UserPassword     string
+	DefaultUser      string
+	DefaultPassword  string
 )
 
 func init() {
 	// Load environment variables from .env file
-	if err := godotenv.Load("../.env"); err != nil {
+	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file:", err)
 	}
 
@@ -30,4 +32,6 @@ func init() {
 	AdminPassword = os.Getenv("ADMIN_PASSWORD")
 	UserUser = os.Getenv("USER_USER")
 	UserPassword = os.Getenv("USER_PASSWORD")
+	DefaultUser = os.Getenv("DEFAULT_USER")
+	DefaultPassword = os.Getenv("DEFAULT_PASSWORD")
 }
