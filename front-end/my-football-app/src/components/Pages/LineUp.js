@@ -1,15 +1,22 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import { Paper, styled, Modal, Box, Stack } from "@mui/material";
+import { Paper, styled } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 
-const LineUpModal = ({ open, handleClose, handleAddClick }) => {
+const LineUpModal = ({ open, handleClose, lineup }) => {
+  const handleAddClick = () => {
+    console.log("ADD button clicked!");
+  };
+
   const ADDButton = styled("div")({
     position: "absolute",
     bottom: "5%",
-    left: "90%",
+    left: "90%", // Adjust the margin-left to align the buttons to the right of the switch
   });
 
-  const TeamPaper = styled(Paper)(({ theme }) => ({
+  const TeamAPaper = styled(Paper)(({ theme }) => ({
     width: 900,
     height: 300,
     padding: theme.spacing(2),
@@ -17,7 +24,7 @@ const LineUpModal = ({ open, handleClose, handleAddClick }) => {
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
-    alignItems: "flex-start",
+    alignItems: "center",
     margin: "50px",
     position: "relative",
   }));
@@ -36,14 +43,19 @@ const LineUpModal = ({ open, handleClose, handleAddClick }) => {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
-      <>
-        {/* Your existing styling for Team A */}
-        <div style={{ width: "50%", height: "50%", position: "relative" }}>
-          {/* ... */}
+      <Box>
+        <div style={{ width: "100%", height: "50%", position: "relative" }}>
+          {/* ... Team A content ... */}
         </div>
-        <TeamPaper square={false}>
+        <TeamAPaper square={false}>
           <Box sx={{ width: "100%" }}>
+            <h2 className="team-name">{"Home Lineups: " + "Team A"}</h2>
             <Stack direction="column" spacing={2}>
               <Item>Item 1</Item>
               <Item>Item 2</Item>
@@ -60,32 +72,8 @@ const LineUpModal = ({ open, handleClose, handleAddClick }) => {
               ADD
             </Button>
           </ADDButton>
-        </TeamPaper>
-
-        {/* Your existing styling for Team B */}
-        <div style={{ width: "100%", height: "100%", position: "relative" }}>
-          {/* ... */}
-        </div>
-        <TeamPaper square={false}>
-          <Box sx={{ width: "100%" }}>
-            <Stack direction="column" spacing={2}>
-              <Item>Item 1</Item>
-              <Item>Item 2</Item>
-              <Item>Item 3</Item>
-              <Item>Item 4</Item>
-            </Stack>
-          </Box>
-          <ADDButton>
-            <Button
-              variant="contained"
-              disableElevation
-              onClick={handleAddClick}
-            >
-              ADD
-            </Button>
-          </ADDButton>
-        </TeamPaper>
-      </>
+        </TeamAPaper>
+      </Box>
     </Modal>
   );
 };

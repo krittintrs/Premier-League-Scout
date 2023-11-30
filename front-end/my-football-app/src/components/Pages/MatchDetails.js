@@ -15,7 +15,7 @@ import * as adminService from "../../services/adminService";
 import { handleApiError } from "../../utils/apiUtils";
 import { useEffect, useState } from "react";
 import MatchDetail from "../MatchDetailPage/matchDetail";
-import LineUP from "./LineUp";
+import LineUpModal from "./LineUp";
 
 function MatchDetails() {
   const { matchId } = useParams();
@@ -69,6 +69,8 @@ function MatchDetails() {
   const [team, setTeam] = useState();
   const [homeLineup, setHomeLineup] = useState([]);
   const [awayLineup, setAwayLineup] = useState([]);
+  const [availableHomePlayers, setAvailableHomePlayers] = useState([]);
+  const [availableAwayPlayers, setAvailableAwayPlayers] = useState([]);
   const [homeselectedPlayers, setHomeSelectedPlayers] = useState([]);
   const [awayselectedPlayers, setAwaySelectedPlayers] = useState([]);
   const [open, setOpen] = useState(false);
@@ -174,6 +176,30 @@ function MatchDetails() {
     }
   };
 
+  const loadPlayers = async (side) => {
+    try {
+      // Check if matchInfo is defined before making the request
+      if (matchInfo && matchInfo.homeTeamID) {
+        if(side === "HOME") {
+          console.log("teamid: " + matchInfo.homeTeamID);
+          const data = await adminService.GetPlayers(matchInfo.homeTeamID);
+          setAvailableHomePlayers(data);
+          console.log(data);
+        } else {
+          console.log("teamid: " + matchInfo.awayTeamID);
+          const data = await adminService.GetPlayers(matchInfo.awayTeamID);
+          setAvailableAwayPlayers(data);
+          console.log(data);
+        }
+      } else {
+        // Handle the case where matchInfo is undefined or homeTeamId is missing
+        console.error("Match information is undefined or missing homeTeamId");
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
   useEffect(() => {
     loadMatchInfo();
   }, [matchId]);
@@ -236,14 +262,11 @@ function MatchDetails() {
           sx={{ p: 2, textAlign: "center", mb: 2, width: "35%" }}
         >
           <Button onClick={handleOpen}>Open modal</Button>
-          <Modal
+          <LineUpModal
             open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <LineUP />
-          </Modal>
+            handleClose={handleClose}
+            lineup={homeLineup}
+          />
           <h2 className="team-name">
             {"Home Lineups: " + matchInfo?.homeTeamName}
           </h2>
