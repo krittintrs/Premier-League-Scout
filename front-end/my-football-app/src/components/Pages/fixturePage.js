@@ -100,15 +100,6 @@ const FixturePage = () => {
         <div style={headingStyle}>
           {matchInfo.length > 0 && `Match Week ${matchInfo[0].gameweek}`}
         </div>
-        <div style={DateStyle}>
-          {matchInfo.length > 0 &&
-            new Date(matchInfo[0].matchDatetime).toLocaleDateString("en-US", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-        </div>
       </div>
       <Box sx={{ width: "100%" }}>
         <Paper>
@@ -118,15 +109,29 @@ const FixturePage = () => {
             alignItems="left"
             padding={1}
           >
-            <img src="https://assets.codepen.io/285131/pl-logo.svg"></img>,
+            <img src="https://assets.codepen.io/285131/pl-logo.svg" alt="EPL Logo" />
             <h2> English Premier League</h2>
           </Stack>
         </Paper>
-        <Stack spacing={1}>
-          <MatchCard />
-          <MatchCard />
-          <MatchCard />
-        </Stack>
+        {matchInfo.map((match, index) => (
+          <React.Fragment key={index}>
+            {index === 0 || new Date(match.matchDatetime).toLocaleDateString() !== new Date(matchInfo[index - 1].matchDatetime).toLocaleDateString() ? (
+              <React.Fragment>
+                <div style={DateStyle}>
+                  {new Date(match.matchDatetime)
+                    .toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
+                    .replace(",", "")}
+                </div>
+              </React.Fragment>
+            ) : null}
+            <MatchCard matchData={match} />
+          </React.Fragment>
+        ))}
       </Box>
       <div style={containerStyle}>
         <ColorButtons />

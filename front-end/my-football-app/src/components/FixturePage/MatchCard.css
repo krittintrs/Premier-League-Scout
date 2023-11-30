@@ -120,7 +120,6 @@ body {
 
 
 .team-logo img {
-    width: 50px; /* Adjust the width of the logo as needed */
     height: 50px; /* Adjust the height of the logo as needed */
 }
 
@@ -153,4 +152,34 @@ body {
     margin-right: auto;  
     margin-left: auto;
 }
-
+  
+  /* MatchCard.css */
+.match-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .match-datetime {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+  }
+  
+  .match-score {
+    display: flex;
+    align-items: center;
+  }
+  
+  .match-score-number {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1;
+    margin-right: 4px;
+  }
+  
+  .match-score-divider {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  
