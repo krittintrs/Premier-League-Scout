@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import '../Login/Login.css'; // Import your styles
+import '../Login/Login.css'; 
+import * as loginService from "../../services/loginService";
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -17,10 +18,19 @@ const Login = () => {
 
     // Reset error
     setError('');
+    
+    try {
+      const userData = await loginService.login(username, password);
+      console.log('User logged in:', userData);
+      // Handle successful login, e.g., redirect to another page
+    } catch (error) {
+      setError(error.response.data);
+    }
+  };
 
-    // Perform authentication (replace this with your actual authentication logic)
-    // For simplicity, let's just log the username to the console
-    console.log(`Logged in as: ${username}`);
+  const handleSignUp = () => {
+    // Perform sign-up logic (you can redirect to a sign-up page or show a modal)
+    console.log('Redirect to sign-up page or show sign-up modal');
   };
 
   return (
@@ -47,7 +57,12 @@ const Login = () => {
             />
           </div>
           {error && <p className="error-message">{error}</p>}
-          <button type="submit">Login</button>
+          <div className="button-container">
+            <button type="submit">Login</button>
+            <button type="button" onClick={handleSignUp}>
+              Sign Up
+            </button>
+          </div>
         </form>
       </div>
     </div>
