@@ -1,5 +1,5 @@
 import React from "react";
-import SoccerLineUp from "react-soccer-lineup";
+// import SoccerLineUp from "react-soccer-lineup";
 
 const LineUp = () => ({
   squad: {
@@ -22,13 +22,13 @@ const LineUP = () => {
     <div className="App">
       <h1>Hello CodeSandbox</h1>
       <h2>Start editing to see some magic happen!</h2>
-      <SoccerLineUp
+      {/* <SoccerLineUp
         size={"small"}
         color={"lightseagreen"}
         pattern={"lines"}
         homeTeam={LineUp()} // Corrected function call
         awayTeam={LineUp()} // Corrected function call
-      />
+      /> */}
     </div>
   );
 }

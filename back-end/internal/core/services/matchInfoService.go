@@ -42,6 +42,15 @@ func (matchInfoSrv *MatchInfoService) GetMatchInfoByGameweek(gameweek string) ([
 	return matchInfos, nil
 }
 
+func (matchInfoSrv *MatchInfoService) GetCurrentGameweek() (int, error) {
+	gameweek, err := matchInfoSrv.matchInfoRepo.GetCurrentGameweek()
+	if err != nil {
+		return 0, err
+	}
+
+	return gameweek, nil
+}
+
 func (matchInfoSrv *MatchInfoService) UpdateMatchInfo(matchInfo model.MatchInfo) error {
 	err := matchInfoSrv.matchInfoRepo.UpdateMatchInfo(matchInfo)
 	if err != nil {

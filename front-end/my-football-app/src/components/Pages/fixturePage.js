@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState }  from "react";
 import ColorButtons from '../FixturePage/ColorButtons'; // Import the Button component
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -6,6 +6,8 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import MatchCard from '../FixturePage/MatchCard';
 import { useNavigate } from 'react-router-dom';
+import * as userService from '../../services/userService';
+import { handleApiError } from "../../utils/apiUtils";
 
 
 const containerStyle = {
@@ -53,6 +55,34 @@ const FixturePage = () => {
     textTransform: "uppercase",
     wordWrap: "break-word",
   };
+
+  const [matchInfo, setMatchInfo] = useState([]);
+
+  const getCurrentGameweek = async () => {
+    try {
+      const data = await userService.getCurrentGameweek();
+      setGameweek(data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+  const [gameweek, setGameweek] = useState(getCurrentGameweek());
+  
+  const loadMatchInfo = async () => {
+    try {
+      console.log(gameweek);
+      const data = await userService.getMatchFixture(gameweek);
+      setMatchInfo(data);
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
+  useEffect(() => {
+    // Load the user's data from the API
+    loadMatchInfo();
+    console.log(matchInfo);
+  }, []);
 
   return (
     <div className="w-full md:w-[350px] lg:w-[800px] m-auto">

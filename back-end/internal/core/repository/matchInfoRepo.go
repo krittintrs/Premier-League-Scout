@@ -3,6 +3,8 @@ package repository
 import (
 	"back-end/internal/core/model"
 	"database/sql"
+	"errors"
+	"fmt"
 
 	"github.com/go-sql-driver/mysql"
 )
@@ -231,6 +233,26 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByGameweek(gameweek string) ([]mod
 	}
 
 	return matchInfos, nil
+}
+
+func (mRepo *MatchInfoRepository) GetCurrentGameweek() (int, error) {
+	query := `
+        SELECT gameweek
+        FROM matchinfo
+        WHERE matchDatetime > NOW()
+        ORDER BY matchDatetime
+        LIMIT 1`
+
+	var gameweek int
+	err := mRepo.db.QueryRow(query).Scan(&gameweek)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return 0, fmt.Errorf("no current gameweek found")
+		}
+		return 0, err
+	}
+
+	return gameweek, nil
 }
 
 func (mRepo *MatchInfoRepository) UpdateMatchInfo(matchInfo model.MatchInfo) error {
