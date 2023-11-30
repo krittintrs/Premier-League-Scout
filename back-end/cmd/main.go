@@ -50,14 +50,23 @@ func main() {
 	lineuphdl.SetupLineupRoutes(mainRouter)
 	matchEventhdl.SetupMatchEventRoutes(mainRouter)
 
-	// Start the server with the main router
-	http.ListenAndServe("localhost:80", &CORSRouterDecorator{mainRouter})
+	// Create a channel to wait for the server to finish
+    done := make(chan bool)
 
-	fmt.Println("Server is running on :80")
+    // Start the server in a goroutine
+    go func() {
+        if err := http.ListenAndServe("localhost:8080", mainRouter); err != nil {
+            fmt.Printf("Server error: %v\n", err)
+        }
+        done <- true
+    }()
+
+    // Block until the server finishes or an interrupt signal is received
+    <-done
 }
 
 func InitDB() {
-	db, err = sql.Open("mysql", "root:root@tcp(localhost:3306)/eplScout") // fix this
+	db, err = sql.Open("mysql", "root:root@tcp(localhost:8889)/eplScout") // fix this
 	if err != nil {
 		panic(err.Error())
 	}
