@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import '../Login/Login.css'; 
 import * as loginService from "../../services/loginService";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -28,9 +31,8 @@ const Login = () => {
     }
   };
 
-  const handleSignUp = () => {
-    // Perform sign-up logic (you can redirect to a sign-up page or show a modal)
-    console.log('Redirect to sign-up page or show sign-up modal');
+  const handleGoToSignUp = () => {
+    navigate('/SignUpPage');
   };
 
   return (
@@ -59,7 +61,7 @@ const Login = () => {
           {error && <p className="error-message">{error}</p>}
           <div className="button-container">
             <button type="submit">Login</button>
-            <button type="button" onClick={handleSignUp}>
+            <button type="button" onClick={handleGoToSignUp}>
               Sign Up
             </button>
           </div>

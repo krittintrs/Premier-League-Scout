@@ -8,6 +8,7 @@ import LineUp from './components/Pages/LineUp';
 import ScoreBoard from './components/Pages/ScoreBoard';
 import NavBar from './components/NavBar';
 import LoginPage from './components/Pages/LoginPage';
+import SignUpPage from './components/Pages/SignUpPage';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/LineUp" element={<LineUp/>} />
         <Route path="/ScoreBoard" element={<ScoreBoard />} />
         <Route path="/LoginPage" element={<LoginPage />} />
+        <Route path="/SignUpPage" element={<SignUpPage/>} />
       </Routes>
     </div>
   );
