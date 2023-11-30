@@ -59,29 +59,31 @@ const FixturePage = () => {
       const data = await userService.getCurrentGameweek();
       setGameweek(data);
     } catch (error) {
-      handleApiError(error);
+      console.error('Error fetching current gameweek:', error);
+      // Add additional error handling or user feedback if needed
     }
   };
-
+  
   const loadMatchInfo = async () => {
     try {
       console.log(gameweek);
       const data = await userService.getMatchFixture(gameweek);
       setMatchInfo(data);
     } catch (error) {
-      handleApiError(error);
+      console.error('Error fetching match fixtures:', error);
+      // Add additional error handling or user feedback if needed
     }
   };
 
   useEffect(() => {
     // Load the user's data from the API
     loadMatchInfo();
-  }, [gameweek]); // Add gameweek as a dependency to rerun the effect when it changes
+  }, []); 
 
   useEffect(() => {
     // Log the updated matchInfo
     console.log(matchInfo);
-  }, [matchInfo]); // Add matchInfo as a dependency to rerun the effect when it changes
+  }, [matchInfo]); 
 
   return (
     <Box>

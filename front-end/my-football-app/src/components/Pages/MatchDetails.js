@@ -8,12 +8,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
+import Modal from "@mui/material/Modal";
 import { Button } from "reactstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import * as adminService from "../../services/adminService";
 import { handleApiError } from "../../utils/apiUtils";
 import { useEffect, useState } from "react";
 import MatchDetail from "../MatchDetailPage/matchDetail";
+import LineUP from "./LineUp";
 
 function MatchDetails() {
   const { matchId } = useParams();
@@ -69,6 +71,10 @@ function MatchDetails() {
   const [awayLineup, setAwayLineup] = useState([]);
   const [homeselectedPlayers, setHomeSelectedPlayers] = useState([]);
   const [awayselectedPlayers, setAwaySelectedPlayers] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const addHomeToLineup = (player) => {
     setHomeLineup((prevLineup) => [...prevLineup, player]);
@@ -229,6 +235,15 @@ function MatchDetails() {
           elevation={3}
           sx={{ p: 2, textAlign: "center", mb: 2, width: "35%" }}
         >
+          <Button onClick={handleOpen}>Open modal</Button>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <LineUP />
+          </Modal>
           <h2 className="team-name">
             {"Home Lineups: " + matchInfo?.homeTeamName}
           </h2>

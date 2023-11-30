@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	db := mysql.InitDB("root", "root", "localhost:8889", "eplScout")
+	db := mysql.InitDB("root", "root", "localhost:3306", "eplScout")
 
 	teamRepo := repository.NewTeamRepo(db)
 	matchInfoRepo := repository.NewMatchInfoRepo(db)
@@ -56,7 +56,7 @@ func main() {
 
 	// Start the server in a goroutine
 	go func() {
-		if err := http.ListenAndServe("localhost:8080", mainRouter); err != nil {
+		if err := http.ListenAndServe("localhost:80", &CORSRouterDecorator{mainRouter}); err != nil {
 			fmt.Printf("Server error: %v\n", err)
 		}
 		done <- true
