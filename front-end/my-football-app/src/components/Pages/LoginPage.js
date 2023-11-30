@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Login/Login.css'; 
 import * as loginService from "../../services/loginService";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const signupSuccess = location.state?.signupSuccess;
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(signupSuccess);
+
+  useEffect(() => {
+    // Hide the success popup after a delay (e.g., 5 seconds)
+    const timer = setTimeout(() => {
+      setShowSuccessPopup(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [signupSuccess]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,8 +38,7 @@ const Login = () => {
     try {
       const userData = await loginService.login(username, password);
       console.log('User logged in:', userData);
-      // Handle successful login, e.g., redirect to another page
-      
+      navigate('/');
     } catch (error) {
       setError(error.response.data);
     }
@@ -60,6 +72,11 @@ const Login = () => {
             />
           </div>
           {error && <p className="error-message">{error}</p>}
+          {showSuccessPopup && (
+            <div className="success-popup">
+              <p>You have successfully signed up!</p>
+            </div>
+          )}
           <div className="button-container">
             <button type="submit">Login</button>
             <button type="button" onClick={handleGoToSignUp}>

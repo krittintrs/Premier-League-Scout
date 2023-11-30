@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import '../SignUp/SignUp.css'; // Create a new CSS file for SignUp styles
+import '../SignUp/SignUp.css';
 import * as signUpService from '../../services/signUpService';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../../api/signUpApi';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -30,10 +29,12 @@ const SignUp = () => {
     setError('');
 
     try {
+      // Perform signup logic
       const userData = await signUpService.signup(username, password);
       console.log('User signed up:', userData);
-      // Handle successful login, e.g., redirect to another page
-      
+
+      // Navigate to login page after successful signup
+      navigate('/LoginPage', { state: { signupSuccess: true } });
     } catch (error) {
       setError(error.response.data);
     }
