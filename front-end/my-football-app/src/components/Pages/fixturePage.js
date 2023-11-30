@@ -1,21 +1,20 @@
-import React, { useEffect, useState }  from "react";
-import ColorButtons from '../FixturePage/ColorButtons'; // Import the Button component
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
-import MatchCard from '../FixturePage/MatchCard';
-import { useNavigate } from 'react-router-dom';
-import * as userService from '../../services/userService';
+import React, { useEffect, useState } from "react";
+import ColorButtons from "../FixturePage/ColorButtons"; // Import the Button component
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles";
+import MatchCard from "../FixturePage/MatchCard";
+import { useNavigate } from "react-router-dom";
+import * as userService from "../../services/userService";
 import { handleApiError } from "../../utils/apiUtils";
 
-
 const containerStyle = {
-    // Define your styles for the container here
-    // For example:
-    marginTop: 20,
-    padding: 10,
-    backgroundColor: '#fff',
+  // Define your styles for the container here
+  // For example:
+  marginTop: 20,
+  padding: 10,
+  backgroundColor: "#fff",
 };
 
 const FixturePage = () => {
@@ -57,6 +56,7 @@ const FixturePage = () => {
   };
 
   const [matchInfo, setMatchInfo] = useState([]);
+  const [gameweek, setGameweek] = useState(1);
 
   const getCurrentGameweek = async () => {
     try {
@@ -66,9 +66,7 @@ const FixturePage = () => {
       handleApiError(error);
     }
   };
-  // const [gameweek, setGameweek] = useState(getCurrentGameweek());
-  const [gameweek, setGameweek] = useState(1);
-  
+
   const loadMatchInfo = async () => {
     try {
       console.log(gameweek);
@@ -82,8 +80,12 @@ const FixturePage = () => {
   useEffect(() => {
     // Load the user's data from the API
     loadMatchInfo();
+  }, [gameweek]); // Add gameweek as a dependency to rerun the effect when it changes
+
+  useEffect(() => {
+    // Log the updated matchInfo
     console.log(matchInfo);
-  }, []);
+  }, [matchInfo]); // Add matchInfo as a dependency to rerun the effect when it changes
 
   return (
     <div className="w-full md:w-[350px] lg:w-[800px] m-auto">
@@ -95,8 +97,18 @@ const FixturePage = () => {
         />
       </div>
       <div>
-        <div style={headingStyle}>Match Week 1</div>
-        <div style={DateStyle}>4 November 2023</div>
+        <div style={headingStyle}>
+          {matchInfo.length > 0 && `Match Week ${matchInfo[0].gameweek}`}
+        </div>
+        <div style={DateStyle}>
+          {matchInfo.length > 0 &&
+            new Date(matchInfo[0].matchDatetime).toLocaleDateString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+        </div>
       </div>
       <Box sx={{ width: "100%" }}>
         <Paper>
@@ -117,7 +129,6 @@ const FixturePage = () => {
         </Stack>
       </Box>
       <div style={containerStyle}>
-        
         <ColorButtons />
       </div>
     </div>

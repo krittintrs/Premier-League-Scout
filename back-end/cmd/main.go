@@ -51,7 +51,7 @@ func main() {
 	matchEventhdl.SetupMatchEventRoutes(mainRouter)
 
 	// Start the server with the main router
-	http.ListenAndServe("localhost:80", mainRouter)
+	http.ListenAndServe("localhost:80", &CORSRouterDecorator{mainRouter})
 
 	fmt.Println("Server is running on :80")
 }
@@ -63,4 +63,24 @@ func InitDB() {
 	}
 }
 
+type CORSRouterDecorator struct {
+	R *mux.Router
+}
 
+func (c *CORSRouterDecorator) ServeHTTP(rw http.ResponseWriter,
+	req *http.Request) {
+	if origin := req.Header.Get("Origin"); origin != "" {
+		rw.Header().Set("Access-Control-Allow-Origin", origin)
+		rw.Header().Set("Access-Control-Allow-Methods",
+			"POST, GET, OPTIONS, PUT, DELETE")
+		rw.Header().Set("Access-Control-Allow-Headers",
+			"Accept, Accept-Language,"+
+				" Content-Type, YourOwnHeader")
+	}
+	// Stop here if its Preflighted OPTIONS request
+	if req.Method == "OPTIONS" {
+		return
+	}
+
+	c.R.ServeHTTP(rw, req)
+}

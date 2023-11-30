@@ -22,10 +22,10 @@ func NewMatchInfoHandler(matchInfosrv ports.MatchInfoService) *matchInfoHandler 
 
 func (matchInfohdl *matchInfoHandler) SetupMatchInfoRoutes(router *mux.Router) {
 	// Use a consistent trailing slash for paths
-	router.HandleFunc("/matchInfo", matchInfohdl.GetMatchInfo).Methods("GET")
-	router.HandleFunc("/matchInfo/{id}", matchInfohdl.GetMatchInfoByID).Methods("GET")
 	router.HandleFunc("/matchInfo/gw/{gw}", matchInfohdl.GetMatchInfoByGameweek).Methods("GET")
 	router.HandleFunc("/matchInfo/gw", matchInfohdl.GetCurrentGameweek).Methods("GET")
+	router.HandleFunc("/matchInfo", matchInfohdl.GetMatchInfo).Methods("GET")
+	router.HandleFunc("/matchInfo/{id}", matchInfohdl.GetMatchInfoByID).Methods("GET")
 	router.HandleFunc("/matchInfo/{id}", matchInfohdl.UpdateMatchInfo).Methods("PUT")
 }
 
@@ -75,7 +75,7 @@ func (matchInfohdl *matchInfoHandler) GetMatchInfoByGameweek(w http.ResponseWrit
 func (matchInfohdl *matchInfoHandler) GetCurrentGameweek(w http.ResponseWriter, r *http.Request) {
 	// get current gameweek
 	w.Header().Set("Content-Type", "application/json")
-	
+
 	gameweek, err := matchInfohdl.matchInfosrv.GetCurrentGameweek()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
