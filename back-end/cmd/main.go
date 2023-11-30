@@ -26,12 +26,14 @@ func main() {
 	playerRepo := repository.NewPlayerRepo(db)
 	lineupRepo := repository.NewLineupRepo(db)
 	matchEventRepo := repository.NewMatchEventRepo(db)
+	userRepo := repository.NewUserRepository(db)
 
 	teamsrv := services.NewTeamService(teamRepo)
 	matchInfosrv := services.NewMatchInfoService(matchInfoRepo)
 	playersrv := services.NewPlayerService(playerRepo)
 	lineupsrv := services.NewLineupService(lineupRepo)
 	matchEventsrv := services.NewMatchEventService(matchEventRepo)
+	usersrv := services.NewUserService(userRepo)
 
 	// Create a new main router
 	mainRouter := mux.NewRouter()
@@ -42,6 +44,7 @@ func main() {
 	playerhdl := handlers.NewPlayerHandler(playersrv)
 	lineuphdl := handlers.NewlineupHandler(lineupsrv)
 	matchEventhdl := handlers.NewMatchEventHandler(matchEventsrv)
+	userhdl := handlers.NewUserHandler(usersrv)
 
 	// Set up routes for both team and matchinfo handlers
 	teamhdl.SetupTeamRoutes(mainRouter)
@@ -49,20 +52,21 @@ func main() {
 	playerhdl.SetupPlayerRoutes(mainRouter)
 	lineuphdl.SetupLineupRoutes(mainRouter)
 	matchEventhdl.SetupMatchEventRoutes(mainRouter)
+	userhdl.SetupUserRoutes(mainRouter)
 
 	// Create a channel to wait for the server to finish
-    done := make(chan bool)
+	done := make(chan bool)
 
-    // Start the server in a goroutine
-    go func() {
-        if err := http.ListenAndServe("localhost:8080", mainRouter); err != nil {
-            fmt.Printf("Server error: %v\n", err)
-        }
-        done <- true
-    }()
+	// Start the server in a goroutine
+	go func() {
+		if err := http.ListenAndServe("localhost:8080", mainRouter); err != nil {
+			fmt.Printf("Server error: %v\n", err)
+		}
+		done <- true
+	}()
 
-    // Block until the server finishes or an interrupt signal is received
-    <-done
+	// Block until the server finishes or an interrupt signal is received
+	<-done
 }
 
 func InitDB() {

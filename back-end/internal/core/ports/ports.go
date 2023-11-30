@@ -63,3 +63,14 @@ type MatchEventService interface {
 	UpdateMatchEvent(matchEvent model.MatchEvent) error
 	DeleteMatchEvent(id string) error
 }
+
+type UserRepository interface {
+	FindByUsername(username string) (model.User, error)
+	AddUser(user model.User) (int64, error)
+}
+
+type UserService interface {
+	GetUserByUsername(username string) (model.User, error)
+	RegisterUser(user *model.User) (int64, error)
+	AuthenticateUser(username string, password []byte) (model.User, error)
+}
