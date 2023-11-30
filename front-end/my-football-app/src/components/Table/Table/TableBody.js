@@ -20,13 +20,10 @@ const TableBody = ({ clubData, handleOpenModal, setModalData }) => {
             </span>
             <span>{el.name}</span>
           </td>
-          <td>{el.played}</td>
+
           <td>{el.won}</td>
           <td>{el.draw}</td>
           <td>{el.lost}</td>
-          <td>{el.gf}</td>
-          <td>{el.ga}</td>
-          <td>{el.gd > 0 ? `+${el.gd}` : el.gd}</td>
           <td>
             <strong>{el.points}</strong>
           </td>
@@ -63,4 +60,54 @@ const TableBody = ({ clubData, handleOpenModal, setModalData }) => {
   return <ClubList />;
 };
 
-export default TableBody;
+const Headers = [
+  {
+    id: 0,
+    title: "Position",
+  },
+  {
+    id: 1,
+    title: "Club",
+  },
+  {
+    id: 2,
+    title: "Played",
+  },
+  {
+    id: 3,
+    title: "Won",
+  },
+  {
+    id: 4,
+    title: "Drawn",
+  },
+  {
+    id: 5,
+    title: "Lost",
+  },
+ 
+  {
+    id: 6,
+    title: "Points",
+  },
+
+  {
+    id: 7,
+    title: "Form",
+  },
+];
+
+const TableHead = () => {
+  return (
+    <thead>
+      <tr>
+        {Headers.map((el) => (
+          <th key={el.id}>{el.title}</th>
+        ))}
+      </tr>
+    </thead>
+  );
+};
+
+
+export default Table;

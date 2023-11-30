@@ -129,17 +129,14 @@ function MatchDetails() {
     <div>
       <Stack direction={'row'} justifyContent="center" spacing={20} sx={{ width: '100%', Height: '100%' }}>
         <Item>Team Statistic</Item>
-    
-          <Item>
-          <item>Team Line Up </item>
-            
-              <ListDividers />
-           
-          </Item>
-      </Stack>
-    </div>
-  );
-
+        <Link to="/Lineup">
+        <Item> Team Line Up
+          <ListDividers />
+        </Item>
+      </Link>
+    </Stack>
+  </div>
+);
 const style = {
   width: '100%',
   maxWidth: 360,
