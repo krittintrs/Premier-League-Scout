@@ -1,6 +1,6 @@
-import { CLUB_LIST } from "../../Constants/Constants"
+import { CLUB_LIST } from "../../Constants"
 
-export const clubList = () => {
+export const ClubAction = () => {
     return{
         type: CLUB_LIST
     }

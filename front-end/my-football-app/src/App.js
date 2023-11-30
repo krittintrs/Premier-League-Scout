@@ -5,6 +5,7 @@ import FixturePage from './components/Pages/fixturePage';
 import MatchDetails from './components/Pages/MatchDetails';
 import AddMatchEvent from './components/Pages/AddMatchEvent';
 import LineUp from './components/Pages/LineUp';
+import ScoreBoard from './components/Pages/ScoreBoard';
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       <Route path="/" element={<FixturePage />} />
       <Route path="/MatchDetails" element={<MatchDetails />} />
       <Route path="/AddMatchEvent" element={<AddMatchEvent/>} />
-      <Route path="/LineUp" element={<LineUp />} />
+      <Route path="/LineUp" element={<LineUp/>} />
+      <Route path="/ScoreBoard" element={<ScoreBoard/>} />
     </Routes>
   );
 }

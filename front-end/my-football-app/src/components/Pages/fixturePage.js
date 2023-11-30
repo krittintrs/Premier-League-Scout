@@ -1,12 +1,14 @@
 import React from "react";
 import ColorButtons from '../FixturePage/ColorButtons'; // Import the Button component
+import CalendarItem from "../FixturePage/CalendarItem";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import MatchCard from '../FixturePage/MatchCard';
 import { useNavigate } from 'react-router-dom';
-
+import Navbar from "../NavBar";
+import { CarouselItem } from "reactstrap";
 
 const containerStyle = {
     // Define your styles for the container here
@@ -55,6 +57,7 @@ const FixturePage = () => {
   };
 
   return (
+    
     <div className="w-full md:w-[350px] lg:w-[800px] m-auto">
       <div style={headerStyle}>
         <img
@@ -66,6 +69,10 @@ const FixturePage = () => {
       <div>
         <div style={headingStyle}>Match Week 1</div>
         <div style={DateStyle}>4 November 2023</div>
+      </div>
+      <div style={containerStyle}>
+        
+        <CalendarItem/>
       </div>
       <Box sx={{ width: "100%" }}>
         <Paper>
