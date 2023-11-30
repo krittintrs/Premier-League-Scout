@@ -89,9 +89,9 @@ export const PostLineups = async (lineup) => {
     }
     }
 
-export const GetPlayers = async () => {
+export const GetPlayers = async (teamid) => {
     try {
-        const data = await adminApi.GetPlayers();
+        const data = await adminApi.GetPlayers(teamid);
         // Add any additional processing logic here
         return data;
     } catch (error) {

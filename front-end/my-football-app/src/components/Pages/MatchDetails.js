@@ -16,6 +16,11 @@ import { handleApiError } from "../../utils/apiUtils";
 import { useEffect, useState } from "react";
 import MatchDetail from "../MatchDetailPage/matchDetail";
 import LineUpModal from "./LineUp";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { height } from "@mui/system";
 
 function MatchDetails() {
   const { matchId } = useParams();
@@ -26,18 +31,6 @@ function MatchDetails() {
     alignItems: "center",
     justifyContent: "center",
     minHeight: "100vh",
-  };
-
-  const headerStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    height: "100%",
-    padding: "10px",
-    background:
-      "linear-gradient(0deg, rgba(127.50, 127.50, 127.50, 0.60) 0%, rgba(127.50, 127.50, 127.50, 0.60) 100%)",
-    borderRadius: 5,
   };
 
   const logoStyle = {
@@ -69,35 +62,33 @@ function MatchDetails() {
   const [team, setTeam] = useState();
   const [homeLineup, setHomeLineup] = useState([]);
   const [awayLineup, setAwayLineup] = useState([]);
-  const [availableHomePlayers, setAvailableHomePlayers] = useState([]);
-  const [availableAwayPlayers, setAvailableAwayPlayers] = useState([]);
-  const [homeselectedPlayers, setHomeSelectedPlayers] = useState([]);
-  const [awayselectedPlayers, setAwaySelectedPlayers] = useState([]);
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [homeModalOpen, setHomeModalOpen] = useState(false);
+  const [awayModalOpen, setAwayModalOpen] = useState(false);
 
-  const addHomeToLineup = (player) => {
-    setHomeLineup((prevLineup) => [...prevLineup, player]);
-    removeHomeFromSelected(player);
+  const handleHomeOpen = () => {
+    setHomeModalOpen(true);
   };
 
-  const addAwayToLineup = (player) => {
-    setAwayLineup((prevLineup) => [...prevLineup, player]);
-    removeAwayFromSelected(player);
+  const handleAwayOpen = () => {
+    setAwayModalOpen(true);
   };
 
-  const removeHomeFromSelected = (player) => {
-    setHomeSelectedPlayers((prevSelected) =>
-      prevSelected.filter((selected) => selected !== player)
-    );
+  const handleHomeClose = () => {
+    setHomeModalOpen(false);
   };
 
-  const removeAwayFromSelected = (player) => {
-    setAwaySelectedPlayers((prevSelected) =>
-      prevSelected.filter((selected) => selected !== player)
-    );
+  const handleAwayClose = () => {
+    setAwayModalOpen(false);
+  };
+
+  const handleCollapseOpen = () => {
+    setOpen(true);
+  };
+
+  const handleCollapseClose = () => {
+    setOpen(false);
   };
 
   const loadMatchInfo = async () => {
@@ -126,31 +117,6 @@ function MatchDetails() {
     }
   };
 
-  const handleHomeDone = () => {
-    // TODO: Implement logic to post lineup to the database
-
-    console.log("Lineup Posted:", homeLineup);
-    // Reset selected players after posting lineup
-    setHomeSelectedPlayers([]);
-  };
-
-  const handleAwayDone = () => {
-    // TODO: Implement logic to post lineup to the database
-
-    console.log("Lineup Posted:", awayLineup);
-    setAwaySelectedPlayers([]);
-  };
-
-  const handleHomeCancel = () => {
-    // Reset selected players without adding to lineup
-    setHomeSelectedPlayers([]);
-  };
-
-  const handleAwayCancel = () => {
-    // Reset selected players without adding to lineup
-    setAwaySelectedPlayers([]);
-  };
-
   const loadLineup = async () => {
     try {
       // Check if matchInfo is defined before making the request
@@ -167,30 +133,6 @@ function MatchDetails() {
 
         console.log("Home Lineup:", homeLineup);
         console.log("Away Lineup:", awayLineup);
-      } else {
-        // Handle the case where matchInfo is undefined or homeTeamId is missing
-        console.error("Match information is undefined or missing homeTeamId");
-      }
-    } catch (error) {
-      handleApiError(error);
-    }
-  };
-
-  const loadPlayers = async (side) => {
-    try {
-      // Check if matchInfo is defined before making the request
-      if (matchInfo && matchInfo.homeTeamID) {
-        if(side === "HOME") {
-          console.log("teamid: " + matchInfo.homeTeamID);
-          const data = await adminService.GetPlayers(matchInfo.homeTeamID);
-          setAvailableHomePlayers(data);
-          console.log(data);
-        } else {
-          console.log("teamid: " + matchInfo.awayTeamID);
-          const data = await adminService.GetPlayers(matchInfo.awayTeamID);
-          setAvailableAwayPlayers(data);
-          console.log(data);
-        }
       } else {
         // Handle the case where matchInfo is undefined or homeTeamId is missing
         console.error("Match information is undefined or missing homeTeamId");
@@ -261,18 +203,37 @@ function MatchDetails() {
           elevation={3}
           sx={{ p: 2, textAlign: "center", mb: 2, width: "35%" }}
         >
-          <Button onClick={handleOpen}>Open modal</Button>
+          <Button variant="contained" disableElevation onClick={handleHomeOpen}>
+            Add Lineup
+          </Button>
           <LineUpModal
-            open={open}
-            handleClose={handleClose}
-            lineup={homeLineup}
+            open={homeModalOpen}
+            handleClose={handleHomeClose}
+            side="Home Team"
+            lineup={homeLineup?.length ? homeLineup : []}
+            matchInfo={matchInfo || undefined}
           />
           <h2 className="team-name">
             {"Home Lineups: " + matchInfo?.homeTeamName}
           </h2>
-          {homeLineup.map((player, index) => (
-            <PlayerDividers key={index} player={player} />
-          ))}
+          <Accordion>
+            <AccordionSummary
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ height: "40px" }}
+              expandIcon={<ExpandMoreIcon />}
+            >
+              {/* Add your tab content here */}
+              <span>
+                <h4>Open Home Team Lineups</h4>
+              </span>
+            </AccordionSummary>
+            <AccordionDetails>
+              {homeLineup.map((player, index) => (
+                <PlayerDividers key={index} player={player} />
+              ))}
+            </AccordionDetails>
+          </Accordion>
         </Paper>
 
         {/* Away Team Lineup */}
@@ -280,12 +241,37 @@ function MatchDetails() {
           elevation={3}
           sx={{ p: 2, textAlign: "center", mb: 2, width: "35%" }}
         >
+          <Button variant="contained" disableElevation onClick={handleAwayOpen}>
+            Add Lineup
+          </Button>
+          <LineUpModal
+            open={awayModalOpen}
+            handleClose={handleAwayClose}
+            side="Away Team"
+            lineup={awayLineup?.length ? awayLineup : []}
+            matchInfo={matchInfo || undefined}
+          />
           <h2 className="team-name">
             {"Away Lineups: " + matchInfo?.awayTeamName}
           </h2>
-          {awayLineup.map((player, index) => (
-            <PlayerDividers key={index} player={player} />
-          ))}
+          <Accordion>
+            <AccordionSummary
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+              sx={{ height: "40px" }}
+              expandIcon={<ExpandMoreIcon />}
+            >
+              {/* Add your tab content here */}
+              <span>
+                <h4>Open Away Team Lineups</h4>
+              </span>
+            </AccordionSummary>
+            <AccordionDetails>
+              {awayLineup.map((player, index) => (
+                <PlayerDividers key={index} player={player} />
+              ))}
+            </AccordionDetails>
+          </Accordion>
         </Paper>
       </Stack>
     );
@@ -330,12 +316,15 @@ function MatchDetails() {
     : "";
 
   return (
-    <div className="w-full md:w-[350px] lg:w-[800px] m-auto">
-      <div style={headerStyle}>
+    <div
+      style={{ height: "100vh", width: "100vw", paddingTop: 3 }}
+      className="w-full md:w-[350px] lg:w-[800px] m-auto "
+    >
+      <div style={{height:"20vh", width: "100vw"}}>
         <img
-          style={logoStyle}
           src="https://wallpapercave.com/wp/wp8859298.jpg"
           alt="Header Image"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       </div>
       <div>
