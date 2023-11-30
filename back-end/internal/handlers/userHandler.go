@@ -43,6 +43,12 @@ func (h *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	_, err = h.UserService.GetUserByUsername(newUser.Username)
+	if err == nil {
+		http.Error(w, "User already exist", http.StatusBadRequest)
+		return
+	}
+
 	_, err = h.UserService.RegisterUser(&newUser)
 	if err != nil {
 		http.Error(w, "Failed to register user", http.StatusInternalServerError)
