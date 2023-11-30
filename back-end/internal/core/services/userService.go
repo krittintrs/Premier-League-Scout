@@ -34,7 +34,7 @@ func (s *UserService) RegisterUser(user *model.User) (int64, error) {
 	}
 
 	// Replace the plain text password with the hashed version
-	user.Password = hashedPassword
+	user.Password = string(hashedPassword)
 
 	if user.Role == "" {
 		user.Role = model.USER_ROLE
@@ -43,7 +43,7 @@ func (s *UserService) RegisterUser(user *model.User) (int64, error) {
 	return s.UserRepository.AddUser(*user)
 }
 
-func (s *UserService) AuthenticateUser(username string, password []byte) (model.User, error) {
+func (s *UserService) AuthenticateUser(username string, password string) (model.User, error) {
 	// Retrieve user from the database based on the username
 	user, err := s.UserRepository.FindByUsername(username)
 	if err != nil {
@@ -51,7 +51,7 @@ func (s *UserService) AuthenticateUser(username string, password []byte) (model.
 	}
 
 	// Compare the provided password with the hashed password in the database
-	err = bcrypt.CompareHashAndPassword(user.Password, []byte(password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		return model.User{}, errors.New("Invalid password")
 	}

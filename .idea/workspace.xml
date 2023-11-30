@@ -6,16 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e4d7cbaf-ec8e-4c19-bcfb-e510d6b5eecb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/.env" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/database/mysql/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/database/mysql/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/internal/core/repository/lineupRepo.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/repository/lineupRepo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/internal/core/repository/matchEventRepo.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/repository/matchEventRepo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/internal/core/repository/matchInfoRepo.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/repository/matchInfoRepo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/internal/core/repository/playerRepo.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/repository/playerRepo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/internal/core/repository/teamRepo.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/repository/teamRepo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/internal/core/repository/userRepo.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/repository/userRepo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/internal/core/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/internal/core/ports/ports.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/ports/ports.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/internal/core/services/userService.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/services/userService.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/internal/handlers/userHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/handlers/userHandler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +44,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
-    "Go Build.go build back-end/cmd.executor": "Run",
+    "Go Build.go build back-end/cmd.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
@@ -147,23 +140,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/back-end/internal/core/services/userService.go</url>
-          <line>53</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/back-end/internal/core/services/userService.go</url>
           <line>47</line>
           <option name="timeStamp" value="28" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/back-end/internal/core/services/userService.go</url>
-          <line>30</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/back-end/internal/core/services/userService.go</url>
-          <line>42</line>
-          <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/back-end/internal/handlers/matchInfoHandler.go</url>
@@ -179,6 +157,11 @@
           <url>file://$PROJECT_DIR$/back-end/internal/core/repository/matchInfoRepo.go</url>
           <line>32</line>
           <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/back-end/internal/handlers/userHandler.go</url>
+          <line>87</line>
+          <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

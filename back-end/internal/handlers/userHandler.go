@@ -80,7 +80,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var credentials model.User
 
 	if err := json.NewDecoder(r.Body).Decode(&credentials); err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		http.Error(w, "Invalid request payload: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 

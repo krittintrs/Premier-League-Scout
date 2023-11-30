@@ -5,7 +5,7 @@ import "errors"
 type User struct {
 	ID       int      `json:"id"`
 	Username string   `json:"username"`
-	Password []byte   `json:"password"`
+	Password string   `json:"password"`
 	Role     UserRole `json:"role"`
 }
 
