@@ -24,6 +24,7 @@ func main() {
 	lineupRepo := repository.NewLineupRepo(masterDB)
 	matchEventRepo := repository.NewMatchEventRepo(masterDB)
 	userRepo := repository.NewUserRepository(masterDB)
+	leagueTableRepo := repository.NewLeagueTableRepo(masterDB)
 
 	teamsrv := services.NewTeamService(teamRepo)
 	matchInfosrv := services.NewMatchInfoService(matchInfoRepo)
@@ -31,6 +32,7 @@ func main() {
 	lineupsrv := services.NewLineupService(lineupRepo)
 	matchEventsrv := services.NewMatchEventService(matchEventRepo)
 	usersrv := services.NewUserService(userRepo)
+	leagueTablesrv := services.NewLeagueTableService(leagueTableRepo)
 
 	// Create a new main router
 	mainRouter := mux.NewRouter()
@@ -42,6 +44,7 @@ func main() {
 	lineuphdl := handlers.NewlineupHandler(lineupsrv)
 	matchEventhdl := handlers.NewMatchEventHandler(matchEventsrv)
 	userhdl := handlers.NewUserHandler(usersrv, masterDB)
+	leagueTablehdl := handlers.NewLeagueTableHandler(leagueTablesrv)
 
 	// Set up routes for both team and matchinfo handlers
 	teamhdl.SetupTeamRoutes(mainRouter)
@@ -50,6 +53,7 @@ func main() {
 	lineuphdl.SetupLineupRoutes(mainRouter)
 	matchEventhdl.SetupMatchEventRoutes(mainRouter)
 	userhdl.SetupUserRoutes(mainRouter)
+	leagueTablehdl.SetupLeagueTableRoutes(mainRouter)
 
 	// Create a channel to wait for the server to finish
 	done := make(chan bool)

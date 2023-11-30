@@ -8,17 +8,17 @@ import (
 	"back-end/internal/core/ports"
 )
 
-type UserService struct {
-	UserRepository ports.UserRepository
+type userService struct {
+	userRepository ports.UserRepository
 }
 
-func NewUserService(userRepo ports.UserRepository) *UserService {
-	return &UserService{UserRepository: userRepo}
+func NewUserService(userRepo ports.UserRepository) *userService {
+	return &userService{userRepository: userRepo}
 }
 
 // GetUserByUsername retrieves a user by their username
-func (s *UserService) GetUserByUsername(username string) (model.User, error) {
-	user, err := s.UserRepository.FindByUsername(username)
+func (s *userService) GetUserByUsername(username string) (model.User, error) {
+	user, err := s.userRepository.FindByUsername(username)
 	if err != nil {
 		return model.User{}, err
 	}
@@ -26,7 +26,7 @@ func (s *UserService) GetUserByUsername(username string) (model.User, error) {
 }
 
 // RegisterUser registers a new user
-func (s *UserService) RegisterUser(user *model.User) (int64, error) {
+func (s *userService) RegisterUser(user *model.User) (int64, error) {
 	// Hash the user's password before storing it
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -40,12 +40,12 @@ func (s *UserService) RegisterUser(user *model.User) (int64, error) {
 		user.Role = model.USER_ROLE
 	}
 
-	return s.UserRepository.AddUser(*user)
+	return s.userRepository.AddUser(*user)
 }
 
-func (s *UserService) AuthenticateUser(username string, password string) (model.User, error) {
+func (s *userService) AuthenticateUser(username string, password string) (model.User, error) {
 	// Retrieve user from the database based on the username
-	user, err := s.UserRepository.FindByUsername(username)
+	user, err := s.userRepository.FindByUsername(username)
 	if err != nil {
 		return model.User{}, errors.New("User not found")
 	}
