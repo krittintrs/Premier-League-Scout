@@ -5,16 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4d7cbaf-ec8e-4c19-bcfb-e510d6b5eecb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back-end/internal/core/model/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/internal/core/repository/userRepo.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/internal/core/services/userService.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back-end/internal/handlers/userHandler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/user.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/back-end/database/mysql/database.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/back-end/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/back-end/internal/core/ports/ports.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/ports/ports.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/internal/core/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/internal/core/services/userService.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/core/services/userService.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back-end/internal/handlers/userHandler.go" beforeDir="false" afterPath="$PROJECT_DIR$/back-end/internal/handlers/userHandler.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +45,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultGoTemplateProperty": "Go File",
-    "Go Build.go build back-end/cmd.executor": "Debug",
+    "Go Build.go build back-end/cmd.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
@@ -64,6 +60,11 @@
     "nodejs_package_manager_path": "npm"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/back-end/database/mysql" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="go build back-end/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="premier-league-scout" />
@@ -146,6 +147,21 @@
           <url>file://$PROJECT_DIR$/back-end/internal/core/services/userService.go</url>
           <line>47</line>
           <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/back-end/internal/core/services/userService.go</url>
+          <line>30</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/back-end/internal/core/services/userService.go</url>
+          <line>42</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/back-end/cmd/main.go</url>
+          <line>10</line>
+          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

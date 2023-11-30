@@ -12,13 +12,13 @@ type User struct {
 type UserRole string
 
 const (
-	ADMIN UserRole = "Admin"
-	USER  UserRole = "User"
+	ADMIN_ROLE UserRole = "admin"
+	USER_ROLE  UserRole = "user"
 )
 
 func (r UserRole) IsValid() bool {
 	switch r {
-	case ADMIN, USER:
+	case ADMIN_ROLE, USER_ROLE:
 		return true
 	default:
 		return false

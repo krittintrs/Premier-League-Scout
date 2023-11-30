@@ -37,7 +37,7 @@ func (s *UserService) RegisterUser(user *model.User) (int64, error) {
 	user.Password = hashedPassword
 
 	if user.Role == "" {
-		user.Role = model.USER
+		user.Role = model.USER_ROLE
 	}
 
 	return s.UserRepository.AddUser(*user)

@@ -1,23 +1,28 @@
 package handlers
 
 import (
+	"back-end/database/mysql"
+	"back-end/internal/core/model"
+	"back-end/internal/core/ports"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	"net/http"
-
-	"back-end/internal/core/model"
-	"back-end/internal/core/ports"
 )
 
 // UserHandler handles HTTP requests related to users.
 type UserHandler struct {
 	UserService ports.UserService
+	DB          *sql.DB
 }
 
 // NewUserHandler creates a new instance of UserHandler.
-func NewUserHandler(userService ports.UserService) *UserHandler {
-	return &UserHandler{UserService: userService}
+func NewUserHandler(userService ports.UserService, db *sql.DB) *UserHandler {
+	return &UserHandler{
+		UserService: userService,
+		DB:          db,
+	}
 }
 
 func (h *UserHandler) SetupUserRoutes(router *mux.Router) {
@@ -73,10 +78,18 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := h.UserService.AuthenticateUser(credentials.Username, credentials.Password)
+	var user model.User
+	user, err := h.UserService.AuthenticateUser(credentials.Username, credentials.Password)
 	if err != nil {
 		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
 		return
+	}
+
+	switch user.Role {
+	case model.USER_ROLE:
+		h.DB.Close()
+		h.DB = mysql.InitDB("user", "1234", "localhost:8889", "eplScout")
+	default:
 	}
 
 	w.WriteHeader(http.StatusOK)

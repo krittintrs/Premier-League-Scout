@@ -1,7 +1,7 @@
 package main
 
 import (
-	"database/sql"
+	"back-end/database/mysql"
 	"fmt"
 	"net/http"
 
@@ -15,11 +15,8 @@ import (
 	"back-end/internal/handlers"
 )
 
-var db *sql.DB
-var err error
-
 func main() {
-	InitDB()
+	db := mysql.InitDB("root", "root", "localhost:8889", "eplScout")
 
 	teamRepo := repository.NewTeamRepo(db)
 	matchInfoRepo := repository.NewMatchInfoRepo(db)
@@ -44,7 +41,7 @@ func main() {
 	playerhdl := handlers.NewPlayerHandler(playersrv)
 	lineuphdl := handlers.NewlineupHandler(lineupsrv)
 	matchEventhdl := handlers.NewMatchEventHandler(matchEventsrv)
-	userhdl := handlers.NewUserHandler(usersrv)
+	userhdl := handlers.NewUserHandler(usersrv, db)
 
 	// Set up routes for both team and matchinfo handlers
 	teamhdl.SetupTeamRoutes(mainRouter)
@@ -67,13 +64,6 @@ func main() {
 
 	// Block until the server finishes or an interrupt signal is received
 	<-done
-}
-
-func InitDB() {
-	db, err = sql.Open("mysql", "root:root@tcp(localhost:8889)/eplScout") // fix this
-	if err != nil {
-		panic(err.Error())
-	}
 }
 
 type CORSRouterDecorator struct {
