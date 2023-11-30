@@ -13,7 +13,6 @@ function App() {
       <Route path="/" element={<FixturePage />} />
       <Route path="/MatchDetails" element={<MatchDetails />} />
       <Route path="/AddMatchEvent" element={<AddMatchEvent/>} />
-      
       <Route path="/login" element={<LoginPage />} />
     </Routes>
   );
