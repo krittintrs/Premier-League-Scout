@@ -8,15 +8,15 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 
-	// "github.com/gorilla/mux"
-
+	"back-end/config"
 	"back-end/internal/core/repository"
 	"back-end/internal/core/services"
 	"back-end/internal/handlers"
 )
 
 func main() {
-	db := mysql.InitDB("root", "root", "localhost:3306", "eplScout")
+
+	db := mysql.InitDB(config.AdminUser, config.AdminPassword, config.LocalDatabaseUrl, "eplScout")
 
 	teamRepo := repository.NewTeamRepo(db)
 	matchInfoRepo := repository.NewMatchInfoRepo(db)
@@ -56,7 +56,7 @@ func main() {
 
 	// Start the server in a goroutine
 	go func() {
-		if err := http.ListenAndServe("localhost:80", &CORSRouterDecorator{mainRouter}); err != nil {
+		if err := http.ListenAndServe(config.LocalAPIUrl, &CORSRouterDecorator{mainRouter}); err != nil {
 			fmt.Printf("Server error: %v\n", err)
 		}
 		done <- true

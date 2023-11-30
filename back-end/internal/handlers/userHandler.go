@@ -1,14 +1,16 @@
 package handlers
 
 import (
+	"back-end/config"
 	"back-end/database/mysql"
 	"back-end/internal/core/model"
 	"back-end/internal/core/ports"
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // UserHandler handles HTTP requests related to users.
@@ -88,7 +90,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	switch user.Role {
 	case model.USER_ROLE:
 		h.DB.Close()
-		h.DB = mysql.InitDB("user", "1234", "localhost:8889", "eplScout")
+		h.DB = mysql.InitDB(config.UserUser, config.UserPassword, config.LocalDatabaseUrl, "eplScout")
 	default:
 	}
 
