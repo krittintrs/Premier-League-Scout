@@ -1,0 +1,75 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(77, 77, 77, 0.7);
+  transition: all 0.4s;
+
+  .modal__content {
+    border-radius: 4px;
+    position: relative;
+    width: 600px;
+    max-width: 90%;
+    height: 200px;
+    background: $white;
+    padding: 16px;
+
+    .modal__title {
+      padding-bottom: 10px;
+      border-bottom: 1px solid $borderColor;
+      h1 {
+        span {
+          font-size: $header;
+          font-weight: $list-weight;
+
+          img {
+            width: 30px;
+            margin-bottom: -10px;
+          }
+        }
+      }
+    }
+
+    .modal__body {
+      margin: 10px 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      grid-gap: 0px;
+
+      .col {
+        font-size: $header;
+        padding: 16px;
+        border: 1px solid $borderColor;
+        cursor: pointer;
+        transition: 0.2s ease;
+        &:hover{
+          background: $hoverColor;
+        border: 1px solid $hoverColor
+
+        }
+      }
+    }
+
+    .modal__close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-size: 30px;
+      border: none;
+      color: $primaryColor;
+      text-decoration: none;
+      cursor: pointer;
+      background: none;
+      transition: 0.2s ease;
+      &:hover {
+        transform: rotate(90deg);
+      }
+    }
+  }
+}
