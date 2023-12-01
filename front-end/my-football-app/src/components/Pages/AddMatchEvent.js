@@ -24,7 +24,7 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 
 const InnerPaper = styled(Paper)(({ theme }) => ({
   width: 1250,
-  height: 250,
+  height: 320,
   padding: theme.spacing(2),
   ...theme.typography.body2,
   textAlign: "left",
@@ -163,10 +163,22 @@ const AddMatchEvent = () => {
     return true;
   };
 
-  const onSave = () => {
+  const onSave = async() => {
     if (validateEventDetails()) {
-      // Call your save function or API request here
-      // ...
+      try {
+        // Assuming eventDetails is properly structured according to your API requirements
+        console.log(eventDetails);
+        const response = await adminService.PostMatchEvents(eventDetails);
+
+        // Handle the response as needed
+        console.log("PostMatchEvents response:", response);
+
+        // Redirect or perform other actions upon successful save
+        navigate("/MatchDetails");
+      } catch (error) {
+        // Handle errors from the API call
+        console.error("Error while saving match event:", error);
+      }
     } else {
       // Display an error or handle the validation failure
       console.error("Validation failed");
@@ -246,6 +258,7 @@ const AddMatchEvent = () => {
       </DemoPaper>
     </div>
   );
+
 };
 const generateInnerPaperContent = (
   team,
@@ -266,6 +279,17 @@ const generateInnerPaperContent = (
   const contentMap = {
     score: (
       <InnerPaper key="score">
+        <Stack direction="row" spacing={2}>
+            <Typography variant="h6" gutterBottom>
+              <h3>Time :</h3>
+            </Typography>
+            <TextField
+              type="text"
+              name="time"
+              value={eventDetails.time}
+              onChange={handleInputChange}
+            />
+          </Stack>
         {/* ... (existing content) */}
         <Stack direction="row" spacing={2}>
           <Typography variant="h6" gutterBottom>
@@ -320,6 +344,17 @@ const generateInnerPaperContent = (
     ),
     sub: (
       <InnerPaper key="sub">
+        <Stack direction="row" spacing={2}>
+            <Typography variant="h6" gutterBottom>
+              <h3>Time :</h3>
+            </Typography>
+            <TextField
+              type="text"
+              name="time"
+              value={eventDetails.time}
+              onChange={handleInputChange}
+            />
+          </Stack>
         {/* ... (existing content) */}
         <Stack direction="row" spacing={2}>
           <Typography variant="h6" gutterBottom>
@@ -374,6 +409,17 @@ const generateInnerPaperContent = (
     ),
     injured: (
       <InnerPaper key="injured">
+        <Stack direction="row" spacing={2}>
+            <Typography variant="h6" gutterBottom>
+              <h3>Time :</h3>
+            </Typography>
+            <TextField
+              type="text"
+              name="time"
+              value={eventDetails.time}
+              onChange={handleInputChange}
+            />
+          </Stack>
         {/* ... (existing content) */}
         <Stack direction="row" spacing={2}>
           <Typography variant="h6" gutterBottom>
@@ -404,6 +450,17 @@ const generateInnerPaperContent = (
     ),
     foul: (
       <InnerPaper key="foul">
+        <Stack direction="row" spacing={2}>
+            <Typography variant="h6" gutterBottom>
+              <h3>Time :</h3>
+            </Typography>
+            <TextField
+              type="text"
+              name="time"
+              value={eventDetails.time}
+              onChange={handleInputChange}
+            />
+          </Stack>
         {/* ... (existing content) */}
         <Stack direction="row" spacing={2}>
           <Typography variant="h6" gutterBottom>
