@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import * as adminService from "../../services/adminService";
 import { MenuItem, Stack, Button } from "@mui/material"; // Import necessary components from Material-UI
 import { handleApiError } from "../../utils/apiUtils";
+import PlayerModal from "../MatchDetailPage/playerModal";
 
 const LineUpModal = React.memo(
   ({ open, handleClose, side, lineup, matchInfo }) => {
@@ -16,6 +17,8 @@ const LineUpModal = React.memo(
     const [awaySelectedPlayers, setAwaySelectedPlayers] = useState([]);
     const [selectedPlayer, setSelectedPlayer] = useState("");
     const [post, setPost] = useState(false);
+
+    const [playerModalOpen, setPlayerModalOpen] = useState(false);
 
     const [homeLineup, setHomeLineup] = useState([]);
     const [awayLineup, setAwayLineup] = useState([]);
@@ -189,6 +192,11 @@ const LineUpModal = React.memo(
       }
     };
 
+    const handleOpenPlayerModal = () => {
+      setPlayerModalOpen(true);
+      console.log("Open Player Modal");
+    };
+
     useEffect(() => {
       console.log("matchInfo:", matchInfo);
       if (matchInfo) {
@@ -246,7 +254,7 @@ const LineUpModal = React.memo(
                     ))}
                 </select>
                 {side === "Home Team" && (
-                  <Item>
+                  <Item >
                     {homeLineup.map((player) => (
                       <Item key={player?.id}>
                         {`${player?.position} ${player?.lastName} ${player?.shirtNo}`}

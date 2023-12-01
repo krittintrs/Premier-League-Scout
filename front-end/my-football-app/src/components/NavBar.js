@@ -17,18 +17,13 @@ const NavBar = () => {
           <ListItemButton
             role="menuitem"
             component={Link}
-            to="/FixTurePage"
+            to="/"
             aria-label="Home"
           >
             Premier-League-Scout
           </ListItemButton>
         </ListItem>
         <Divider orientation="vertical" flexItem />
-        <ListItem role="none">
-          <ListItemButton component={Link} to="/LineUP">
-            LineUP
-          </ListItemButton>
-        </ListItem>
         <Divider orientation="vertical" flexItem />
         <ListItem role="none">
           <ListItemButton component={Link} to="/ScoreBoard">

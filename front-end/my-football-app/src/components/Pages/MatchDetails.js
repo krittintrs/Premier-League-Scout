@@ -21,6 +21,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { height } from "@mui/system";
+import PlayerModal from "../MatchDetailPage/playerModal";
 
 function MatchDetails() {
   const { matchId } = useParams();
@@ -67,6 +68,16 @@ function MatchDetails() {
   const [homeModalOpen, setHomeModalOpen] = useState(false);
   const [awayModalOpen, setAwayModalOpen] = useState(false);
 
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+
+  const handleCollapseOpen = (player) => {
+    setSelectedPlayer(player);
+  };
+
+  const handleCollapseClose = () => {
+    setSelectedPlayer(null);
+  };
+
   const handleHomeOpen = () => {
     setHomeModalOpen(true);
   };
@@ -81,14 +92,6 @@ function MatchDetails() {
 
   const handleAwayClose = () => {
     setAwayModalOpen(false);
-  };
-
-  const handleCollapseOpen = () => {
-    setOpen(true);
-  };
-
-  const handleCollapseClose = () => {
-    setOpen(false);
   };
 
   const loadMatchInfo = async () => {
@@ -230,7 +233,25 @@ function MatchDetails() {
             </AccordionSummary>
             <AccordionDetails>
               {homeLineup.map((player, index) => (
-                <PlayerDividers key={index} player={player} />
+                <div key={index}>
+                  {/* Button-like element triggering modal */}
+                  <div
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleCollapseOpen(player)}
+                  >
+                    <PlayerDividers player={player} />
+                  </div>
+                  {/* Modal */}
+                  {selectedPlayer && (
+                    <PlayerModal
+                      open={selectedPlayer !== null}
+                      handleClose={handleCollapseClose}
+                      player={selectedPlayer}
+                    />
+                  )}
+                </div>
               ))}
             </AccordionDetails>
           </Accordion>
@@ -320,7 +341,7 @@ function MatchDetails() {
       style={{ height: "100vh", width: "100vw", paddingTop: 3 }}
       className="w-full md:w-[350px] lg:w-[800px] m-auto "
     >
-      <div style={{height:"20vh", width: "100vw"}}>
+      <div style={{ height: "20vh", width: "100vw" }}>
         <img
           src="https://wallpapercave.com/wp/wp8859298.jpg"
           alt="Header Image"
