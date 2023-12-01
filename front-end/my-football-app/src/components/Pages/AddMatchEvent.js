@@ -293,16 +293,16 @@ const generateInnerPaperContent = (
     score: (
       <InnerPaper key="score">
         <Stack direction="row" spacing={2}>
-          <Typography variant="h6" gutterBottom>
-            <h3>Time :</h3>
-          </Typography>
-          <TextField
-            type="text"
-            name="minuteOccur"
-            value={eventDetails.time}
-            onChange={handleInputChange}
-          />
-        </Stack>
+            <Typography variant="h6" gutterBottom>
+              <h3>Time :</h3>
+            </Typography>
+            <TextField
+              type="text"
+              name="time"
+              value={eventDetails.time}
+              onChange={handleInputChange}
+            />
+          </Stack>
         {/* ... (existing content) */}
         <Stack direction="row" spacing={2}>
           <Typography variant="h6" gutterBottom>
@@ -316,13 +316,13 @@ const generateInnerPaperContent = (
             <option value="">Select Player</option>
             {activeTeam === "HOME" &&
               homeLineup.map((player) => (
-                <option key={player.playerID} value={player.playerID}>
+                <option key={player.id} value={player.id}>
                   {`${player.position} ${player.playerName} ${player.shirtNo}`}
                 </option>
               ))}
             {activeTeam === "AWAY" &&
               awayLineup.map((player) => (
-                <option key={player.playerID} value={player.playerID}>
+                <option key={player.id} value={player.id}>
                   {`${player.position} ${player.playerName} ${player.shirtNo}`}
                 </option>
               ))}
@@ -340,13 +340,13 @@ const generateInnerPaperContent = (
             <option value="">Select Player</option>
             {activeTeam === "HOME" &&
               homeLineup.map((player) => (
-                <option key={player.playerID} value={player.playerID}>
+                <option key={player.id} value={player.id}>
                   {`${player.position} ${player.playerName} ${player.shirtNo}`}
                 </option>
               ))}
             {activeTeam === "AWAY" &&
               awayLineup.map((player) => (
-                <option key={player.playerID} value={player.playerID}>
+                <option key={player.id} value={player.id}>
                   {`${player.position} ${player.playerName} ${player.shirtNo}`}
                 </option>
               ))}

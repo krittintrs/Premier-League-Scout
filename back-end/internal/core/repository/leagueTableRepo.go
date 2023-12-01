@@ -18,7 +18,7 @@ func NewLeagueTableRepo(mdb *mysql.MasterDB) *LeagueTableRepo {
 
 func (ltRepo *LeagueTableRepo) GetTableView() ([]model.LeagueTable, error) {
 	query := `
-		SELECT leaguetable.teamName, leaguetable.wins, leaguetable.draws, 
+		SELECT leaguetable.teamName, leaguetable.matchPlayed, leaguetable.wins, leaguetable.draws, 
 		       leaguetable.losses, leaguetable.goalFor, leaguetable.goalAgainst,
 		       leaguetable.goalDifference, leaguetable.points
 		FROM leaguetable
@@ -39,7 +39,7 @@ func (ltRepo *LeagueTableRepo) GetTableView() ([]model.LeagueTable, error) {
 		var goalDifference sql.NullInt64
 
 		err := result.Scan(
-			&leagueTable.TeamName, &leagueTable.Wins, &leagueTable.Draws,
+			&leagueTable.TeamName, &leagueTable.MatchPlayed, &leagueTable.Wins, &leagueTable.Draws,
 			&leagueTable.Losses, &goalFor, &goalAgainst,
 			&goalDifference, &leagueTable.Points,
 		)

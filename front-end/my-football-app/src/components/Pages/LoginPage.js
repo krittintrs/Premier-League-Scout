@@ -38,7 +38,7 @@ const Login = () => {
     try {
       const userData = await loginService.login(username, password);
       console.log('User logged in:', userData);
-      navigate('/');
+      navigate('/fixtures');
     } catch (error) {
       setError(error.response.data);
     }
