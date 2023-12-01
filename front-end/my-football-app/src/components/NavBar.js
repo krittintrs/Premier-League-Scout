@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   return (
-    <Box component="nav" aria-label="My site" sx={{ flexGrow: 1, paddingTop: 10 }}>
+    <Box component="nav" aria-label="My site" sx={{ flexGrow: 1, width: '100vw', position: 'sticky', top: 0, background: '#fff', zIndex: 1000 }}>
       <List role="menubar" sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <ListItem role="none">
           <Home />
@@ -48,12 +48,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-
-
-
-
-
-
-
-
