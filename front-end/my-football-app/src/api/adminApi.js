@@ -58,3 +58,21 @@ export const getTeam = async (teamid) => {
   const response = await axios.get(`${apiUrl}/team/${teamid}`);
   return response.data;
 }
+
+export const updateLineup = async (lineup) => {
+  const response = await axios.put(`${apiUrl}/lineup`, lineup, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+}
+
+export const deleteLineup = async (lineup) => {
+  const response = await axios.delete(`${apiUrl}/lineup`, lineup, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+}

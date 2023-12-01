@@ -288,7 +288,7 @@ function MatchDetails() {
               </span>
             </AccordionSummary>
             <AccordionDetails>
-              {homeLineup.map((player, index) => (
+              {awayLineup.map((player, index) => (
                 <div key={index}>
                   {/* Button-like element triggering modal */}
                   <div

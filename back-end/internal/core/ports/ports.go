@@ -41,11 +41,15 @@ type PlayerService interface {
 type LineupRepository interface {
 	GetLineupByMatchID(matchID string) ([]model.Lineup, error)
 	PostLineup(lineup model.Lineup) error
+	UpdateLineup(lineup model.Lineup) error
+	DeleteLineup(lineup model.Lineup) error
 }
 
 type LineupService interface {
 	GetLineupByMatchID(matchID string) ([]model.Lineup, error)
 	PostLineup(lineup model.Lineup) error
+	UpdateLineup(lineup model.Lineup) error
+	DeleteLineup(lineup model.Lineup) error
 }
 
 type MatchEventRepository interface {

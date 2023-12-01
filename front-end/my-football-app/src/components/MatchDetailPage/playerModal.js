@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Modal from "@mui/material/Modal";
+import * as adminService from "../../services/adminService";
 
-const PlayerModal = ({ open, handleClose, player, onUpdate, onDelete }) => {
+const PlayerModal = ({ open, handleClose, player }) => {
   const [shirtNo, setShirtNo] = useState(player.shirtNo);
+  const [lineup, setLineup] = useState(player);
 
   useEffect(() => {
     // Update shirtNo whenever the player changes
@@ -14,14 +16,42 @@ const PlayerModal = ({ open, handleClose, player, onUpdate, onDelete }) => {
   };
 
   const handleUpdate = () => {
-    onUpdate(player.id, shirtNo);
+    const updatedShirtNo = parseInt(shirtNo, 10);
+    const lineup = {
+      matchID: player.matchID,
+      playerID: player.playerID,
+      playName: player.playerName,
+      side: player.side,
+      shirtNo: updatedShirtNo,
+      position: player.position,
+    };
+    console.log(player);
+    console.log(lineup);
+    adminService.updateLineup(lineup);
     handleClose();
   };
 
   const handleDelete = () => {
-    onDelete(player.id);
+    const updatedShirtNo = parseInt(shirtNo, 10);
+    const lineup = {
+      matchID: player.matchID,
+      playerID: player.playerID,
+      playName: player.playerName,
+      side: player.side,
+      shirtNo: updatedShirtNo,
+      position: player.position,
+    };
+    console.log(player);
+    console.log(lineup);
+    adminService.deleteLineup(lineup);
     handleClose();
   };
+
+  useEffect(() => {
+    // Update shirtNo whenever the player changes
+    setShirtNo(player.shirtNo);
+    setLineup(player);
+  }, [player]);
 
   return (
     <Modal

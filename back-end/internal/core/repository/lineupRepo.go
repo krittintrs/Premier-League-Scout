@@ -56,3 +56,33 @@ func (lRepo *LineupRepository) PostLineup(lineup model.Lineup) error {
 
 	return nil
 }
+
+func (lRepo *LineupRepository) UpdateLineup(lineup model.Lineup) error {
+	query := `
+
+		UPDATE lineup
+		SET Side = ?, ShirtNo = ?, Position = ?
+		WHERE MatchID = ? and PlayerID = ?
+	`
+
+	_, err := lRepo.masterDB.DB.Exec(query, lineup.Side, lineup.ShirtNo, lineup.Position, lineup.MatchID, lineup.PlayerID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (lRepo *LineupRepository) DeleteLineup(lineup model.Lineup) error {
+	query := `
+		DELETE FROM lineup
+		WHERE MatchID = ? and PlayerID = ?
+	`
+
+	_, err := lRepo.masterDB.DB.Exec(query, lineup.MatchID, lineup.PlayerID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

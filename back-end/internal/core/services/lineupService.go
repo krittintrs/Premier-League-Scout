@@ -32,3 +32,21 @@ func (lineupSrv *LineupService) PostLineup(lineup model.Lineup) error {
 
 	return nil
 }
+
+func (lineupSrv *LineupService) UpdateLineup(lineup model.Lineup) error {
+	err := lineupSrv.lineupRepo.UpdateLineup(lineup)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (lineupSrv *LineupService) DeleteLineup(lineup model.Lineup) error {
+	err := lineupSrv.lineupRepo.DeleteLineup(lineup)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
