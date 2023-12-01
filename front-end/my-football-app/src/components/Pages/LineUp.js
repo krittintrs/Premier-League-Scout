@@ -50,18 +50,18 @@ const LineUpModal = React.memo(
             (player) => player.id === selectedPlayer.id
           );
           addHomeToLineup(playerToAdd);
-          console.log("lineup now:", homeLineup);
+          // console.log("lineup now:", homeLineup);
           const playerToRemove = availableHomePlayers.find(
             (player) => player.id === selectedPlayer.id
           );
           removeHomeFromSelected(playerToRemove);
         } else if (side === "Away Team") {
-          console.log("Available Away Players:", availableAwayPlayers);
+          // console.log("Available Away Players:", availableAwayPlayers);
           const playerToAdd = availableAwayPlayers.find(
             (player) => player.id === selectedPlayer.id
           );
           addAwayToLineup(playerToAdd);
-          console.log("Lineup now:", awayLineup);
+          // console.log("Lineup now:", awayLineup);
           const playerToRemove = availableAwayPlayers.find(
             (player) => player.id === selectedPlayer.id
           );
@@ -85,7 +85,7 @@ const LineUpModal = React.memo(
             shirtNo: homeLineup.shirtNo,
             position: homeLineup.position,
           }));
-          console.log("lineups:", lineups);
+          // console.log("lineups:", lineups);
           adminService.PostLineups(lineups);
         } else if (side === "Away Team") {
           const lineups = awayLineup.map((awayLineup) => ({
@@ -95,7 +95,7 @@ const LineUpModal = React.memo(
             shirtNo: awayLineup.shirtNo,
             position: awayLineup.position,
           }));
-          console.log("lineups:", lineups);
+          // console.log("lineups:", lineups);
           adminService.PostLineups(lineups);
         }
         handleClose();
@@ -141,7 +141,7 @@ const LineUpModal = React.memo(
         if (matchInfo && matchInfo.homeTeamID) {
           let data;
           if (side === "HOME") {
-            console.log("teamid: " + matchInfo.homeTeamID);
+            // console.log("teamid: " + matchInfo.homeTeamID);
             data = await adminService.GetPlayers(matchInfo.homeTeamID);
             setAvailableHomePlayers(data);
 
@@ -150,7 +150,7 @@ const LineUpModal = React.memo(
               setSelectedPlayer(data[0]);
             }
           } else if (side === "AWAY") {
-            console.log("teamid: " + matchInfo.awayTeamID);
+            // console.log("teamid: " + matchInfo.awayTeamID);
             data = await adminService.GetPlayers(matchInfo.awayTeamID);
             setAvailableAwayPlayers(data);
 
@@ -161,9 +161,9 @@ const LineUpModal = React.memo(
           }
 
           if (data && data.length > 0) {
-            console.log("player " + data[0].lastName);
-            console.log(data[0]);
-            console.log(availableAwayPlayers);
+            // console.log("player " + data[0].lastName);
+            // console.log(data[0]);
+            // console.log(availableAwayPlayers);
           } else {
             console.log("No players available");
           }
@@ -181,13 +181,13 @@ const LineUpModal = React.memo(
         const playerId = parseInt(event.target.value, 10);
         const player = availableHomePlayers.find((p) => p.id === playerId);
 
-        console.log("Selected Player:", player);
+        // console.log("Selected Player:", player);
         setSelectedPlayer(player);
       } else if (side === "Away Team") {
         const playerId = parseInt(event.target.value, 10);
         const player = availableAwayPlayers.find((p) => p.id === playerId);
 
-        console.log("Selected Player:", player);
+        // console.log("Selected Player:", player);
         setSelectedPlayer(player);
       }
     };
@@ -198,9 +198,9 @@ const LineUpModal = React.memo(
     };
 
     useEffect(() => {
-      console.log("matchInfo:", matchInfo);
+      // console.log("matchInfo:", matchInfo);
       if (matchInfo) {
-        console.log("matchInfo in lineup:", matchInfo);
+        // console.log("matchInfo in lineup:", matchInfo);
         loadPlayers("HOME");
         loadPlayers("AWAY");
       }

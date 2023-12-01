@@ -107,10 +107,10 @@ function MatchDetails() {
     try {
       // Check if matchInfo is defined before making the request
       if (matchInfo && matchInfo.homeTeamID) {
-        console.log("teamid: " + matchInfo.homeTeamID);
+        // console.log("teamid: " + matchInfo.homeTeamID);
         const data = await adminService.getTeam(matchInfo.homeTeamID);
         setTeam(data);
-        console.log(data);
+        // console.log(data);
       } else {
         // Handle the case where matchInfo is undefined or homeTeamId is missing
         console.error("Match information is undefined or missing homeTeamId");
@@ -124,7 +124,7 @@ function MatchDetails() {
     try {
       // Check if matchInfo is defined before making the request
       if (matchInfo && matchInfo.id) {
-        console.log("lineup match: " + matchInfo.id);
+        // console.log("lineup match: " + matchInfo.id);
         const data = await adminService.GetLineups(matchInfo.id);
 
         // Separate home and away lineups based on the 'side' property
@@ -134,8 +134,8 @@ function MatchDetails() {
         setHomeLineup(homeLineup);
         setAwayLineup(awayLineup);
 
-        console.log("Home Lineup:", homeLineup);
-        console.log("Away Lineup:", awayLineup);
+        // console.log("Home Lineup:", homeLineup);
+        // console.log("Away Lineup:", awayLineup);
       } else {
         // Handle the case where matchInfo is undefined or homeTeamId is missing
         console.error("Match information is undefined or missing homeTeamId");
@@ -151,13 +151,13 @@ function MatchDetails() {
 
   useEffect(() => {
     if (matchInfo) {
-      console.log(matchInfo);
+      // console.log(matchInfo);
       if (matchInfo) {
         loadTeam();
         loadLineup();
       }
     }
-  }, [matchInfo, homeModalOpen, awayModalOpen]);
+  }, [matchInfo, homeModalOpen, awayModalOpen, selectedPlayer]);
 
   const TabDetails = () => {
     return (

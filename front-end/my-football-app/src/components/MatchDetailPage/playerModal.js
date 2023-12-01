@@ -25,8 +25,6 @@ const PlayerModal = ({ open, handleClose, player }) => {
       shirtNo: updatedShirtNo,
       position: player.position,
     };
-    console.log(player);
-    console.log(lineup);
     adminService.updateLineup(lineup);
     handleClose();
   };
@@ -41,8 +39,9 @@ const PlayerModal = ({ open, handleClose, player }) => {
       shirtNo: updatedShirtNo,
       position: player.position,
     };
-    console.log(player);
+    console.log("lineup");
     console.log(lineup);
+
     adminService.deleteLineup(lineup);
     handleClose();
   };

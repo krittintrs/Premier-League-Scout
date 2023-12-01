@@ -1,6 +1,6 @@
 // api/adminApi.js
-import axios from 'axios';
-import { apiUrl } from '../config';
+import axios from "axios";
+import { apiUrl } from "../config";
 
 export const getMatchDetails = async (matchid) => {
   const response = await axios.get(`${apiUrl}/matchInfo/${matchid}`);
@@ -15,25 +15,25 @@ export const GetMatchEvents = async (matchid) => {
 export const PostMatchEvents = async (event) => {
   const response = await axios.post(`${apiUrl}/match-events`, event, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
   return response.data;
-}
+};
 
 export const UpdateMatchEvents = async (event) => {
   const response = await axios.put(`${apiUrl}/match-events`, event, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
   return response.data;
-}
+};
 
 export const DeleteMatchEvents = async (id) => {
   const response = await axios.delete(`${apiUrl}/match-events/${id}`);
   return response.data;
-}
+};
 
 export const GetLineups = async (matchid) => {
   const response = await axios.get(`${apiUrl}/lineup/${matchid}`);
@@ -43,11 +43,11 @@ export const GetLineups = async (matchid) => {
 export const PostLineups = async (lineup) => {
   const response = await axios.post(`${apiUrl}/lineup`, lineup, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
   return response.data;
-}
+};
 
 export const GetPlayers = async (teamid) => {
   const response = await axios.get(`${apiUrl}/player/team/${teamid}`);
@@ -57,22 +57,29 @@ export const GetPlayers = async (teamid) => {
 export const getTeam = async (teamid) => {
   const response = await axios.get(`${apiUrl}/team/${teamid}`);
   return response.data;
-}
+};
 
 export const updateLineup = async (lineup) => {
   const response = await axios.put(`${apiUrl}/lineup`, lineup, {
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
   return response.data;
-}
+};
 
 export const deleteLineup = async (lineup) => {
-  const response = await axios.delete(`${apiUrl}/lineup`, lineup, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  return response.data;
-}
+  try {
+    const response = await axios.delete(`${apiUrl}/lineup`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: lineup,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error in deleteLineup:", error);
+    throw error; // Propagate the error to the component
+  }
+};
