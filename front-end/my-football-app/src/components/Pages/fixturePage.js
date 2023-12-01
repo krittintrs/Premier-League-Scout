@@ -59,18 +59,39 @@ const FixturePage = () => {
       const data = await userService.getCurrentGameweek();
       setGameweek(data);
     } catch (error) {
-      console.error('Error fetching current gameweek:', error);
+      console.error("Error fetching current gameweek:", error);
       // Add additional error handling or user feedback if needed
     }
   };
-  
+
   const loadMatchInfo = async () => {
     try {
       console.log(gameweek);
       const data = await userService.getMatchFixture(gameweek);
       setMatchInfo(data);
     } catch (error) {
-      console.error('Error fetching match fixtures:', error);
+      console.error("Error fetching match fixtures:", error);
+      // Add additional error handling or user feedback if needed
+    }
+  };
+
+  const handleNextGameweek = async () => {
+    try {
+      setGameweek((prevGameweek) => prevGameweek + 1);
+      console.log("gameweek: " + gameweek);
+      loadMatchInfo();
+    } catch (error) {
+      console.error("Error fetching current gameweek:", error);
+      // Add additional error handling or user feedback if needed
+    }
+  };
+
+  const handlePreviousGameweek = async () => {
+    try {
+      setGameweek((prevGameweek) => prevGameweek - 1);
+      loadMatchInfo();
+    } catch (error) {
+      console.error("Error fetching current gameweek:", error);
       // Add additional error handling or user feedback if needed
     }
   };
@@ -78,21 +99,21 @@ const FixturePage = () => {
   useEffect(() => {
     // Load the user's data from the API
     loadMatchInfo();
-  }, []); 
+  }, [gameweek]);
 
   useEffect(() => {
     // Log the updated matchInfo
     console.log(matchInfo);
-  }, [matchInfo]); 
+  }, [matchInfo]);
 
   return (
-    <Box>
+    <Box sx={{ matginTop: "80px" }}>
       <Box>
-        <div style={headerStyle}>
+        <div style={{ height: "20vh", width: "100vw" }}>
           <img
-            style={logoStyle}
             src="https://wallpapercave.com/wp/wp8859298.jpg"
             alt="Header Image"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </div>
         <div>
@@ -115,6 +136,20 @@ const FixturePage = () => {
             />
             <h2> English Premier League</h2>
           </Stack>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            sx={{ padding: 2, margin: 2 }}
+          >
+            <ColorButtons
+              game={"Previous Game Week"}
+              onClick={handlePreviousGameweek}
+            />
+            <ColorButtons
+              game={"Next Game Week"}
+              onClick={handleNextGameweek}
+            />
+          </Stack>
         </Paper>
         {matchInfo.map((match, index) => (
           <React.Fragment key={index}>
@@ -131,7 +166,7 @@ const FixturePage = () => {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
-                      timeZone: 'UTC',
+                      timeZone: "UTC",
                     })
                     .replace(",", "")}
                 </div>
@@ -141,9 +176,17 @@ const FixturePage = () => {
           </React.Fragment>
         ))}
       </Box>
-      <div style={containerStyle}>
-        <ColorButtons />
-      </div>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        sx={{ padding: 2, margin: 2 }}
+      >
+        <ColorButtons
+          game={"Previous Game Week"}
+          onClick={handlePreviousGameweek}
+        />
+        <ColorButtons game={"Next Game Week"} onClick={handleNextGameweek} />
+      </Stack>
     </Box>
   );
 };
