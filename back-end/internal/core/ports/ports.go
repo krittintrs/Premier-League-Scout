@@ -86,3 +86,11 @@ type LeagueTableRepository interface {
 type LeagueTableService interface {
 	GetTable() ([]model.LeagueTable, error)
 }
+
+type ConditionedPlayerRepository interface {
+	CreateConditionedPlayer(condPlayer *model.ConditionedPlayer) (int64, error)
+}
+
+type ConditionedPlayerService interface {
+	AddConditionedPlayer(condPlayer *model.ConditionedPlayer) (int64, error)
+}

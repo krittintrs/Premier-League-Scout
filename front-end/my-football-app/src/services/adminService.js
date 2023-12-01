@@ -134,3 +134,13 @@ export const getMatchLineup = async (matchid) => {
     throw error; // Propagate the error to the component
   }
 };
+export const AddCondPlayer = async (condPlayer) => {
+  try {
+    const data = await adminApi.AddCondPlayer(condPlayer);
+    // Add any additional processing logic here
+    return data;
+  } catch (error) {
+    console.error("Error in adminService.AddCondPlayer:", error);
+    throw error; // Propagate the error to the component
+  }
+};
