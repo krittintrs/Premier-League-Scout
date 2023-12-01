@@ -98,20 +98,6 @@ export const AddCondPlayer = async (condPlayer) => {
   }
 };
 
-export const AddCondPlayer = async (condPlayer) => {
-  try {
-    const response = await axios.post(`${apiUrl}/cond`, condPlayer, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error in condPlayer:", error);
-    throw error; // Propagate the error to the component
-  }
-};
-
 export const getMatchLineup = async (matchid) => {
   const response = await axios.get(`${apiUrl}/lineup/${matchid}`);
   return response.data;
