@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4d7cbaf-ec8e-4c19-bcfb-e510d6b5eecb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/my-football-app/src/api/UserApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/my-football-app/src/api/UserApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/my-football-app/src/services/userService.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/my-football-app/src/services/userService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/my-football-app/src/components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/my-football-app/src/components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/my-football-app/src/components/Pages/ScoreBoard.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/my-football-app/src/components/Pages/ScoreBoard.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
