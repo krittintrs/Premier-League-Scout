@@ -24,3 +24,12 @@ export const getCurrentGameweek = async () => {
   }
   
 // Add other user-related service functions as needed
+export const getLeagueTable = async () => {
+  try {
+    const data = await userApi.getLeagueTable();
+    return data;
+  } catch (error) {
+    console.error('Error in userService.getLeagueTable:', error);
+    throw error; // Propagate the error to the component
+  }
+}

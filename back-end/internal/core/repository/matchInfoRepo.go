@@ -1,6 +1,7 @@
 package repository
 
 import (
+	mysql2 "back-end/database/mysql"
 	"back-end/internal/core/model"
 	"database/sql"
 	"errors"
@@ -10,12 +11,12 @@ import (
 )
 
 type MatchInfoRepository struct {
-	db *sql.DB
+	masterDB *mysql2.MasterDB
 }
 
-func NewMatchInfoRepo(db *sql.DB) *MatchInfoRepository {
+func NewMatchInfoRepo(mdb *mysql2.MasterDB) *MatchInfoRepository {
 	return &MatchInfoRepository{
-		db: db,
+		masterDB: mdb,
 	}
 }
 
@@ -29,9 +30,9 @@ func (mRepo *MatchInfoRepository) GetMatchInfo() ([]model.MatchInfo, error) {
 	JOIN team ht ON m.homeTeamID = ht.id
 	JOIN team at ON m.awayTeamID = at.id
 	`
-	result, err := mRepo.db.Query(query)
+	result, err := mRepo.masterDB.DB.Query(query)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 	defer result.Close()
 
@@ -51,7 +52,7 @@ func (mRepo *MatchInfoRepository) GetMatchInfo() ([]model.MatchInfo, error) {
 			&matchInfo.AwayTeamID, &matchInfo.AwayTeamName, &awayTeamResult, &awayTeamScore,
 		)
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 
 		// Check and assign values for HomeTeamResult
@@ -104,9 +105,9 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByID(id string) (model.MatchInfo, 
 		JOIN team at ON m.awayTeamID = at.id
 		WHERE m.id = ?`
 
-	result, err := mRepo.db.Query(query, id)
+	result, err := mRepo.masterDB.DB.Query(query, id)
 	if err != nil {
-		panic(err.Error())
+		return model.MatchInfo{}, err
 	}
 	defer result.Close()
 
@@ -124,7 +125,7 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByID(id string) (model.MatchInfo, 
 			&matchInfo.AwayTeamID, &matchInfo.AwayTeamName, &awayTeamResult, &awayTeamScore,
 		)
 		if err != nil {
-			panic(err.Error())
+			return model.MatchInfo{}, err
 		}
 
 		// Check and assign values for HomeTeamResult
@@ -173,7 +174,7 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByGameweek(gameweek string) ([]mod
 	WHERE m.gameweek = ? 
 	order by matchDatetime`
 
-	result, err := mRepo.db.Query(query, gameweek)
+	result, err := mRepo.masterDB.DB.Query(query, gameweek)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -194,7 +195,7 @@ func (mRepo *MatchInfoRepository) GetMatchInfoByGameweek(gameweek string) ([]mod
 			&matchInfo.AwayTeamID, &matchInfo.AwayTeamName, &awayTeamResult, &awayTeamScore,
 		)
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 
 		// Check and assign values for HomeTeamResult
@@ -244,7 +245,7 @@ func (mRepo *MatchInfoRepository) GetCurrentGameweek() (int, error) {
         LIMIT 1`
 
 	var gameweek int
-	err := mRepo.db.QueryRow(query).Scan(&gameweek)
+	err := mRepo.masterDB.DB.QueryRow(query).Scan(&gameweek)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return 0, fmt.Errorf("no current gameweek found")
@@ -262,7 +263,7 @@ func (mRepo *MatchInfoRepository) UpdateMatchInfo(matchInfo model.MatchInfo) err
 			 awayTeamResult = ?, awayTeamScore = ?
 		WHERE id = ?`
 
-	_, err := mRepo.db.Exec(query, matchInfo.HomeTeamResult, matchInfo.HomeTeamScore,
+	_, err := mRepo.masterDB.DB.Exec(query, matchInfo.HomeTeamResult, matchInfo.HomeTeamScore,
 		matchInfo.AwayTeamResult, matchInfo.AwayTeamScore, matchInfo.ID)
 	if err != nil {
 		return err

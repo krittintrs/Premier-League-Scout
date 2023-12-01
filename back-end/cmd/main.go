@@ -8,22 +8,23 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 
-	// "github.com/gorilla/mux"
-
+	"back-end/config"
 	"back-end/internal/core/repository"
 	"back-end/internal/core/services"
 	"back-end/internal/handlers"
 )
 
 func main() {
-	db := mysql.InitDB("root", "root", "localhost:3306", "eplScout")
 
-	teamRepo := repository.NewTeamRepo(db)
-	matchInfoRepo := repository.NewMatchInfoRepo(db)
-	playerRepo := repository.NewPlayerRepo(db)
-	lineupRepo := repository.NewLineupRepo(db)
-	matchEventRepo := repository.NewMatchEventRepo(db)
-	userRepo := repository.NewUserRepository(db)
+	masterDB := mysql.InitDB()
+
+	teamRepo := repository.NewTeamRepo(masterDB)
+	matchInfoRepo := repository.NewMatchInfoRepo(masterDB)
+	playerRepo := repository.NewPlayerRepo(masterDB)
+	lineupRepo := repository.NewLineupRepo(masterDB)
+	matchEventRepo := repository.NewMatchEventRepo(masterDB)
+	userRepo := repository.NewUserRepository(masterDB)
+	leagueTableRepo := repository.NewLeagueTableRepo(masterDB)
 
 	teamsrv := services.NewTeamService(teamRepo)
 	matchInfosrv := services.NewMatchInfoService(matchInfoRepo)
@@ -31,6 +32,7 @@ func main() {
 	lineupsrv := services.NewLineupService(lineupRepo)
 	matchEventsrv := services.NewMatchEventService(matchEventRepo)
 	usersrv := services.NewUserService(userRepo)
+	leagueTablesrv := services.NewLeagueTableService(leagueTableRepo)
 
 	// Create a new main router
 	mainRouter := mux.NewRouter()
@@ -41,7 +43,8 @@ func main() {
 	playerhdl := handlers.NewPlayerHandler(playersrv)
 	lineuphdl := handlers.NewlineupHandler(lineupsrv)
 	matchEventhdl := handlers.NewMatchEventHandler(matchEventsrv)
-	userhdl := handlers.NewUserHandler(usersrv, db)
+	userhdl := handlers.NewUserHandler(usersrv, masterDB)
+	leagueTablehdl := handlers.NewLeagueTableHandler(leagueTablesrv)
 
 	// Set up routes for both team and matchinfo handlers
 	teamhdl.SetupTeamRoutes(mainRouter)
@@ -50,13 +53,14 @@ func main() {
 	lineuphdl.SetupLineupRoutes(mainRouter)
 	matchEventhdl.SetupMatchEventRoutes(mainRouter)
 	userhdl.SetupUserRoutes(mainRouter)
+	leagueTablehdl.SetupLeagueTableRoutes(mainRouter)
 
 	// Create a channel to wait for the server to finish
 	done := make(chan bool)
 
 	// Start the server in a goroutine
 	go func() {
-		if err := http.ListenAndServe("localhost:80", &CORSRouterDecorator{mainRouter}); err != nil {
+		if err := http.ListenAndServe(config.LocalAPIUrl, &CORSRouterDecorator{mainRouter}); err != nil {
 			fmt.Printf("Server error: %v\n", err)
 		}
 		done <- true

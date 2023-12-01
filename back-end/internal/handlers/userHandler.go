@@ -4,24 +4,24 @@ import (
 	"back-end/database/mysql"
 	"back-end/internal/core/model"
 	"back-end/internal/core/ports"
-	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // UserHandler handles HTTP requests related to users.
 type UserHandler struct {
 	UserService ports.UserService
-	DB          *sql.DB
+	MasterDB    *mysql.MasterDB
 }
 
 // NewUserHandler creates a new instance of UserHandler.
-func NewUserHandler(userService ports.UserService, db *sql.DB) *UserHandler {
+func NewUserHandler(userService ports.UserService, masterDB *mysql.MasterDB) *UserHandler {
 	return &UserHandler{
 		UserService: userService,
-		DB:          db,
+		MasterDB:    masterDB,
 	}
 }
 
@@ -41,9 +41,15 @@ func (h *UserHandler) Signup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	_, err = h.UserService.GetUserByUsername(newUser.Username)
+	if err == nil {
+		http.Error(w, "User already exist", http.StatusBadRequest)
+		return
+	}
+
 	_, err = h.UserService.RegisterUser(&newUser)
 	if err != nil {
-		http.Error(w, "Failed to register user", http.StatusInternalServerError)
+		http.Error(w, "Failed to register user: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -74,7 +80,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var credentials model.User
 
 	if err := json.NewDecoder(r.Body).Decode(&credentials); err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		http.Error(w, "Invalid request payload: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -87,8 +93,9 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	switch user.Role {
 	case model.USER_ROLE:
-		h.DB.Close()
-		h.DB = mysql.InitDB("user", "1234", "localhost:8889", "eplScout")
+		h.MasterDB.ChangeToUserDB()
+	case model.ADMIN_ROLE:
+		h.MasterDB.ChangeToAdminDB()
 	default:
 	}
 

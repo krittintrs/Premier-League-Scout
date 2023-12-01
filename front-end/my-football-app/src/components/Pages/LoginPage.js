@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
-import '../Login/Login.css'; // Import your styles
+import React, { useState, useEffect } from 'react';
+import '../Login/Login.css'; 
+import * as loginService from "../../services/loginService";
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const signupSuccess = location.state?.signupSuccess;
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(signupSuccess);
 
-  const handleLogin = (e) => {
+  useEffect(() => {
+    // Hide the success popup after a delay (e.g., 5 seconds)
+    const timer = setTimeout(() => {
+      setShowSuccessPopup(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [signupSuccess]);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -17,10 +34,18 @@ const Login = () => {
 
     // Reset error
     setError('');
+    
+    try {
+      const userData = await loginService.login(username, password);
+      console.log('User logged in:', userData);
+      navigate('/');
+    } catch (error) {
+      setError(error.response.data);
+    }
+  };
 
-    // Perform authentication (replace this with your actual authentication logic)
-    // For simplicity, let's just log the username to the console
-    console.log(`Logged in as: ${username}`);
+  const handleGoToSignUp = () => {
+    navigate('/SignUpPage');
   };
 
   return (
@@ -47,7 +72,17 @@ const Login = () => {
             />
           </div>
           {error && <p className="error-message">{error}</p>}
-          <button type="submit">Login</button>
+          {showSuccessPopup && (
+            <div className="success-popup">
+              <p>You have successfully signed up!</p>
+            </div>
+          )}
+          <div className="button-container">
+            <button type="submit">Login</button>
+            <button type="button" onClick={handleGoToSignUp}>
+              Sign Up
+            </button>
+          </div>
         </form>
       </div>
     </div>

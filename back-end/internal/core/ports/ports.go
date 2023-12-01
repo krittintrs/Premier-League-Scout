@@ -72,5 +72,13 @@ type UserRepository interface {
 type UserService interface {
 	GetUserByUsername(username string) (model.User, error)
 	RegisterUser(user *model.User) (int64, error)
-	AuthenticateUser(username string, password []byte) (model.User, error)
+	AuthenticateUser(username string, password string) (model.User, error)
+}
+
+type LeagueTableRepository interface {
+	GetTableView() ([]model.LeagueTable, error)
+}
+
+type LeagueTableService interface {
+	GetTable() ([]model.LeagueTable, error)
 }

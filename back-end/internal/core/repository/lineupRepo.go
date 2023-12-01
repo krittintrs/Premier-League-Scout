@@ -1,17 +1,17 @@
 package repository
 
 import (
+	"back-end/database/mysql"
 	"back-end/internal/core/model"
-	"database/sql"
 )
 
 type LineupRepository struct {
-	db *sql.DB
+	masterDB *mysql.MasterDB
 }
 
-func NewLineupRepo(db *sql.DB) *LineupRepository {
+func NewLineupRepo(mdb *mysql.MasterDB) *LineupRepository {
 	return &LineupRepository{
-		db: db,
+		masterDB: mdb,
 	}
 }
 
@@ -23,9 +23,9 @@ func (lRepo *LineupRepository) GetLineupByMatchID(matchID string) ([]model.Lineu
 		WHERE lineup.MatchID = ?
 	`
 
-	result, err := lRepo.db.Query(query, matchID)
+	result, err := lRepo.masterDB.DB.Query(query, matchID)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 	defer result.Close()
 
@@ -34,7 +34,7 @@ func (lRepo *LineupRepository) GetLineupByMatchID(matchID string) ([]model.Lineu
 		var lineup model.Lineup
 		err := result.Scan(&lineup.MatchID, &lineup.PlayerID, &lineup.PlayerName, &lineup.Side, &lineup.ShirtNo, &lineup.Position)
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 
 		lineups = append(lineups, lineup)
@@ -49,7 +49,7 @@ func (lRepo *LineupRepository) PostLineup(lineup model.Lineup) error {
 		VALUES (?, ?, ?, ?, ?)
 	`
 
-	_, err := lRepo.db.Exec(query, lineup.MatchID, lineup.PlayerID, lineup.Side, lineup.ShirtNo, lineup.Position)
+	_, err := lRepo.masterDB.DB.Exec(query, lineup.MatchID, lineup.PlayerID, lineup.Side, lineup.ShirtNo, lineup.Position)
 	if err != nil {
 		return err
 	}
