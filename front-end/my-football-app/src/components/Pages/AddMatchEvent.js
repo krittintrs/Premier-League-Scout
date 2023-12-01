@@ -89,10 +89,10 @@ const EventBar = ({ onSelectTeam }) => {
           height: '75px',
         }}
       >
-        <Button onClick={() => onSelectTeam('score')}>Score</Button>
-        <Button onClick={() => onSelectTeam('sub')}>Sub</Button>
-        <Button onClick={() => onSelectTeam('injured')}>Injured</Button>
-        <Button onClick={() => onSelectTeam('foul')}>Foul</Button>
+        <Button onClick={() => onSelectTeam('score', 'score')}>Score</Button>
+        <Button onClick={() => onSelectTeam('sub', 'sub')}>Sub</Button>
+        <Button onClick={() => onSelectTeam('injured', 'injured')}>Injured</Button>
+        <Button onClick={() => onSelectTeam('foul', 'foul')}>Foul</Button>
       </Stack>
     </div>
   );
@@ -138,7 +138,7 @@ const AddMatchEvent = () => {
           <EventBar onSelectTeam={onSelectTeam} />
         </BarContainer>
 
-        {/* Map over eventTypes and render InnerPaper for each event type */}
+        
         {eventTypes.map((eventType) =>
           generateInnerPaperContent(activeTeam, selectedEvent, eventType.key)
         )}
@@ -155,7 +155,7 @@ const AddMatchEvent = () => {
   );
 };
 
-const generateInnerPaperContent = (team, selectedEvent, eventTypeKey) => {
+const generateInnerPaperContent = (team, eventTypeKey) => {
   const contentMap = {
     score: (
       <InnerPaper key="score">
