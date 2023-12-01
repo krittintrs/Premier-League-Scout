@@ -136,8 +136,8 @@ function MatchDetails() {
         setHomeLineup(homeLineup);
         setAwayLineup(awayLineup);
 
-        // console.log("Home Lineup:", homeLineup);
-        // console.log("Away Lineup:", awayLineup);
+        console.log("Home Lineup:", homeLineup);
+        console.log("Away Lineup:", awayLineup);
       } else {
         // Handle the case where matchInfo is undefined or homeTeamId is missing
         console.error("Match information is undefined or missing homeTeamId");
@@ -153,7 +153,7 @@ function MatchDetails() {
       if (matchInfo && matchInfo.id) {
         // console.log("lineup match: " + matchInfo.id);
         const data = await adminService.GetEvents(matchInfo.id);
-        console.log("Events:", data)
+        console.log("Events:", data);
         setEvents(data);
         // console.log(data);
       } else {
@@ -171,12 +171,9 @@ function MatchDetails() {
 
   useEffect(() => {
     if (matchInfo) {
-      // console.log(matchInfo);
-      if (matchInfo) {
-        loadTeam();
-        loadLineup();
-        loadEvent();
-      }
+      loadTeam();
+      loadLineup();
+      loadEvent();
     }
   }, [matchInfo, homeModalOpen, awayModalOpen, selectedPlayer]);
 
@@ -399,7 +396,15 @@ function MatchDetails() {
         </div>
         <div style={DateStyle}>{formattedDate}</div>
         <MatchDetail matchData={matchInfo ?? []} />
-        <EventTable events={events ?? []} />
+        {events.length > 0 &&
+          homeLineup.length > 0 &&
+          awayLineup.length > 0 && (
+            <EventTable
+              events={events}
+              homeLineup={homeLineup}
+              awayLineup={awayLineup}
+            />
+          )}
         <TabDetails />
         <LineupGrid />
       </div>

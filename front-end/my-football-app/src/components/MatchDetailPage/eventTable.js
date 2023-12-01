@@ -2,12 +2,21 @@ import { Paper } from "@mui/material";
 import React, { useState } from "react";
 import EventModal from "./eventModal";
 
-const EventTable = ({ events }) => {
+const EventTable = ({ events, homeLineup = [], awayLineup = [] }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   const handleRowClick = (event) => {
     setSelectedEvent(event);
   };
+
+  useState(() => {
+    console.log("events");
+    console.log(events);
+    console.log("homeLineup");
+    console.log(homeLineup);
+    console.log("awayLineup");
+    console.log(awayLineup);
+  }, [homeLineup, awayLineup, events]);
 
   return (
     <div style={{ width: "100%", textAlign: "center" }}>
@@ -22,10 +31,10 @@ const EventTable = ({ events }) => {
         <table style={{ width: "100%" }}>
           <thead>
             <tr>
-              <th>Time</th>
-              <th>EventType</th>
-              <th>Player</th>
-              <th>Details</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -35,33 +44,183 @@ const EventTable = ({ events }) => {
                 style={{ cursor: "pointer" }}
                 onClick={() => handleRowClick(event)}
               >
-                <td>{event.minuteOccur}</td>
-                <td>{event.eventType}</td>
+                <td>
+                  <strong>{event.minuteOccur + " `"}</strong>
+                </td>
+                <td>
+                  {event.eventType === "sub" && (
+                    <img
+                      src="/images/substitution.png"
+                      alt="substitution"
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  )}
+                  {event.eventType === "injured" && (
+                    <img
+                      src="/images/injured.png"
+                      alt="injured"
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  )}
+                  {event.eventType === "booked" &&
+                    {event.bookedCardType === "YELLOW" ? (
+                        <img
+                            src="/images/yellow-card.png"
+                            alt="yellow-card"
+                            style={{ width: "20px", height: "20px" }}
+                        />
+                    ) : event.bookedCardType === "RED" ? (
+                        <img
+                            src="/images/red-card.png"
+                            alt="red-card"
+                            style={{ width: "20px", height: "20px" }}
+                        />
+                    ) : (
+                        <img
+                            src="/images/other-card.png"
+                            alt="other-card"
+                            style={{ width: "20px", height: "20px" }}
+                        />
+                    )}
+                  {event.eventType === "score" && (
+                    <img
+                      src="/images/score.png"
+                      alt="score"
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  )}
+                </td>
                 <td>
                   {event.eventType === "score" && (
                     <>
-                      {event.scorerPlayerID} (Scorer)
-                      {event.assistPlayerID && `, ${event.assistPlayerID} (Assist)`}
+                      <strong>
+                        {
+                          homeLineup.find(
+                            (player) => player.playerID === event.scorerPlayerID
+                          )?.playerName
+                        }{" "}
+                        {
+                          awayLineup.find(
+                            (player) => player.playerID === event.scorerPlayerID
+                          )?.playerName
+                        }{" "}
+                      </strong>
+                      {event.empty ? "" : ": Scorer"}
+                    </>
+                  )}
+
+                  {event.eventType === "sub" && (
+                    <>
+                      <strong>
+                        {
+                          homeLineup.find(
+                            (player) => player.playerID === event.subInPlayerID
+                          )?.playerName
+                        }{" "}
+                        {
+                          awayLineup.find(
+                            (player) => player.playerID === event.subInPlayerID
+                          )?.playerName
+                        }{" "}
+                      </strong>
+                      {event.empty ? "" : ": Sub In"}
+                    </>
+                  )}
+
+                  {event.eventType === "injured" && (
+                    <>
+                      {
+                        homeLineup.find(
+                          (player) => player.playerID === event.injuredPlayerID
+                        )?.playerName
+                      }{" "}
+                      {
+                        awayLineup.find(
+                          (player) => player.playerID === event.injuredPlayerID
+                        )?.playerName
+                      }{" "}
+                      (Injured)
+                    </>
+                  )}
+
+                  {event.eventType === "booked" && (
+                    <>
+                      {
+                        homeLineup.find(
+                          (player) => player.playerID === event.bookedPlayerID
+                        )?.playerName
+                      }{" "}
+                      {
+                        awayLineup.find(
+                          (player) => player.playerID === event.bookedPlayerID
+                        )?.playerName
+                      }{" "}
+                      (Booked - {event.bookedCardType})
+                    </>
+                  )}
+                </td>
+                <td>
+                  {event.eventType === "score" && (
+                    <>
+                      {
+                        homeLineup.find(
+                          (player) => player.playerID === event.assistPlayerID
+                        )?.playerName
+                      }{" "}
+                      {
+                        awayLineup.find(
+                          (player) => player.playerID === event.assistPlayerID
+                        )?.playerName
+                      }{" "}
+                      {event.empty ? "" : ": Assist"}
                     </>
                   )}
                   {event.eventType === "sub" && (
                     <>
-                      {event.subInPlayerID} (Sub In)
-                      {event.subOutPlayerID && `, ${event.subOutPlayerID} (Sub Out)`}
+                      {
+                        homeLineup.find(
+                          (player) => player.playerID === event.subOutPlayerID
+                        )?.playerName
+                      }{" "}
+                      {
+                        awayLineup.find(
+                          (player) => player.playerID === event.subOutPlayerID
+                        )?.playerName
+                      }{" "}
+                      (Sub Out)
                     </>
                   )}
                   {event.eventType === "injured" && (
                     <>
-                      {event.injuredPlayerID} (Injured)
+                      {
+                        homeLineup.find(
+                          (player) => player.playerID === event.injuredPlayerID
+                        )?.playerName
+                      }{" "}
+                      {
+                        awayLineup.find(
+                          (player) => player.playerID === event.injuredPlayerID
+                        )?.playerName
+                      }{" "}
+                      (Injured)
                     </>
                   )}
                   {event.eventType === "booked" && (
                     <>
-                      {event.bookedPlayerID} (Booked - {event.bookedCardType})
+                      {
+                        homeLineup.find(
+                          (player) => player.playerID === event.bookedPlayerID
+                        )?.playerName
+                      }{" "}
+                      {
+                        awayLineup.find(
+                          (player) => player.playerID === event.bookedPlayerID
+                        )?.playerName
+                      }{" "}
+                      (Booked - {event.bookedCardType})
                     </>
                   )}
                 </td>
-                <td>Details Here</td>
               </tr>
             ))}
           </tbody>
