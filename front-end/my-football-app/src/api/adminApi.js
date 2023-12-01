@@ -102,3 +102,8 @@ export const getMatchLineup = async (matchid) => {
   const response = await axios.get(`${apiUrl}/lineup/${matchid}`);
   return response.data;
 }
+
+export const GetEvents = async (matchid) => {
+  const response = await axios.get(`${apiUrl}/match-events/match/${matchid}`);
+  return response.data;
+};

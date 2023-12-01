@@ -144,3 +144,14 @@ export const AddCondPlayer = async (condPlayer) => {
     throw error; // Propagate the error to the component
   }
 };
+
+export const GetEvents = async (matchid) => {
+  try {
+    const data = await adminApi.GetEvents(matchid);
+    // Add any additional processing logic here
+    return data;
+  } catch (error) {
+    console.error("Error in adminService.GetEvents:", error);
+    throw error; // Propagate the error to the component
+  }
+}

@@ -22,6 +22,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { height } from "@mui/system";
 import PlayerModal from "../MatchDetailPage/playerModal";
+import EventTable from "../MatchDetailPage/eventTable";
 
 function MatchDetails() {
   const { matchId } = useParams();
@@ -60,6 +61,7 @@ function MatchDetails() {
   };
 
   const [matchInfo, setMatchInfo] = useState();
+  const [events, setEvents] = useState([]);
   const [team, setTeam] = useState();
   const [homeLineup, setHomeLineup] = useState([]);
   const [awayLineup, setAwayLineup] = useState([]);
@@ -145,6 +147,24 @@ function MatchDetails() {
     }
   };
 
+  const loadEvent = async () => {
+    try {
+      // Check if matchInfo is defined before making the request
+      if (matchInfo && matchInfo.id) {
+        // console.log("lineup match: " + matchInfo.id);
+        const data = await adminService.GetEvents(matchInfo.id);
+        console.log("Events:", data)
+        setEvents(data);
+        // console.log(data);
+      } else {
+        // Handle the case where matchInfo is undefined or homeTeamId is missing
+        console.error("Match information is undefined or missing homeTeamId");
+      }
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
+
   useEffect(() => {
     loadMatchInfo();
   }, [matchId]);
@@ -155,6 +175,7 @@ function MatchDetails() {
       if (matchInfo) {
         loadTeam();
         loadLineup();
+        loadEvent();
       }
     }
   }, [matchInfo, homeModalOpen, awayModalOpen, selectedPlayer]);
@@ -378,6 +399,7 @@ function MatchDetails() {
         </div>
         <div style={DateStyle}>{formattedDate}</div>
         <MatchDetail matchData={matchInfo ?? []} />
+        <EventTable events={events ?? []} />
         <TabDetails />
         <LineupGrid />
       </div>
