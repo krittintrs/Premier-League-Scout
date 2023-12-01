@@ -30,12 +30,6 @@ const InnerPaper = styled(Paper)(({ theme }) => ({
   marginTop: '20px',
 }));
 
-const ButtonContainer = styled('div')({
-  position: 'absolute',
-  top: '140px', 
-  right: '30px',
-});
-
 const DoneButton = styled('div')({
   position: 'absolute',
   bottom: '5%',
@@ -72,11 +66,64 @@ const MinWidthButtonGroup = ({ onSelectTeam }) => {
   );
 };
 
+const EventBar = ({ onSelectTeam }) => {
+  return (
+    <div
+      variant="solid"
+      size="lg"
+      aria-label="solid button group"
+      sx={{
+        width: '10000px',
+        height: '75px',
+        position: 'absolute',
+        top: '0px',
+        right: '10px',
+      }}
+    >
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          p: 2,
+          width: '100%',
+          height: '75px',
+        }}
+      >
+        <Button onClick={() => onSelectTeam('score')}>Score</Button>
+        <Button onClick={() => onSelectTeam('sub')}>Sub</Button>
+        <Button onClick={() => onSelectTeam('injured')}>Injured</Button>
+        <Button onClick={() => onSelectTeam('foul')}>Foul</Button>
+      </Stack>
+    </div>
+  );
+};
+
+const BarContainer = styled('div')({
+  position: 'absolute',
+  top: '120px',
+  left: '700px',
+  width: '100%',
+  height: '75px',
+  display: 'flex',
+  justifyContent: 'space-between',
+});
+
+const eventTypes = [
+  { key: 'score', label: 'Score' },
+  { key: 'sub', label: 'Sub' },
+  { key: 'injured', label: 'Injured' },
+  { key: 'foul', label: 'Foul' },
+  // Add more event types as needed
+];
+
 const AddMatchEvent = () => {
   const [activeTeam, setActiveTeam] = useState('A');
+  const [selectedEvent, setSelectedEvent] = useState('');
 
-  const onSelectTeam = (team) => {
+  const onSelectTeam = (team, event) => {
+    console.log('Selected Event:', event);
     setActiveTeam(team);
+    setSelectedEvent(event);
   };
 
   return (
@@ -87,34 +134,15 @@ const AddMatchEvent = () => {
         </Typography>
 
         <MinWidthButtonGroup onSelectTeam={onSelectTeam} />
-        <ButtonContainer>
-          <Stack direction="row" spacing={2}>
-            <h2>Event Type: </h2>
-            <Button variant="outlined">Score</Button>
-            <Button variant="outlined">Sub</Button>
-            <Button variant="outlined">Injured</Button>
-            <Button variant="outlined">Foul</Button>
-          </Stack>
-        </ButtonContainer>
-        {activeTeam === 'A' ? (
-          <InnerPaper>
-            {/* InnerPaper1 content */}
-            <Typography variant="h6" gutterBottom>
-              <h3>TIME : aaaaa</h3>
-              <h3>Scorer’s Name : </h3>
-              <h3>Assister’s Name : </h3>
-            </Typography>
-          </InnerPaper>
-        ) : (
-          <InnerPaper>
-            {/* InnerPaper2 content */}
-            <Typography variant="h6" gutterBottom>
-              <h3>TIME : bbbb</h3>
-              <h3>Scorer’s Name : </h3>
-              <h3>Assister’s Name : </h3>
-            </Typography>
-          </InnerPaper>
+        <BarContainer>
+          <EventBar onSelectTeam={onSelectTeam} />
+        </BarContainer>
+
+        {/* Map over eventTypes and render InnerPaper for each event type */}
+        {eventTypes.map((eventType) =>
+          generateInnerPaperContent(activeTeam, selectedEvent, eventType.key)
         )}
+
         <DoneButton>
           <Link to="/MatchDetails">
             <Stack direction="row" spacing={2}>
@@ -125,6 +153,49 @@ const AddMatchEvent = () => {
       </DemoPaper>
     </div>
   );
+};
+
+const generateInnerPaperContent = (team, selectedEvent, eventTypeKey) => {
+  const contentMap = {
+    score: (
+      <InnerPaper key="score">
+        <Typography variant="h6" gutterBottom>
+          <h3>TIME : {team === 'A' ? 'aaaaa' : 'bbbb'}</h3>
+          <h3>Scorer’s Name : </h3>
+          <h3>Assister’s Name : เเพเด </h3>
+        </Typography>
+      </InnerPaper>
+    ),
+    sub: (
+      <InnerPaper key="sub">
+        <Typography variant="h6" gutterBottom>
+          <h3>TIME : {team === 'A' ? 'aaaaa' : 'bbbb'}</h3>
+          <h3>Scorer’s Name : </h3>
+          <h3>Assister’s Name : ำำำ</h3>
+        </Typography>
+      </InnerPaper>
+    ),
+    injured: (
+      <InnerPaper key="injured">
+        <Typography variant="h6" gutterBottom>
+          <h3>TIME : {team === 'A' ? 'aaaaa' : 'bbbb'}</h3>
+          <h3>Scorer’s Name : </h3>
+          <h3>Assister’s Name : หหหห </h3>
+        </Typography>
+      </InnerPaper>
+    ),
+    foul: (
+      <InnerPaper key="foul">
+        <Typography variant="h6" gutterBottom>
+          <h3>TIME : {team === 'A' ? 'aaaaa' : 'bbbb'}</h3>
+          <h3>Scorer’s Name : </h3>
+          <h3>Assister’s Name : ดดดด</h3>
+        </Typography>
+      </InnerPaper>
+    ),
+  };
+
+  return contentMap[eventTypeKey] || null;
 };
 
 export default AddMatchEvent;
