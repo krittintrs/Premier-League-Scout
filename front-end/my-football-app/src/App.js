@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<FixturePage />} />
         <Route path="/MatchDetails/:matchId" element={<MatchDetails />} />
-        <Route path="/AddMatchEvent" element={<AddMatchEvent />} />
+        <Route path="/AddMatchEvent/:matchId" element={<AddMatchEvent />} />
         <Route path="/LineUp" element={<LineUp/>} />
         <Route path="/ScoreBoard" element={<ScoreBoard />} />
         <Route path="/LoginPage" element={<LoginPage />} />

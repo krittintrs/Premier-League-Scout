@@ -83,3 +83,8 @@ export const deleteLineup = async (lineup) => {
     throw error; // Propagate the error to the component
   }
 };
+
+export const getMatchLineup = async (matchid) => {
+  const response = await axios.get(`${apiUrl}/lineup/${matchid}`);
+  return response.data;
+}

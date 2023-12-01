@@ -172,13 +172,18 @@ function MatchDetails() {
               </div>
               <div className="match-options" style={{ position: "relative" }}>
                 <Stack spacing={2} direction="row">
-                  <Link to="/AddMatchEvent" className="match-option">
-                    <Stack direction="row" spacing={5}>
-                      <button className="match-option">ADD</button>
-                      <button className="match-option">UPDATE</button>
-                      <button className="match-option">DELETE</button>
-                    </Stack>
-                  </Link>
+                  {matchInfo && matchInfo.id && (
+                    <Link
+                      to={`/AddMatchEvent/${matchInfo.id}`}
+                      className="match-option"
+                    >
+                      <Stack direction="row" spacing={5}>
+                        <button className="match-option">ADD</button>
+                        <button className="match-option">UPDATE</button>
+                        <button className="match-option">DELETE</button>
+                      </Stack>
+                    </Link>
+                  )}
                 </Stack>
               </div>
             </div>

@@ -123,3 +123,14 @@ export const deleteLineup = async (lineup) => {
 };
 
 // Add other admin-related service functions as needed
+
+export const getMatchLineup = async (matchid) => {
+  try {
+    const data = await adminApi.getMatchLineup(matchid);
+    // Add any additional processing logic here
+    return data;
+  } catch (error) {
+    console.error("Error in adminService.getMatchLineup:", error);
+    throw error; // Propagate the error to the component
+  }
+};
