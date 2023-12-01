@@ -95,15 +95,17 @@ const AddMatchEvent = () => {
   const [selectedPlayer, setSelectedPlayer] = useState({});
 
   const [eventDetails, setEventDetails] = useState({
-    time: "",
-    scorer: "",
-    assister: "",
-    subIn: "",
-    subOut: "",
-    injuredPlayer: "",
+    matchID: matchId,
+    minuteOccur: "",
+    eventType: "",
+    scorerPlayerID: "",
+    assistPlayerID: "",
+    subInPlayerID: "",
+    subOutPlayerID: "",
+    injuredPlayerID: "",
     duration: "",
-    bookedPlayer: "",
-    bookedCard: "",
+    bookedPlayerID: "",
+    bookedCardType: "",
   });
 
   const onSelectTeam = (eventType) => {
@@ -286,7 +288,7 @@ const generateInnerPaperContent = (
             <TextField
               type="text"
               name="time"
-              value={eventDetails.time}
+              value={eventDetails.minuteOccur}
               onChange={handleInputChange}
             />
           </Stack>
@@ -304,13 +306,13 @@ const generateInnerPaperContent = (
             {activeTeam === "HOME" &&
               homeLineup.map((player) => (
                 <option key={player.id} value={player.id}>
-                  {`${player.position} ${player.playerName} ${player.shirtNo}`}
+                  {`${player.playerID} ${player.position} ${player.playerName} ${player.shirtNo}`}
                 </option>
               ))}
             {activeTeam === "AWAY" &&
               awayLineup.map((player) => (
                 <option key={player.id} value={player.id}>
-                  {`${player.position} ${player.playerName} ${player.shirtNo}`}
+                  {`${player.playerID} ${player.position} ${player.playerName} ${player.shirtNo}`}
                 </option>
               ))}
           </select>
@@ -328,13 +330,13 @@ const generateInnerPaperContent = (
             {activeTeam === "HOME" &&
               homeLineup.map((player) => (
                 <option key={player.id} value={player.id}>
-                  {`${player.position} ${player.playerName} ${player.shirtNo}`}
+                  {`${player.playerID} ${player.position} ${player.playerName} ${player.shirtNo}`}
                 </option>
               ))}
             {activeTeam === "AWAY" &&
               awayLineup.map((player) => (
                 <option key={player.id} value={player.id}>
-                  {`${player.position} ${player.playerName} ${player.shirtNo}`}
+                  {`${player.playerID} ${player.position} ${player.playerName} ${player.shirtNo}`}
                 </option>
               ))}
           </select>
