@@ -288,8 +288,26 @@ function MatchDetails() {
               </span>
             </AccordionSummary>
             <AccordionDetails>
-              {awayLineup.map((player, index) => (
-                <PlayerDividers key={index} player={player} />
+              {homeLineup.map((player, index) => (
+                <div key={index}>
+                  {/* Button-like element triggering modal */}
+                  <div
+                    style={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleCollapseOpen(player)}
+                  >
+                    <PlayerDividers player={player} />
+                  </div>
+                  {/* Modal */}
+                  {selectedPlayer && (
+                    <PlayerModal
+                      open={selectedPlayer !== null}
+                      handleClose={handleCollapseClose}
+                      player={selectedPlayer}
+                    />
+                  )}
+                </div>
               ))}
             </AccordionDetails>
           </Accordion>
