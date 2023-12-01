@@ -27,3 +27,44 @@ BEGIN
 END;
 //
 DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER trg_updateMatchInfo
+    BEFORE INSERT ON matchEvent
+    FOR EACH ROW
+BEGIN
+    DECLARE teamSide ENUM('HOME', 'AWAY');
+
+    -- Determine team side based on scorer playerID
+    SELECT side INTO teamSide
+    FROM lineUp
+    WHERE matchID = NEW.matchID AND playerID = NEW.scorerPlayerID;
+
+    -- Update matchInfo based on team side
+    IF teamSide = 'HOME' THEN
+        IF (SELECT homeTeamScore FROM matchInfo WHERE id = NEW.matchID) IS NULL THEN
+            UPDATE matchInfo
+            SET homeTeamScore = 1
+            WHERE id = NEW.matchID;
+        ELSE
+            UPDATE matchInfo
+            SET homeTeamScore = homeTeamScore + 1
+            WHERE id = NEW.matchID;
+        END IF;
+    ELSE
+        IF (SELECT awayTeamScore FROM matchInfo WHERE id = NEW.matchID) IS NULL THEN
+            UPDATE matchInfo
+            SET awayTeamScore = 1
+            WHERE id = NEW.matchID;
+        ELSE
+            UPDATE matchInfo
+            SET awayTeamScore = awayTeamScore + 1
+            WHERE id = NEW.matchID;
+        END IF;
+    END IF;
+END;
+
+//
+
+DELIMITER ;
