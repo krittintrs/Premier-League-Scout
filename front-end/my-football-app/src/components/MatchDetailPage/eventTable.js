@@ -62,26 +62,30 @@ const EventTable = ({ events, homeLineup = [], awayLineup = [] }) => {
                       style={{ width: "20px", height: "20px" }}
                     />
                   )}
-                  {event.eventType === "booked" &&
-                    {event.bookedCardType === "YELLOW" ? (
+                  {event.eventType === "booked" && (
+                    <>
+                      {event.bookedCardType === "YELLOW" ? (
                         <img
-                            src="/images/yellow-card.png"
-                            alt="yellow-card"
-                            style={{ width: "20px", height: "20px" }}
+                          src="/images/yellow-card.png"
+                          alt="yellow-card"
+                          style={{ width: "20px", height: "20px" }}
                         />
-                    ) : event.bookedCardType === "RED" ? (
+                      ) : event.bookedCardType === "RED" ? (
                         <img
-                            src="/images/red-card.png"
-                            alt="red-card"
-                            style={{ width: "20px", height: "20px" }}
+                          src="/images/red-card.png"
+                          alt="red-card"
+                          style={{ width: "20px", height: "20px" }}
                         />
-                    ) : (
+                      ) : (
                         <img
-                            src="/images/other-card.png"
-                            alt="other-card"
-                            style={{ width: "20px", height: "20px" }}
+                          src="/images/other-card.png"
+                          alt="other-card"
+                          style={{ width: "20px", height: "20px" }}
                         />
-                    )}
+                      )}
+                    </>
+                  )}
+
                   {event.eventType === "score" && (
                     <img
                       src="/images/score.png"
