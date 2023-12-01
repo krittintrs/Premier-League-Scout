@@ -155,3 +155,25 @@ export const GetEvents = async (matchid) => {
     throw error; // Propagate the error to the component
   }
 }
+
+export const updateEvent = async (event) => {
+  try {
+    const data = await adminApi.updateEvent(event);
+    // Add any additional processing logic here
+    return data;
+  } catch (error) {
+    console.error("Error in adminService.updateEvent:", error);
+    throw error; // Propagate the error to the component
+  }
+}
+
+export const deleteEvent = async (id) => {
+  try {
+    const data = await adminApi.deleteEvent(id);
+    // Add any additional processing logic here
+    return data;
+  } catch (error) {
+    console.error("Error in adminService.deleteEvent:", error);
+    throw error; // Propagate the error to the component
+  }
+}

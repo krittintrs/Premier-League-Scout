@@ -107,3 +107,17 @@ export const GetEvents = async (matchid) => {
   const response = await axios.get(`${apiUrl}/match-events/match/${matchid}`);
   return response.data;
 };
+
+export const updateEvent = async (event) => {
+  const response = await axios.put(`${apiUrl}/match-events`, event, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};
+
+export const deleteEvent = async (id) => {
+  const response = await axios.delete(`${apiUrl}/match-events/${id}`);
+  return response.data;
+}
