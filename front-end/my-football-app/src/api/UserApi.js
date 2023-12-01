@@ -20,3 +20,13 @@ export const getMatchFixture = async (gw) => {
     throw error;
   }
 };
+
+export const getLeagueTable = async () => {
+  try {
+    const response = await axios.get(`${apiUrl}/table`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching table:', error);
+    throw error;
+  }
+}
