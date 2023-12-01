@@ -17,7 +17,7 @@ const NavBar = () => {
           <ListItemButton
             role="menuitem"
             component={Link}
-            to="/"
+            to="/Fixtures"
             aria-label="Home"
           >
             Premier-League-Scout
