@@ -62,6 +62,7 @@ const PlayerModal = ({ open, handleClose, player }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        backgroundColor: "rgba(0, 0, 0, 0.3)",
       }}
     >
       <div>
