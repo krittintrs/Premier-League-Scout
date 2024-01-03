@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "react-redux": "^4.4.10",
+    "redux": "^4.2.1"
+  }
+}

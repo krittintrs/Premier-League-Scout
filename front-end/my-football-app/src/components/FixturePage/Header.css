@@ -1,0 +1,22 @@
+/* styles.css or your preferred style file */
+header {
+    background-color: #333; /* Background color of the header */
+    padding: 20px; /* Padding around the header */
+  }
+  
+  .header-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-image {
+    width: 100px; /* Adjust the width of the image as needed */
+    height: 100px; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add margin between the image and text */
+  }
+  
+  .header-text {
+    font-size: 24px; /* Adjust the font size of the header text as needed */
+    color: #fff; /* Text color */
+  }
+  

@@ -57,7 +57,7 @@ CREATE TABLE matchEvent(
     subOutPlayerID INT,
     injuredPlayerID INT,
     bookedPlayerID INT,
-    bookedCardType ENUM('YELLOW', 'RED', 'SECONDYELLOW'),
+    bookedCardType ENUM('YELLOW', 'RED', 'SECONDYELLOW',''),
     CONSTRAINT fk_EventScore FOREIGN KEY (matchID, scorerPlayerID) REFERENCES lineUp(matchID, playerID),
     CONSTRAINT fk_EventAssist FOREIGN KEY (matchID, assistPlayerID) REFERENCES lineUp(matchID, playerID),
     CONSTRAINT fk_EventSubIn FOREIGN KEY (matchID, subInPlayerID) REFERENCES lineUp(matchID, playerID),

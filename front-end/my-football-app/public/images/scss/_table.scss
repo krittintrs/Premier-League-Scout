@@ -1,0 +1,79 @@
+.table {
+  thead {
+    tr {
+      background-color: $primaryColor;
+      color: $white;
+      text-align: left;
+    }
+  }
+  th,
+  td {
+    padding: 12px 15px;
+    img {
+      width: 30px;
+      margin-bottom: -10px;
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        strong {
+          font-weight: $score-weight;
+        }
+        &.teams {
+          cursor: pointer;
+        }
+        span {
+          line-height: $header-height;
+        }
+      }
+      border-bottom: 1px solid $borderColor;
+      transition: 0.2s ease;
+
+      &:nth-of-type(even) {
+        background-color: $secColor;
+      }
+
+      &:last-of-type {
+        border-bottom: 2px solid $secondaryColor;
+      }
+
+      &.active-row {
+        font-weight: bold;
+        color: $secondaryColor;
+      }
+
+      &:hover {
+        background: $hoverColor;
+      }
+
+      .game_forms {
+        list-style-type: none;
+        display: flex;
+
+        li {
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          border-radius: 100%;
+          cursor: pointer;
+          color: $white;
+          margin-right: 5px;
+
+          &.win {
+            background: $winColor;
+          }
+          &.draw {
+            background: $drawColor;
+          }
+          &.lost {
+            background: $lostColor;
+          }
+        }
+      }
+    }
+  }
+}
